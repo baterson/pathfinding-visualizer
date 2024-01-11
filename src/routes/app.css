@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;0,800;1,200&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+* {
+    box-sizing: border-box;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none;
+}
+
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+
+ol, ul {
+	list-style: none;
+    list-style-type: square;
+}
+
+
+html, body {
+    touch-action:none;
+    margin: 0;
+
+
+
+    --select-active:hsl(215, 80%, 35%);
+    --bg-select:hsl(0, 0%, 3%);
+    /* --tool-bg:hsl(215, 18%, 13%); */
+    /* --player-bg: hsla(0, 0%, 0%, 1);
+    --gray: rgb(173, 186, 199); */
+
+}
+
+body {
+    position: relative;
+    font-family: 'JetBrains Mono', monospace;
+    overflow: clip;
+    height: 100svh;
+    width: 100vw;
+    overflow: hidden;
+    /* font-family: 'PT Serif', serif; */
+    /* overflow: hidden; */
+    /* background: white; */
+    /* background: radial-gradient(circle at center, hsl(215, 18%, 13%), hsl(215, 18%, 20%)); */
+}
+
+button,
+input[type='button'] {
+    outline: none;
+}
+button::-moz-focus-inner,
+input[type='button']::-moz-focus-inner {
+    border: 0;
+}
+
+input[type="search"] {
+    background-color: #333; /* Dark background color */
+    color: #fff; /* Light text color for better visibility on dark background */
+}
+
+
+:root {
+    /* color-scheme: dark; */
+}
+
+body.dark {
+    --bg-body: hsl(229, 26%, 8%);
+    --bg-player: hsl(240, 10%, 20%);
+
+    --bg-start: hsl(21, 94%, 62%);
+    --bg-end: hsl(94, 82%, 60%);
+    --bg-path: hsla(162, 43%, 48%, 0.8);
+    --bg-not-visited: hsla(220, 9%, 27%, 0.302);
+    --bg-visited: hsla(359, 94%, 55%, 0.2);
+
+    --bg-wall: hsl(0, 5%, 75%);
+
+    /* --bg-weight: hsl(220, 100%, 72%, 0.7); */
+
+    --bg-weight: hsl(220, 100%, 72%, 0.7);
+
+    --color-weight: hsl(218, 13%, 88%);
+
+    --color-player: hsl(210, 19%, 73%);
+
+    --bg-select:hsl(0, 0%, 3%);
+
+    --color-nav-icon: white;
+}
+
+body.light {
+    --bg-body: hsl(229, 26%, 1%);
+    /* --bg-player: hsl(240, 10%, 55%); */
+    --bg-player: hsl(240, 10%, 20%);
+
+    --bg-start: hsl(21, 95%, 54%);
+    --bg-end: rgb(116, 233, 27);
+    /* --bg-start: hsla(21, 94%, 50%);
+    --bg-end: hsl(94, 82%, 48%); */
+    --bg-path: hsla(162, 43%, 48%, 1);
+    --bg-not-visited: hsla(0, 0%, 100%, 0.95);
+    --bg-visited: hsla(359, 89%, 79%, 0.8);
+
+    --bg-wall: hsla(240, 6%, 56%, 0.8);
+    /* --bg-wall: hsl(240, 9%, 75%); */
+    /* --bg-wall: hsla(0, 3%, 31%, 0.7); */
+    /* --bg-wall: rgb(134, 127, 127); */
+
+    /* --bg-wall: hsla(0, 10%, 76%, 1); */
+    /* --bg-wall: hsla(0, 0%, 100%, 0.3); */
+    /* --bg-wall: hsl(229, 8%, 61%); */
+
+    --bg-weight: hsl(220, 100%, 72%, 1);
+
+    --color-weight: hsl(218, 13%, 88%);
+
+    --color-player: hsl(210, 19%, 80%);
+
+    /* --bg-select:hsl(0, 4%, 27%); */
+
+    --color-nav-icon: black;
+}
+
