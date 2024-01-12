@@ -4,10 +4,11 @@ import { tick } from 'svelte';
 const INITIAL_STATE = { screen: { row: 0, col: 0 }, playerHeight: 0, isCalculating: true }
 
 const createLayoutStore = () => {
+    // TODO: Add on resize window handler
     const store = writable(INITIAL_STATE);
 
     const setLayout = () => {
-        const wW = window.screen.width;
+        const wW = window.innerWidth;
         const wH = window.innerHeight;
         const emptyVerticalSpace = wH % 32
         const col = Math.round(wW / 32)

@@ -30,7 +30,6 @@
 		/* transition: background-color ease-in-out 0.5s;
 		background-color: var(--tool-bg); */
 		flex: 0.6;
-		gap: 30px;
 		display: flex;
 		justify-content: space-between;
 	}
@@ -38,8 +37,8 @@
 	.tools {
 		flex: 1;
 		height: 100%;
+		width: 100%;
 		display: flex;
-		gap: 20px;
 		align-items: center;
 		justify-content: space-evenly;
 	}
