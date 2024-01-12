@@ -1,13 +1,11 @@
 import { get, writable } from 'svelte/store';
 import { history } from '$lib/stores/history';
-import { execution } from '$lib/stores/execution';
-import { layout } from './layout';
 
 export const GRID_COLUMNS = 20
 export const GRID_GAP = 2
 export const CELL_SIZE = 30
 
-export const createGrid = (rows, columns) => {
+export const _createGrid = (rows, columns) => {
     const grid = new Map();
 
     for (let row = 0; row < rows; row++) {
@@ -15,9 +13,9 @@ export const createGrid = (rows, columns) => {
             grid.set(`${row},${col}`, {
                 row,
                 col,
-                wall: false,
+                // wall: false,
+                // weight: 1,
                 visited: false,
-                weight: 1,
                 prevNode: null,
                 x: (CELL_SIZE * col) + (GRID_GAP * col),
                 y: (CELL_SIZE * row) + (GRID_GAP * row)
@@ -35,14 +33,6 @@ export const toMapKey = (position) => {
     return `${position.row},${position.col}`
 }
 
-export const startNodeKey = writable('3,3')
-export const getStartNodeKey = () => get(startNodeKey)
-export const setStartNodeKey = node => startNodeKey.set(toMapKey(node))
-
-export const endNodeKey = writable('11,7')
-export const getEndNodeKey = () => get(endNodeKey)
-export const setEndNodeKey = node => endNodeKey.set(toMapKey(node))
-
 const createGridStore = () => {
 
     const store = writable(null);
@@ -53,10 +43,6 @@ const createGridStore = () => {
             const snapshot = [...grid].map(el => ({ key: el[0], node: el[1] }))
             history.update(snapshot)
         }
-    })
-
-    layout.subscribe(({ screen }) => {
-        store.set(createGrid(screen.row, screen.col))
     })
 
     const getNodeByKey = (key) => {
@@ -95,64 +81,20 @@ const createGridStore = () => {
         return result ? result[1] : null
     }
 
-    const isStartNode = (node) => toMapKey(node) === get(startNodeKey)
-    const isEndNode = (node) => toMapKey(node) === get(endNodeKey)
-    const getStartNode = () => getNodeByKey(get(startNodeKey))
-    const getEndNode = () => getNodeByKey(get(endNodeKey))
-
-    const reset = () => {
-        // order matters
+    const createGrid = (row, col) => {
         history.reset()
-        // store.set()
-
-        const { col, row } = get(dimensions)
-        store.set(createGrid(col, row))
+        store.set(_createGrid(row, col))
     }
-
-    const getShortestPath = async (node) => {
-        if (!node) {
-            return;
-        }
-
-        if (isStartNode(node)) {
-            return
-        }
-
-        // Don't update path for start or end Node
-        if (!isStartNode(node) && !isEndNode(node)) {
-            updateNode(node, { path: true });
-        }
-
-        try {
-            await execution.intercept()
-        } catch (e) {
-            return
-        }
-
-        const prevNode = node.prevNode ? grid.getNode(node.prevNode) : null
-        console.log('prevNode', prevNode);
-
-
-        return getShortestPath(prevNode);
-    };
 
     return {
         subscribe: store.subscribe,
+        createGrid,
         updateNode,
         getNode,
         getNodeByKey,
-        isStartNode,
-        isEndNode,
-        getStartNode,
-        getEndNode,
         getNodeByCoordinates,
-        getShortestPath: () => getShortestPath(getEndNode()),
-        reset,
     };
 }
 
 export const grid = createGridStore()
 
-export const selectedNode = writable(null)
-export const getSelectedNode = () => get(selectedNode)
-export const setSelectedNode = (node) => selectedNode.set(node)

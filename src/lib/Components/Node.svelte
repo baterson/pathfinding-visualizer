@@ -1,33 +1,27 @@
 <script>
-	import { selectedNode } from '$lib/stores/grid';
 	import { animationQ, runSvelte } from '$lib/stores/animation';
 	import { theme } from '$lib/stores/theme';
-	import { startNodeKey, endNodeKey, toMapKey } from '../stores/grid';
-	import { gridObjects } from '$lib/stores/gridObjects';
-	import { onMount } from 'svelte';
+	import { toMapKey } from '../stores/grid';
+	import { startNodeKey, endNodeKey, selectedNode, path } from '../stores/nodes';
 
 	export let key;
 	export let node;
-
-	// onMount((n) => {
-	// 	console.log('nnn', n);
-	// });
 
 	const getWeightColor = () => {
 		let opacity;
 		const light = $theme === 'dark' ? 0.1 : 0;
 		// const light = 0;
-		let weight = $gridObjects.weight.get(toMapKey(node));
+		// let weight = $gridObjects.weight.get(toMapKey(node));
 
-		if (!weight) {
-			return;
-		} else if (weight <= 3) {
-			opacity = 0.5;
-		} else if (weight <= 7) {
-			opacity = 0.6;
-		} else {
-			opacity = 0.7;
-		}
+		// if (!weight) {
+		// 	return;
+		// } else if (weight <= 3) {
+		// 	opacity = 0.5;
+		// } else if (weight <= 7) {
+		// 	opacity = 0.6;
+		// } else {
+		// 	opacity = 0.7;
+		// }
 
 		return `hsla(220, 100%, 72%, ${opacity})`;
 	};
@@ -46,14 +40,11 @@
 	data-visited={$endNodeKey === toMapKey(node)}
 	style="--weight-dynamic-bg: {getWeightColor()}"
 	class="node"
-	class:notVisited={!node.visited}
 	class:visited={node.visited}
 	class:startNode={$startNodeKey === key}
 	class:endNode={$endNodeKey === key}
-	class:path={node.path}
-	class:weight={$gridObjects.weight.has(key)}
-	class:inSelect={toMapKey($selectedNode) === key}
-	class:wall={$gridObjects.walls.has(key)}
+	class:path={$path.has(key)}
+	class:inSelect={$selectedNode === key}
 	class:inAnimation={$runSvelte ? $animationQ.has(key) : null}
 >
 	<!-- {#if $gridObjects.weight.has(toMapKey(node))}
@@ -139,13 +130,12 @@
 		align-items: flex-end; */
 	}
 
-	.notVisited {
-		/* transition: background-color ease-in-out 0.5s; */
-		background-color: var(--bg-not-visited);
-	}
-
 	.visited {
 		background-color: var(--bg-visited);
+	}
+
+	:not(.visited) {
+		background-color: var(--bg-not-visited);
 	}
 
 	.startNode {

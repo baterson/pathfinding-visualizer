@@ -1,11 +1,10 @@
 import { execution } from '$lib/stores/execution';
 import { grid } from '$lib/stores/grid';
-import { gridObjects } from '$lib/stores/gridObjects';
-import { getGridNeibhours, reachBoundary } from './utils/grid';
+import { getGridNeibhours } from './utils/grid';
 import { minQueue } from './utils/collections';
+import { isEndNode, isWall } from '$lib/stores/nodes';
 
-export const dijkstra = async () => {
-    const startNode = grid.getStartNode()
+export const dijkstra = async (startNode) => {
     const q = minQueue();
 
     q.enqueue(startNode);
@@ -17,7 +16,7 @@ export const dijkstra = async () => {
             return;
         }
 
-        if (grid.isEndNode(currentNode)) {
+        if (isEndNode(currentNode)) {
             return
         }
 
@@ -26,20 +25,20 @@ export const dijkstra = async () => {
         const neibhours = getGridNeibhours(currentNode);
 
         for (let nextNode of neibhours) {
-            if (nextNode.visited || reachBoundary(nextNode)) {
+            if (nextNode.visited) {
                 continue
             }
 
-            if (gridObjects.isWall(nextNode)) {
+            if (isWall(nextNode)) {
                 grid.updateNode(nextNode, { visited: true })
             } else {
-                const nodeWeight = gridObjects.getWeight(nextNode)
+                // const nodeWeight = gridObjects.getWeight(nextNode)
 
                 grid.updateNode(nextNode,
                     {
                         visited: true,
                         prevNode: currentNode,
-                        weight: nodeWeight
+                        weight: 1
                     }
                 );
 

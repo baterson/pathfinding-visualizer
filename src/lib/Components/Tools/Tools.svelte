@@ -3,9 +3,6 @@
 	import Wall from './Wall.svelte';
 	import Weight from './Weight.svelte';
 	import Reset from './Reset.svelte';
-	import { algorithm } from '$lib/stores/algorithm';
-	import { execution } from '$lib/stores/execution';
-	import { tool } from '$lib/stores/tool';
 
 	// name="wall"
 	// --default-color="hsla(0, 5%, 100%, 30%);"

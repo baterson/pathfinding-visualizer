@@ -1,29 +1,5 @@
 import { GRID_COLUMNS, grid } from "$lib/stores/grid";
 
-export const getBoundaries = () => {
-    const coordinates = {
-        x: window.innerWidth,
-        y: window.innerHeight
-    }
-    console.log('asdasd');
-
-    // TODO:  RETURN FROM LOAD computed from width
-    const { row, col } = grid.getNodeByCoordinates(coordinates)
-    // console.log('row, col', row, col);
-
-
-    return { row: row, col: col }
-}
-
-export const reachBoundary = (node, boundaries) => {
-    // if (node.row > boundaries.row || node.col > boundaries.col) {
-    //     return true
-    // }
-
-    return false
-}
-
-
 export const getGridNeibhours = (node) => {
     const { row, col } = node
 

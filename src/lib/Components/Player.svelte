@@ -1,11 +1,15 @@
 <script>
 	import Icon from './Icon.svelte';
-	import { algorithm } from '$lib/stores/algorithm';
+	import { algorithmState } from '$lib/stores/algorithm';
 	import { execution } from '$lib/stores/execution';
 	import SpeedSelect from './SpeedSelect.svelte';
 	import { longPress } from '$lib/actions/longPress';
-	import { grid, setSelectedNode } from '$lib/stores/grid';
+	import { setSelectedNode } from '$lib/stores/nodes';
 	import { tool } from '$lib/stores/tool';
+	import { resetState } from '$lib/stores/reset';
+	import { layout } from '$lib/stores/layout';
+
+	export let handlePlay;
 
 	const handlePressStart = () => {
 		if (!$execution.isPaused) {
@@ -22,12 +26,6 @@
 		execution.setInBackward(false);
 		execution.setInForward(false);
 	};
-
-	const reset = () => {
-		execution.reset();
-		algorithm.reset();
-		grid.reset();
-	};
 </script>
 
 <div
@@ -42,7 +40,7 @@
 		id="player-backward"
 		use:longPress={{ onStart: handlePressStart, onPress: backward, onCancel: stopHistory }}
 		tabindex="-1"
-		class:disabled={$algorithm.state !== 'started'}
+		class:disabled={$algorithmState !== 'started'}
 		on:keydown|preventDefault={() => {}}
 	>
 		<Icon name="playBack" />
@@ -51,18 +49,18 @@
 		tabindex="-1"
 		class="play"
 		on:keydown|preventDefault={() => {}}
-		on:pointerdown={algorithm.playAlgorithm}
+		on:pointerdown={handlePlay}
 	>
-		{#if $algorithm.state === 'finished'}
+		{#if $algorithmState === 'finished'}
 			<Icon name="replay" />
-		{:else if $execution.isPaused || $algorithm.state === 'notStarted'}
+		{:else if $execution.isPaused || $algorithmState === 'notStarted'}
 			<Icon name="play" />
 		{:else}
 			<Icon name="pause" />
 		{/if}
 	</button>
 	<button
-		class:disabled={$algorithm.state !== 'started'}
+		class:disabled={$algorithmState !== 'started'}
 		tabindex="-1"
 		id="player-forward"
 		use:longPress={{ onStart: handlePressStart, onPress: forward, onCancel: stopHistory }}
@@ -70,7 +68,7 @@
 	>
 		<Icon name="playForward" />
 	</button>
-	<button tabindex="-1" on:pointerdown={reset}>
+	<button tabindex="-1" on:pointerdown={resetState}>
 		<Icon name="stop" />
 	</button>
 </div>

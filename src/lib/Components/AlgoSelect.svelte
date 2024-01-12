@@ -1,9 +1,10 @@
 <script>
-	import { algorithm } from '$lib/stores/algorithm';
+	import { algorithmState, selectedAlgorithm } from '$lib/stores/algorithm';
 	import { displayNames } from '$lib/algorithms';
 	import { pointerOutside } from '../actions/pointerOutside';
-	import { execution } from '$lib/stores/execution';
 	import { tool } from '$lib/stores/tool';
+	import { resetState } from '$lib/stores/reset';
+	import { layout } from '$lib/stores/layout';
 
 	let isOpen = false;
 
@@ -13,23 +14,21 @@
 	};
 
 	const selectAlgorithm = (name) => {
-		execution.reset();
-		algorithm.update({ selected: name, state: 'notStarted' });
+		resetState($layout.screen);
+		algorithmState.set('notStarted');
+		selectedAlgorithm.set(name);
 	};
 </script>
 
 <div class="wrapper" on:pointerdown={setIsOpen}>
 	<div class="current">
-		{displayNames[$algorithm.selected]}
+		{displayNames[$selectedAlgorithm]}
 	</div>
 
 	{#if isOpen}
 		<ul use:pointerOutside on:pointer_outside={setIsOpen}>
 			{#each Object.entries(displayNames) as [key, displayName]}
-				<li
-					class:selected={$algorithm.selected === key}
-					on:pointerdown={() => selectAlgorithm(key)}
-				>
+				<li class:selected={$selectedAlgorithm === key} on:pointerdown={() => selectAlgorithm(key)}>
 					{displayName}
 				</li>
 			{/each}

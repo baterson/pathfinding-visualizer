@@ -1,10 +1,9 @@
 import { execution } from '$lib/stores/execution';
 import { grid } from '$lib/stores/grid';
-import { gridObjects } from '$lib/stores/gridObjects';
-import { reachBoundary } from './utils/grid';
+import { isEndNode, isWall } from '$lib/stores/nodes';
 
 const checkNode = (node) => {
-    if (!node || gridObjects.isWall(node) || reachBoundary(node) || node.visited) {
+    if (!node || isWall(node) || node.visited) {
         return null
     }
     return node
@@ -44,8 +43,8 @@ const getNextNode = (node) => {
     return nextNode
 }
 
-const traverseNodes = async (node) => {
-    if (grid.isEndNode(node) || !node) {
+export const dfs = async (node) => {
+    if (isEndNode(node) || !node) {
         return
     }
 
@@ -59,17 +58,8 @@ const traverseNodes = async (node) => {
         grid.updateNode(nextNode, { prevNode: node })
         const nodeUpdated = grid.getNode(nextNode)
 
-        return traverseNodes(nodeUpdated)
+        return dfs(nodeUpdated)
     } else {
-        return traverseNodes(grid.getNode(node.prevNode))
+        return dfs(grid.getNode(node.prevNode))
     }
-}
-
-
-export const dfs = async () => {
-    const startNode = grid.getStartNode()
-
-    await traverseNodes(startNode);
-
-    return;
 };

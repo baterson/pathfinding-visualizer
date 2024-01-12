@@ -2,8 +2,13 @@
 	import { onMount } from 'svelte';
 	import Player from './Player.svelte';
 	import Tools from './Tools/Tools.svelte';
-	import { runSvelte } from '$lib/stores/animation';
 	import { layout } from '$lib/stores/layout';
+	import { execution } from '$lib/stores/execution';
+	import { algorithmState, selectedAlgorithm } from '$lib/stores/algorithm';
+	import { resetState } from '$lib/stores/reset';
+	import { drawShortestPath, startNodeKey, endNodeKey } from '$lib/stores/nodes';
+	import { grid } from '$lib/stores/grid';
+	import { algorithms } from '$lib/algorithms';
 
 	let innerHeight;
 	let innerWidth;
@@ -59,13 +64,43 @@
 	// 	height = `${innerHeight - (rows * 30 + rows * 2)}px`;
 	// }
 	// <button on:pointerdown={() => runSvelte.update((c) => !c)}>Svelte Animation: {$runSvelte}</button>
+
+	const startAlgorithm = async () => {
+		resetState($layout.screen);
+
+		try {
+			algorithmState.set('started');
+			const al = algorithms[$selectedAlgorithm];
+			console.log('al', al);
+
+			await algorithms[$selectedAlgorithm]($grid.get($startNodeKey), $grid.get($endNodeKey));
+
+			await drawShortestPath($grid.get($endNodeKey));
+
+			algorithmState.set('finished');
+		} catch (e) {
+			resetState($layout.screen);
+		}
+	};
+
+	const playAlgorithm = async () => {
+		if ($algorithmState === 'notStarted' || $algorithmState === 'finished') {
+			try {
+				await startAlgorithm();
+			} catch (e) {
+				console.log('Execution canceled');
+			}
+		} else {
+			execution.play();
+		}
+	};
 </script>
 
 <!-- <svelte:window bind:innerHeight bind:innerWidth /> -->
 
 <div class="wrapper" style="--height:{$layout.playerHeight}px">
 	<Tools />
-	<Player />
+	<Player handlePlay={playAlgorithm} />
 </div>
 
 <style>

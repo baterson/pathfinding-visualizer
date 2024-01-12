@@ -1,11 +1,10 @@
 import { execution } from '$lib/stores/execution';
 import { grid } from '$lib/stores/grid';
-import { gridObjects } from '$lib/stores/gridObjects';
-import { getGridNeibhours, reachBoundary } from './utils/grid';
+import { getGridNeibhours } from './utils/grid';
 import { queue } from './utils/collections';
+import { isEndNode, isWall } from '$lib/stores/nodes';
 
-export const bfs = async () => {
-    const startNode = grid.getStartNode()
+export const bfs = async (startNode) => {
     const q = queue();
 
     q.enqueue(startNode);
@@ -17,7 +16,7 @@ export const bfs = async () => {
             return;
         }
 
-        if (grid.isEndNode(currentNode)) {
+        if (isEndNode(currentNode)) {
             return
         }
 
@@ -26,12 +25,12 @@ export const bfs = async () => {
         const neibhours = getGridNeibhours(currentNode);
 
         for (let nextNode of neibhours) {
-            if (nextNode.visited || reachBoundary(nextNode)) {
+            if (nextNode.visited) {
                 continue
             }
 
 
-            if (gridObjects.isWall(nextNode)) {
+            if (isWall(nextNode)) {
                 grid.updateNode(nextNode, { visited: true })
             } else {
                 grid.updateNode(nextNode, { prevNode: currentNode, visited: true });

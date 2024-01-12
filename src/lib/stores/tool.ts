@@ -1,7 +1,8 @@
 import { get, writable } from "svelte/store"
 import { execution } from "./execution"
-import { gridObjects } from "./gridObjects"
-import { setSelectedNode } from "./grid"
+import { setSelectedNode } from "./nodes"
+
+// TODO Rename to tools
 
 const createToolStore = () => {
     const store = writable(null)
@@ -13,7 +14,7 @@ const createToolStore = () => {
             if (current === tool) {
                 return null
             } else if (tool === 'reset') {
-                gridObjects.reset()
+                // gridObjects.reset()
                 execution.reset()
                 return tool
             } else {

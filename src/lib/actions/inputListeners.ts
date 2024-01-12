@@ -1,9 +1,7 @@
-import { getSelectedNode, selectedNode, setSelectedNode, toMapKey } from '$lib/stores/grid';
 import { animationQ, queueAnimation, queueAnimationByKey, removeFromAnimationQ, removeFromAnimationQByKey, runSvelte } from '$lib/stores/animation'
-import { grid, setStartNodeKey, setEndNodeKey } from '$lib/stores/grid';
-import { gridObjects } from '$lib/stores/gridObjects';
+import { setStartNodeKey, setEndNodeKey, getSelectedNode, placeSelectedNode, setSelectedNode } from '$lib/stores/nodes';
+import { grid, toMapKey } from '$lib/stores/grid';
 import { execution } from '$lib/stores/execution';
-import { algorithm } from '$lib/stores/algorithm';
 import { tool } from '$lib/stores/tool';
 import { get } from 'svelte/store';
 
@@ -42,7 +40,6 @@ export const inputListeners = (gridNode) => {
 
     const resetMap = () => {
         execution.reset()
-        gridObjects.reset()
     }
 
     const handleKeyboardHotkeys = (e) => {
@@ -61,7 +58,7 @@ export const inputListeners = (gridNode) => {
         }
 
         if (e.code === 'Space') {
-            algorithm.playAlgorithm();
+            // algorithm.playAlgorithm();
             return;
         }
 
@@ -73,7 +70,7 @@ export const inputListeners = (gridNode) => {
             execution.decrSpeed();
         }
 
-        if (algorithm.isStarted()) {
+        if (true) {
             if (execution.get().isPaused) {
                 if (e.code === 'ArrowLeft') {
                     execution.setInBackward(true);
@@ -117,7 +114,7 @@ export const inputListeners = (gridNode) => {
                 if (canAddWall(_node)) {
                     console.log('---addding');
 
-                    gridObjects.addWall(_node.id)
+                    // gridObjects.addWall(_node.id)
 
                     requestAnimationFrame(() => {
                         animateNode(_node)
@@ -180,16 +177,7 @@ export const inputListeners = (gridNode) => {
 
     const addWallSvelte = (node) => {
         if (canAddWall(node)) {
-            gridObjects.addWall(node.id)
-        }
-    }
-
-    const addWallCSS = (node) => {
-        if (canAddWall(node)) {
-            console.log('adddingwall...');
-
-            gridObjects.addWall(node.id)
-            node.classList.add('wall')
+            // gridObjects.addWall(node.id)
         }
     }
 
@@ -213,12 +201,13 @@ export const inputListeners = (gridNode) => {
 
     const handlePointerMove = (e) => {
         const node = document.elementFromPoint(e.clientX, e.clientY)
+        const position = node.dataset.position
 
-        if (!node.dataset.position) {
+        if (!position) {
             return
         }
 
-        ANIMATE(node.dataset.position)
+        animateWithSvelte(position)
     }
 
     const handleToolMove = (e) => {
@@ -249,13 +238,36 @@ export const inputListeners = (gridNode) => {
 
     const handlePointerDown = (e) => {
         const node = e.target
-        console.log('node.dataset.position', node.dataset.position);
+        const position = node.dataset.position
+        const key = toMapKey(position)
 
-        if (node.dataset.position) {
-            ANIMATE(node.dataset.position)
+        // Not hit a Node
+        if (!position) {
+            setupPointerTracking()
+            return
         }
 
-        setupPointerTracking()
+        // RMB cancels selected Tool
+        if (e.pointerType === 'mouse' && e.button === 2) {
+            tool.set(null)
+            setSelectedNode(null)
+            return
+        }
+
+        // Start/End Node already selected
+        if (getSelectedNode()) {
+            placeSelectedNode(position)
+            animateWithSvelte(position, node)
+            return
+        }
+
+        // Select Start/End node or animate grid nodes
+        if (grid.isStartNode(position) || grid.isEndNode(position)) {
+            setSelectedNode(position)
+        } else {
+            animateWithSvelte(position)
+            setupPointerTracking()
+        }
     }
 
     const handlePointerUp = () => {

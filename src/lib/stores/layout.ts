@@ -4,7 +4,6 @@ import { tick } from 'svelte';
 const INITIAL_STATE = { screen: { row: 0, col: 0 }, playerHeight: 0, isCalculating: true }
 
 const createLayoutStore = () => {
-    // TODO: Add on resize window handler
     const store = writable(INITIAL_STATE);
 
     const setLayout = () => {
@@ -20,6 +19,7 @@ const createLayoutStore = () => {
             current.screen.row = row
             current.screen.col = col
             current.playerHeight = playerHeight
+            current.isCalculating = true
             return current
         })
 

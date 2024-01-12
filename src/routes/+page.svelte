@@ -4,8 +4,13 @@
 	import { onMount } from 'svelte';
 	import { layout } from '$lib/stores/layout';
 	import { fade } from 'svelte/transition';
+	import { resetState } from '$lib/stores/reset';
 
 	onMount(() => {
+		const uns = layout.subscribe(({ screen }) => {
+			resetState(screen);
+		});
+
 		requestAnimationFrame(() => {
 			layout.setLayout();
 		});
@@ -20,8 +25,16 @@
 			}
 		});
 
+		const handleResize = () => {
+			layout.setLayout();
+		};
+
+		window.addEventListener('resize', handleResize);
+
 		return () => {
 			unsub();
+			uns();
+			window.removeEventListener('resize', handleResize);
 		};
 	});
 </script>

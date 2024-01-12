@@ -1,7 +1,5 @@
 import { writable, get } from 'svelte/store';
 import { history } from '$lib/stores/history'
-import { grid } from './grid';
-import { algorithm } from './algorithm';
 
 const speedValues = [1, 10, 30, 50]
 
@@ -62,8 +60,9 @@ export const createExecutionStore = () => {
             cancelEval()
         }
         store.update(current => ({ ...INITIAL_STATE, speed: current.speed }))
-        grid.reset()
-        algorithm.reset()
+
+        // grid.reset()
+        // algorithm.reset()
     }
 
 
