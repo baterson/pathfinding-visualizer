@@ -5,7 +5,8 @@
 	import Controls from './Controls.svelte';
 	import Icon from './Icon.svelte';
 	import { theme } from '$lib/stores/theme';
-	import { GRID_COLUMNS } from '$lib/stores/grid';
+	import { layout } from '$lib/stores/layout';
+	import { CELL_SIZE, GRID_GAP } from '$lib/stores/grid';
 
 	const changeTheme = () => {
 		if (theme.get() === 'dark') {
@@ -24,7 +25,13 @@
 	// </div>
 </script>
 
-<div use:inputListeners class="wrapper" id="grid" style="--columns:{GRID_COLUMNS}">
+<div
+	use:inputListeners
+	class="wrapper"
+	id="grid"
+	style="--col:{$layout.screen.col};--row:{$layout.screen
+		.row};--cell-size:{CELL_SIZE}px;--grid-gap:{GRID_GAP}px"
+>
 	{#each $history as { key, node } (key)}
 		<Node {key} {node} />
 	{/each}
@@ -36,11 +43,11 @@
 	.wrapper {
 		position: relative;
 		height: 100%;
-		width: 100%;
-		gap: 2px;
+		padding-top: 1px;
+		gap: var(--grid-gap);
 		display: grid;
-		grid-template-columns: repeat(20, 30px);
-		grid-template-rows: repeat(20, 30px);
+		grid-template-columns: repeat(var(--col), var(--cell-size));
+		grid-template-rows: repeat(var(--row), var(--cell-size));
 	}
 
 	/* .navbar {

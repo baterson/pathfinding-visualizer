@@ -1,16 +1,17 @@
 import { get, writable } from 'svelte/store';
 import { history } from '$lib/stores/history';
 import { execution } from '$lib/stores/execution';
+import { layout } from './layout';
 
 export const GRID_COLUMNS = 20
 export const GRID_GAP = 2
 export const CELL_SIZE = 30
 
-export const createGrid = () => {
+export const createGrid = (rows, columns) => {
     const grid = new Map();
 
-    for (let row = 0; row < GRID_COLUMNS; row++) {
-        for (let col = 0; col < GRID_COLUMNS; col++) {
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < columns; col++) {
             grid.set(`${row},${col}`, {
                 row,
                 col,
@@ -43,11 +44,19 @@ export const getEndNodeKey = () => get(endNodeKey)
 export const setEndNodeKey = node => endNodeKey.set(toMapKey(node))
 
 const createGridStore = () => {
-    const store = writable(createGrid());
+
+    const store = writable(null);
 
     store.subscribe(grid => {
-        const snapshot = [...grid].map(el => ({ key: el[0], node: el[1] }))
-        history.update(snapshot)
+        // IF grid
+        if (grid) {
+            const snapshot = [...grid].map(el => ({ key: el[0], node: el[1] }))
+            history.update(snapshot)
+        }
+    })
+
+    layout.subscribe(({ screen }) => {
+        store.set(createGrid(screen.row, screen.col))
     })
 
     const getNodeByKey = (key) => {
@@ -94,7 +103,10 @@ const createGridStore = () => {
     const reset = () => {
         // order matters
         history.reset()
-        store.set(createGrid())
+        // store.set()
+
+        const { col, row } = get(dimensions)
+        store.set(createGrid(col, row))
     }
 
     const getShortestPath = async (node) => {
@@ -123,7 +135,6 @@ const createGridStore = () => {
 
         return getShortestPath(prevNode);
     };
-
 
     return {
         subscribe: store.subscribe,

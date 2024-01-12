@@ -3,10 +3,11 @@
 	import Player from './Player.svelte';
 	import Tools from './Tools/Tools.svelte';
 	import { runSvelte } from '$lib/stores/animation';
+	import { layout } from '$lib/stores/layout';
 
 	let innerHeight;
 	let innerWidth;
-	let height;
+	// let height;
 
 	// onMount(() => {
 	// 	height = calculateHeight();
@@ -57,12 +58,12 @@
 
 	// 	height = `${innerHeight - (rows * 30 + rows * 2)}px`;
 	// }
+	// <button on:pointerdown={() => runSvelte.update((c) => !c)}>Svelte Animation: {$runSvelte}</button>
 </script>
 
 <!-- <svelte:window bind:innerHeight bind:innerWidth /> -->
 
-<div class="wrapper" style="--height:{height}">
-	<button on:pointerdown={() => runSvelte.update((c) => !c)}>Svelte Animation: {$runSvelte}</button>
+<div class="wrapper" style="--height:{$layout.playerHeight}px">
 	<Tools />
 	<Player />
 </div>

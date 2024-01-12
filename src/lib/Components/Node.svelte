@@ -123,17 +123,20 @@
 	.node {
 		/* transition: all ease-in-out 0.5s; */
 
-		height: 1.9rem;
-		width: 1.9rem;
-		font-size: 0.8rem;
-		padding-right: 5px;
-		padding-bottom: 2px;
+		height: 30px;
+		width: 30px;
+		min-height: 30px;
+		min-width: 30px;
+		flex-shrink: 0;
+		/* padding-right: 5px;
+		padding-bottom: 2px; */
 		color: var(--color-weight);
 
-		font-weight: 700;
+		/* font-size: 0.8rem; */
+		/* font-weight: 700;
 		display: flex;
 		justify-content: flex-end;
-		align-items: flex-end;
+		align-items: flex-end; */
 	}
 
 	.notVisited {

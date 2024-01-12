@@ -1,14 +1,16 @@
 <script>
-	import Controls from '$lib/Components/Controls.svelte';
 	import Grid from '$lib/Components/Grid.svelte';
-	import Icon from '$lib/Components/Icon.svelte';
 	import { theme } from '$lib/stores/theme';
 	import { onMount } from 'svelte';
-	import { dev } from '$app/environment';
-	console.log('THED EDDDD', dev);
+	import { layout } from '$lib/stores/layout';
+	import { fade } from 'svelte/transition';
 
 	onMount(() => {
-		theme.subscribe((theme) => {
+		requestAnimationFrame(() => {
+			layout.setLayout();
+		});
+
+		const unsub = theme.subscribe((theme) => {
 			if (theme === 'light') {
 				document.body.classList.remove('dark');
 				document.body.classList.add('light');
@@ -17,14 +19,30 @@
 				document.body.classList.add('dark');
 			}
 		});
+
+		return () => {
+			unsub();
+		};
 	});
 </script>
 
 <div class="wrapper">
-	<Grid />
+	{#if $layout.isCalculating}
+		<div class="preload" out:fade={{ duration: 300, delay: 100 }}></div>
+	{:else}
+		<Grid />
+	{/if}
 </div>
 
 <style>
+	.preload {
+		z-index: 2;
+		background: var(--bg-body);
+		position: absolute;
+		height: 100svh;
+		width: 100%;
+		left: 0;
+	}
 	.wrapper {
 		background: var(--bg-body);
 		width: 100%;
