@@ -15,8 +15,11 @@
 		walls,
 		updateWalls,
 		weight,
-		updateWeight
+		updateWeight,
+		removeWall,
+		removeWeight
 	} from '$lib/stores/nodes';
+	import throttle from 'lodash.throttle';
 
 	const changeTheme = () => {
 		if (theme.get() === 'dark') {
@@ -82,6 +85,14 @@
 			}
 		};
 
+		const handleEraser = (node) => {
+			if (isWall(node.id)) {
+				removeWall(node.id);
+			} else if (isWeight(node.id)) {
+				removeWeight(node.id);
+			}
+		};
+
 		const handleSelectedNode = (placePosition) => {
 			if (isWall(placePosition) || isWeight(placePosition)) {
 				return;
@@ -103,18 +114,24 @@
 				return;
 			}
 
-			handleTool(node);
+			if ($tool) {
+				handleTool(node);
+			} else {
+				handleEraser(node);
+			}
 
 			animateNode(node);
 		};
 
 		const setupPointerTracking = () => {
-			gridNode.addEventListener('pointermove', handlePointerMove);
+			const handle = throttle(handlePointerMove, 20);
+
+			gridNode.addEventListener('pointermove', handle);
 
 			gridNode.addEventListener(
 				'pointerup',
 				() => {
-					gridNode.removeEventListener('pointermove', handlePointerMove);
+					gridNode.removeEventListener('pointermove', handle);
 				},
 				{ once: true }
 			);
@@ -161,6 +178,7 @@
 			}
 
 			// Hit empty node
+			handleEraser(node);
 			animateNode(node);
 			setupPointerTracking();
 		};

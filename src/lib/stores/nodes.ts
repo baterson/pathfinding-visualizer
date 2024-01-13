@@ -50,6 +50,11 @@ export const updateWalls = key => walls.update(current => {
     current.add(key)
     return current
 })
+export const removeWall = key => walls.update(current => {
+    current.delete(key)
+    return current
+})
+
 export const isWallByKey = key => get(walls).has(key)
 export const isWall = node => isWallByKey(toMapKey(node))
 
@@ -64,6 +69,25 @@ export const updateWeight = (key) => {
             current.set(key, 1)
         }
 
+        return current
+    })
+}
+export const removeWeight = (key) => {
+    weight.update(current => {
+        const weightedNode = current.get(key)
+
+        if (!weightedNode) {
+            return
+        }
+
+        const nextWeight = weightedNode - 1
+        console.log('nextWeight', nextWeight);
+
+        if (nextWeight <= 0) {
+            current.delete(key)
+        } else {
+            current.set(key, nextWeight)
+        }
         return current
     })
 }
