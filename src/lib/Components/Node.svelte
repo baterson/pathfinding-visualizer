@@ -2,7 +2,7 @@
 	import { animationQ, runSvelte } from '$lib/stores/animation';
 	import { theme } from '$lib/stores/theme';
 	import { toMapKey } from '../stores/grid';
-	import { startNodeKey, endNodeKey, selectedNode, path, walls, weight } from '../stores/nodes';
+	import { startNodeKey, endNodeKey, selectedNode, walls, weight } from '../stores/nodes';
 
 	export let key;
 	export let node;
@@ -39,7 +39,7 @@
 	class:endNode={$endNodeKey === key}
 	class:wall={$walls.has(key)}
 	class:weight={$weight.has(key)}
-	class:path={$path.has(key)}
+	class:path={node.path}
 	class:inSelect={$selectedNode === key}
 	class:inAnimation={$runSvelte ? $animationQ.has(key) : null}
 >

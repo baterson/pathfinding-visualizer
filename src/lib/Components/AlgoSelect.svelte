@@ -3,7 +3,7 @@
 	import { displayNames } from '$lib/algorithms';
 	import { pointerOutside } from '../actions/pointerOutside';
 	import { tool } from '$lib/stores/tool';
-	import { resetState } from '$lib/stores/reset';
+	import { resetExecution } from '$lib/stores/reset';
 	import { layout } from '$lib/stores/layout';
 
 	let isOpen = false;
@@ -14,7 +14,7 @@
 	};
 
 	const selectAlgorithm = (name) => {
-		resetState($layout.screen);
+		resetExecution($layout.screen);
 		algorithmState.set('notStarted');
 		selectedAlgorithm.set(name);
 	};
@@ -94,6 +94,10 @@
 
 	@media (hover) {
 		li:hover {
+			background-color: var(--select-active);
+		}
+
+		.wrapper:hover {
 			background-color: var(--select-active);
 		}
 	}

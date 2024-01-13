@@ -6,8 +6,9 @@
 	import { longPress } from '$lib/actions/longPress';
 	import { setSelectedNode } from '$lib/stores/nodes';
 	import { tool } from '$lib/stores/tool';
-	import { resetState } from '$lib/stores/reset';
+	import { resetExecution } from '$lib/stores/reset';
 	import { layout } from '$lib/stores/layout';
+	import throttle from 'lodash.throttle';
 
 	export let handlePlay;
 
@@ -26,6 +27,8 @@
 		execution.setInBackward(false);
 		execution.setInForward(false);
 	};
+
+	const reset = () => resetExecution($layout.screen);
 </script>
 
 <div
@@ -38,8 +41,12 @@
 	<SpeedSelect />
 	<button
 		id="player-backward"
-		use:longPress={{ onStart: handlePressStart, onPress: backward, onCancel: stopHistory }}
 		tabindex="-1"
+		use:longPress={{
+			onStart: handlePressStart,
+			onPress: throttle(backward, 20),
+			onCancel: stopHistory
+		}}
 		class:disabled={$algorithmState !== 'started'}
 		on:keydown|preventDefault={() => {}}
 	>
@@ -63,12 +70,16 @@
 		class:disabled={$algorithmState !== 'started'}
 		tabindex="-1"
 		id="player-forward"
-		use:longPress={{ onStart: handlePressStart, onPress: forward, onCancel: stopHistory }}
+		use:longPress={{
+			onStart: handlePressStart,
+			onPress: throttle(forward, 20),
+			onCancel: stopHistory
+		}}
 		on:keydown|preventDefault={() => {}}
 	>
 		<Icon name="playForward" />
 	</button>
-	<button tabindex="-1" on:pointerdown={resetState}>
+	<button tabindex="-1" on:pointerdown={reset}>
 		<Icon name="stop" />
 	</button>
 </div>

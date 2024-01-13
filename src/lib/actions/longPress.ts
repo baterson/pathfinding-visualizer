@@ -1,3 +1,4 @@
+import throttle from 'lodash.throttle';
 
 export const longPress = (node, { onStart, onPress, onCancel }) => {
     let isPressed = false

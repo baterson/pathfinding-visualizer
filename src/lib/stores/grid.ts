@@ -17,6 +17,7 @@ export const _createGrid = (rows, columns) => {
                 // weight: 1,
                 visited: false,
                 prevNode: null,
+                path: false,
                 x: (CELL_SIZE * col) + (GRID_GAP * col),
                 y: (CELL_SIZE * row) + (GRID_GAP * row)
             });
@@ -97,4 +98,3 @@ const createGridStore = () => {
 }
 
 export const grid = createGridStore()
-

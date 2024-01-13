@@ -2,9 +2,8 @@ import { execution } from '$lib/stores/execution';
 import { grid } from '$lib/stores/grid';
 import { getGridNeibhours } from './utils/grid';
 import { minQueue } from './utils/collections';
-import { isEndNode, isWall } from '$lib/stores/nodes';
 
-export const dijkstra = async (startNode) => {
+export const dijkstra = async ({ startNode, isEndNode, isWall, getNode, screen }) => {
     const q = minQueue();
 
     q.enqueue(startNode);
@@ -22,7 +21,7 @@ export const dijkstra = async (startNode) => {
 
         await execution.intercept();
 
-        const neibhours = getGridNeibhours(currentNode);
+        const neibhours = getGridNeibhours(currentNode, getNode, screen);
 
         for (let nextNode of neibhours) {
             if (nextNode.visited) {

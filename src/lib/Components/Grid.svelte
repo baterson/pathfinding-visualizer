@@ -20,6 +20,7 @@
 		removeWeight
 	} from '$lib/stores/nodes';
 	import throttle from 'lodash.throttle';
+	import { resetExecution } from '$lib/stores/reset';
 
 	const changeTheme = () => {
 		if (theme.get() === 'dark') {
@@ -165,6 +166,7 @@
 			// Start/End node just selected
 			if (position === $startNodeKey || position === $endNodeKey) {
 				tool.set(null);
+				resetExecution($layout.screen);
 				selectedNode.set(position);
 				return;
 			}
