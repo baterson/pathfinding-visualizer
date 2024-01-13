@@ -11,7 +11,7 @@ export const speedDisplayNames = {
 }
 
 // Refactor to one state var from 3
-const INITIAL_STATE = { isPaused: false, inForward: false, inBackward: false, speed: 10 }
+const INITIAL_STATE = { isPaused: false, inForward: false, inBackward: false, speed: 1 }
 
 export const createExecutionStore = () => {
     const store = writable(INITIAL_STATE);

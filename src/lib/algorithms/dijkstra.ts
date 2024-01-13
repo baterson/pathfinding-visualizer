@@ -3,13 +3,13 @@ import { grid } from '$lib/stores/grid';
 import { getGridNeibhours } from './utils/grid';
 import { minQueue } from './utils/collections';
 
-export const dijkstra = async ({ startNode, isEndNode, isWall, getNode, screen }) => {
+export const dijkstra = async ({ startNode, isEndNode, isWall, getNode, getWeight, screen }) => {
     const q = minQueue();
 
-    q.enqueue(startNode);
+    q.enqueue({ node: startNode, weight: 0 });
 
     while (!q.isEmpty()) {
-        const currentNode = q.dequeue();
+        const { node: currentNode, weight: currentWeight } = q.dequeue();
 
         if (!currentNode) {
             return;
@@ -31,17 +31,16 @@ export const dijkstra = async ({ startNode, isEndNode, isWall, getNode, screen }
             if (isWall(nextNode)) {
                 grid.updateNode(nextNode, { visited: true })
             } else {
-                // const nodeWeight = gridObjects.getWeight(nextNode)
+                const neibhourWeight = getWeight(nextNode) + currentWeight + 1
 
                 grid.updateNode(nextNode,
                     {
                         visited: true,
                         prevNode: currentNode,
-                        weight: 1
                     }
                 );
 
-                q.enqueue(grid.getNode(nextNode));
+                q.enqueue({ node: grid.getNode(nextNode), weight: neibhourWeight });
             }
         }
     }

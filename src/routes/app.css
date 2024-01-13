@@ -78,10 +78,6 @@ input[type="search"] {
 }
 
 
-:root {
-    /* color-scheme: dark; */
-}
-
 body.dark {
     --bg-body: hsl(229, 26%, 8%);
     --bg-player: hsl(240, 10%, 20%);
@@ -105,29 +101,21 @@ body.dark {
     --bg-select:hsl(0, 0%, 3%);
 
     --color-nav-icon: white;
+
+    --bg-weight-tool: hsla(210, 100%, 72%, .7)
 }
 
 body.light {
     --bg-body: hsl(229, 26%, 1%);
-    /* --bg-player: hsl(240, 10%, 55%); */
-    --bg-player: hsl(240, 10%, 20%);
+    --bg-player: hsl(240, 8%, 45%);
 
     --bg-start: hsl(21, 95%, 54%);
     --bg-end: rgb(116, 233, 27);
-    /* --bg-start: hsla(21, 94%, 50%);
-    --bg-end: hsl(94, 82%, 48%); */
     --bg-path: hsla(162, 43%, 48%, 1);
     --bg-not-visited: hsla(0, 0%, 100%, 0.95);
-    --bg-visited: hsla(359, 89%, 79%, 0.8);
+    --bg-visited: hsl(359, 47%, 44%);
 
-    --bg-wall: hsla(240, 6%, 56%, 0.8);
-    /* --bg-wall: hsl(240, 9%, 75%); */
-    /* --bg-wall: hsla(0, 3%, 31%, 0.7); */
-    /* --bg-wall: rgb(134, 127, 127); */
-
-    /* --bg-wall: hsla(0, 10%, 76%, 1); */
-    /* --bg-wall: hsla(0, 0%, 100%, 0.3); */
-    /* --bg-wall: hsl(229, 8%, 61%); */
+    --bg-wall: hsl(0, 2%, 35%);
 
     --bg-weight: hsl(220, 100%, 72%, 1);
 
@@ -135,8 +123,9 @@ body.light {
 
     --color-player: hsl(210, 19%, 80%);
 
-    /* --bg-select:hsl(0, 4%, 27%); */
 
     --color-nav-icon: black;
+
+    --bg-weight-tool: hsla(210, 100%, 72%, .7)
 }
 

@@ -5,7 +5,7 @@
 	import { execution } from '$lib/stores/execution';
 	import { algorithmState, selectedAlgorithm } from '$lib/stores/algorithm';
 	import { resetExecution, resetState } from '$lib/stores/reset';
-	import { startNodeKey, endNodeKey, walls } from '$lib/stores/nodes';
+	import { startNodeKey, endNodeKey, walls, weight } from '$lib/stores/nodes';
 	import { grid, toMapKey } from '$lib/stores/grid';
 	import { algorithms } from '$lib/algorithms';
 
@@ -48,7 +48,10 @@
 				isEndNode: (node) => toMapKey(node) === $endNodeKey,
 				isWall: (node) => $walls.has(toMapKey(node)),
 				getNode: (node) => $grid.get(toMapKey(node)),
-				screen: $layout.screen
+				screen: $layout.screen,
+				getWeight: (node) => {
+					return $weight.get(toMapKey(node)) || 0;
+				}
 			});
 
 			await drawShortestPath($grid.get($endNodeKey));
@@ -79,6 +82,8 @@
 
 <style>
 	.wrapper {
+		transition: background-color ease-in-out 0.5s;
+
 		position: absolute;
 		bottom: 0;
 		height: var(--height);

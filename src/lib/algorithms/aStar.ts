@@ -1,31 +1,26 @@
 import { execution } from '$lib/stores/execution';
 import { grid } from '$lib/stores/grid';
-import { isWall, isEndNode } from '$lib/stores/nodes';
-import { getGridNeibhours, isEqualNodes } from './utils/grid';
+import { getGridNeibhours } from './utils/grid';
 import { minQueue } from './utils/collections';
 
 const getHeuristic = (node, endNode) => {
     return Math.abs(endNode.row - node.row) + Math.abs(endNode.col - node.col)
 }
 
-export const aStar = async ({ startNode, endNode, isWall, isEndNode, getNode, screen }) => {
+export const aStar = async ({ startNode, endNode, isWall, isEndNode, getNode, getWeight, screen }) => {
     const q = minQueue();
 
-    q.enqueue(startNode);
+    q.enqueue({ node: startNode, weight: getHeuristic(startNode, endNode) });
 
     while (!q.isEmpty()) {
-        const currentNode = q.dequeue();
+        const { node: currentNode, weight: currentWeight } = q.dequeue();
 
         if (!currentNode) {
             return;
         }
 
-        console.log('end', endNode);
-
 
         if (isEndNode(currentNode)) {
-            console.log('----END NODE:', currentNode);
-
             return
         }
 
@@ -43,18 +38,17 @@ export const aStar = async ({ startNode, endNode, isWall, isEndNode, getNode, sc
 
                 grid.updateNode(nextNode, { visited: true })
             } else {
-                // const nodeWeight = gridObjects.getWeight(nextNode)
-                const heuristic = getHeuristic(nextNode, endNode)
+                const neibhourWeight = getWeight(nextNode) + getHeuristic(nextNode, endNode) + 1
+                // const neibhourWeight = getWeight(nextNode) + getHeuristic(nextNode, endNode) + 1 + currentWeight
 
                 grid.updateNode(nextNode,
                     {
                         visited: true,
                         prevNode: currentNode,
-                        weight: heuristic + 0
                     }
                 );
 
-                q.enqueue(grid.getNode(nextNode));
+                q.enqueue({ node: grid.getNode(nextNode), weight: neibhourWeight });
             }
         }
     }

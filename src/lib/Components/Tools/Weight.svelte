@@ -12,7 +12,7 @@
 <style>
 	.wrapper {
 		transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
-		background-color: var(--bg-weight);
+		background-color: var(--bg-weight-tool);
 		display: flex;
 		color: var(--color-weight);
 		align-items: flex-end;

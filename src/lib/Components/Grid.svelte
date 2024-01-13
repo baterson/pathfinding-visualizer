@@ -19,8 +19,8 @@
 		removeWall,
 		removeWeight
 	} from '$lib/stores/nodes';
-	import throttle from 'lodash.throttle';
 	import { resetExecution } from '$lib/stores/reset';
+	import Icon from './Icon.svelte';
 
 	const changeTheme = () => {
 		if (theme.get() === 'dark') {
@@ -125,14 +125,14 @@
 		};
 
 		const setupPointerTracking = () => {
-			const handle = throttle(handlePointerMove, 20);
+			// const handle = throttle(handlePointerMove, 20);
 
-			gridNode.addEventListener('pointermove', handle);
+			gridNode.addEventListener('pointermove', handlePointerMove);
 
 			gridNode.addEventListener(
 				'pointerup',
 				() => {
-					gridNode.removeEventListener('pointermove', handle);
+					gridNode.removeEventListener('pointermove', handlePointerMove);
 				},
 				{ once: true }
 			);
@@ -216,6 +216,10 @@
 	style="--col:{$layout.screen.col};--row:{$layout.screen
 		.row};--cell-size:{CELL_SIZE}px;--grid-gap:{GRID_GAP}px"
 >
+	<div class="navbar" on:pointerdown|stopPropagation={changeTheme}>
+		<div><Icon name="sun" /></div>
+	</div>
+
 	{#each $history as { key, node } (key)}
 		<Node {key} {node} />
 	{/each}
@@ -234,7 +238,7 @@
 		grid-template-rows: repeat(var(--row), var(--cell-size));
 	}
 
-	/* .navbar {
+	.navbar {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -242,9 +246,8 @@
 		font-size: 2rem;
 		display: flex;
 		justify-content: space-between;
-		padding: 8px;
 		color: var(--color-nav-icon);
-	} */
+	}
 
 	@media (min-width: 1600px) {
 		.wrapper {

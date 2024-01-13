@@ -14,11 +14,11 @@
 		if (!currentWeight) {
 			return;
 		} else if (currentWeight <= 3) {
-			opacity = 0.5;
+			opacity = 0.4;
 		} else if (currentWeight <= 7) {
-			opacity = 0.6;
+			opacity = 0.5;
 		} else {
-			opacity = 0.7;
+			opacity = 0.6;
 		}
 
 		return opacity;
@@ -108,29 +108,23 @@
 	}
 
 	.node {
-		/* transition: background-color ease-in-out 0.5s; */
-
 		height: 30px;
 		width: 30px;
 		min-height: 30px;
 		min-width: 30px;
 		flex-shrink: 0;
-		/* padding-right: 5px;
-		padding-bottom: 2px; */
 		color: var(--color-weight);
-
-		/* font-size: 0.8rem; */
-		/* font-weight: 700;
-		display: flex;
-		justify-content: flex-end;
-		align-items: flex-end; */
+		background-color: var(--bg-not-visited);
 	}
 
 	.visited {
+		transition: background-color ease-in-out 0.5s;
 		background-color: var(--bg-visited);
 	}
 
-	:not(.visited) {
+	:not(.wall):not(.startNode):not(.endNode):not(.weight):not(.visited) {
+		transition: background-color ease-in-out 0.5s;
+
 		background-color: var(--bg-not-visited);
 	}
 
@@ -159,6 +153,7 @@
 	}
 
 	.path {
+		transition: background-color ease-in-out 0.5s;
 		background-color: var(--bg-path);
 	}
 

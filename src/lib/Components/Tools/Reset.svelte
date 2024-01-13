@@ -16,7 +16,9 @@
 		<div
 			class="a"
 			on:transitionstart={() => {
-				resetMap();
+				if ($tool === 'reset') {
+					resetMap();
+				}
 			}}
 		></div>
 		<div class="b"></div>
@@ -48,22 +50,25 @@
 	}
 
 	.wrapper :nth-child(2) {
+		border-left: none;
 		background-color: var(--bg-player);
 	}
 
 	.wrapper :nth-child(3) {
+		border-top: none;
 		background-color: var(--bg-weight);
 	}
 
 	.wrapper :nth-child(4) {
+		border-top: none;
+		border-left: none;
 		background-color: var(--bg-wall);
 	}
 
 	.wrapper div {
-		transform: scale(1);
-
-		transition: all ease-in-out 0.3s;
 		border: 1px solid var(--bg-body);
+		transform: scale(1);
+		transition: all ease-in-out 0.3s;
 
 		height: 100%;
 		width: 100%;
@@ -76,8 +81,9 @@
 	}
 
 	.wrapper.selected div {
+		border: 1px solid var(--bg-body);
 		background-color: var(--bg-player);
-		transition: all ease-in-out 0.4s;
+		transition: background-color ease-in-out 0.4s;
 	}
 
 	.wrapper.selected :nth-child(3) {
