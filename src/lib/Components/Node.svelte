@@ -2,33 +2,27 @@
 	import { animationQ, runSvelte } from '$lib/stores/animation';
 	import { theme } from '$lib/stores/theme';
 	import { toMapKey } from '../stores/grid';
-	import { startNodeKey, endNodeKey, selectedNode, path } from '../stores/nodes';
+	import { startNodeKey, endNodeKey, selectedNode, path, walls, weight } from '../stores/nodes';
 
 	export let key;
 	export let node;
 
-	const getWeightColor = () => {
+	const getWeightOpacity = () => {
 		let opacity;
-		const light = $theme === 'dark' ? 0.1 : 0;
-		// const light = 0;
-		// let weight = $gridObjects.weight.get(toMapKey(node));
+		let currentWeight = $weight.get(key);
 
-		// if (!weight) {
-		// 	return;
-		// } else if (weight <= 3) {
-		// 	opacity = 0.5;
-		// } else if (weight <= 7) {
-		// 	opacity = 0.6;
-		// } else {
-		// 	opacity = 0.7;
-		// }
+		if (!currentWeight) {
+			return;
+		} else if (currentWeight <= 3) {
+			opacity = 0.5;
+		} else if (currentWeight <= 7) {
+			opacity = 0.6;
+		} else {
+			opacity = 0.7;
+		}
 
-		return `hsla(220, 100%, 72%, ${opacity})`;
+		return opacity;
 	};
-
-	// class:wall={$gridObjects.walls.has(toMapKey(node))}
-	// class:inAnimation={null}
-	// data-wall={$gridObjects.walls.has(toMapKey(node))}
 </script>
 
 <div
@@ -38,18 +32,20 @@
 	data-startNode={$startNodeKey === toMapKey(node)}
 	data-endNode={$endNodeKey === toMapKey(node)}
 	data-visited={$endNodeKey === toMapKey(node)}
-	style="--weight-dynamic-bg: {getWeightColor()}"
+	style="--weight-opacity:{$weight.get(key) ? getWeightOpacity() : 0};"
 	class="node"
 	class:visited={node.visited}
 	class:startNode={$startNodeKey === key}
 	class:endNode={$endNodeKey === key}
+	class:wall={$walls.has(key)}
+	class:weight={$weight.has(key)}
 	class:path={$path.has(key)}
 	class:inSelect={$selectedNode === key}
 	class:inAnimation={$runSvelte ? $animationQ.has(key) : null}
 >
-	<!-- {#if $gridObjects.weight.has(toMapKey(node))}
-		{$gridObjects.weight.get(toMapKey(node))}
-	{/if} -->
+	{#if $weight.has(key)}
+		{$weight.get(key)}
+	{/if}
 </div>
 
 <style>
@@ -151,7 +147,15 @@
 	}
 
 	.weight {
-		background-color: var(--weight-dynamic-bg);
+		font-size: 0.8rem;
+		font-weight: 700;
+		display: flex;
+		justify-content: flex-end;
+		align-items: flex-end;
+		padding-right: 5px;
+		padding-bottom: 2px;
+
+		background-color: hsla(210, 100%, 72%, var(--weight-opacity));
 	}
 
 	.path {

@@ -12,7 +12,7 @@ const createLayoutStore = () => {
         const emptyVerticalSpace = wH % 32
         const col = Math.round(wW / 32)
         const row = Math.round(wH / 32)
-        const playerRows = Math.max(4, Math.round(row / 5))
+        const playerRows = Math.max(4, Math.round(row / 4))
         const playerHeight = playerRows * 32 + emptyVerticalSpace
 
         store.update(current => {

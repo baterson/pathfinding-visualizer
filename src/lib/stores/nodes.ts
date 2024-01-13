@@ -46,11 +46,27 @@ export const isEqualNodes = (a, b) => toMapKey(a) === toMapKey(b)
 
 // Walls
 export const walls = writable(new Set())
+export const updateWalls = key => walls.update(current => {
+    current.add(key)
+    return current
+})
 export const isWallByKey = key => get(walls).has(key)
 export const isWall = node => isWallByKey(toMapKey(node))
 
 // Weight
 export const weight = writable(new Map())
+export const updateWeight = (key) => {
+    weight.update((current) => {
+        const weightedNode = current.get(key)
+        if (weightedNode) {
+            current.set(key, Math.min(9, weightedNode + 1))
+        } else {
+            current.set(key, 1)
+        }
+
+        return current
+    })
+}
 
 
 // Shortest path

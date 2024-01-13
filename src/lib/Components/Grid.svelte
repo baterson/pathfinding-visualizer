@@ -4,19 +4,18 @@
 	import Controls from './Controls.svelte';
 	import { theme } from '$lib/stores/theme';
 	import { layout } from '$lib/stores/layout';
-	import { CELL_SIZE, GRID_GAP, toMapKey } from '$lib/stores/grid';
+	import { CELL_SIZE, GRID_GAP, toMapKey, grid } from '$lib/stores/grid';
 	import { tool } from '$lib/stores/tool';
 	import { onMount } from 'svelte';
 	import { queueAnimationByKey, removeFromAnimationQByKey } from '$lib/stores/animation';
 	import {
-		placeSelectedNode,
 		selectedNode,
 		startNodeKey,
 		endNodeKey,
-		startNode,
-		endNode,
-		isEqualNodes,
-		walls
+		walls,
+		updateWalls,
+		weight,
+		updateWeight
 	} from '$lib/stores/nodes';
 
 	const changeTheme = () => {
@@ -27,17 +26,31 @@
 		}
 	};
 
-	onMount((el) => {
+	onMount(() => {
 		const gridNode = document.getElementById('grid');
 
 		const isStartOrEnd = (key) => $startNodeKey === key || $endNodeKey === key;
+		const isWall = (key) => $walls.has(key);
+		const isWeight = (key) => $weight.get(key);
+		const isVisited = (key) => $grid.get(key).visited;
 
-		const addWall = (key, isVisited) => {
-			if (isStartOrEnd(key) || $walls.has(key)) {
+		const addWall = (key) => {
+			if (isStartOrEnd(key) || isWall(key) || isVisited(key) || isWeight(key)) {
+				return;
 			}
+
+			updateWalls(key);
 		};
 
-		const animateWithSvelte = (node) => {
+		const addWeight = (key) => {
+			if (isStartOrEnd(key) || isWall(key) || isVisited(key)) {
+				return;
+			}
+
+			updateWeight(key);
+		};
+
+		const animateNode = (node) => {
 			queueAnimationByKey(node.id);
 
 			node.addEventListener(
@@ -61,6 +74,28 @@
 			);
 		};
 
+		const handleTool = (node) => {
+			if ($tool === 'wall') {
+				addWall(node.id);
+			} else if ($tool === 'weight') {
+				addWeight(node.id);
+			}
+		};
+
+		const handleSelectedNode = (placePosition) => {
+			if (isWall(placePosition) || isWeight(placePosition)) {
+				return;
+			}
+
+			if ($selectedNode === $startNodeKey && placePosition !== $endNodeKey) {
+				startNodeKey.set(placePosition);
+				selectedNode.set(null);
+			} else if ($selectedNode === $endNodeKey && placePosition !== $startNodeKey) {
+				endNodeKey.set(placePosition);
+				selectedNode.set(null);
+			}
+		};
+
 		const handlePointerMove = (e) => {
 			const node = document.elementFromPoint(e.clientX, e.clientY);
 
@@ -68,31 +103,18 @@
 				return;
 			}
 
-			animateWithSvelte(node);
-		};
+			handleTool(node);
 
-		const handleToolMove = (e) => {
-			const node = document.elementFromPoint(e.clientX, e.clientY);
-
-			if (!node.dataset.position) {
-				return;
-			}
-
-			animateWithSvelte(node);
+			animateNode(node);
 		};
 
 		const setupPointerTracking = () => {
-			if ($tool) {
-				gridNode.addEventListener('pointermove', handleToolMove);
-			} else {
-				gridNode.addEventListener('pointermove', handlePointerMove);
-			}
+			gridNode.addEventListener('pointermove', handlePointerMove);
 
 			gridNode.addEventListener(
 				'pointerup',
 				() => {
 					gridNode.removeEventListener('pointermove', handlePointerMove);
-					gridNode.removeEventListener('pointermove', handleToolMove);
 				},
 				{ once: true }
 			);
@@ -102,12 +124,6 @@
 			const node = e.target;
 			const position = node.dataset.position;
 
-			// Not hit a Node
-			if (!position) {
-				setupPointerTracking();
-				return;
-			}
-
 			// RMB cancels selected Tool
 			if (e.pointerType === 'mouse' && e.button === 2) {
 				tool.set(null);
@@ -115,34 +131,50 @@
 				return;
 			}
 
-			if ($tool) {
+			// Not hit a Node
+			if (!position) {
+				animateNode(node);
+				setupPointerTracking();
+				return;
 			}
 
 			// Start/End Node already selected
 			if ($selectedNode) {
-				if ($selectedNode === $startNodeKey && position !== $endNodeKey) {
-					startNodeKey.set(position);
-					selectedNode.set(null);
-				} else if ($selectedNode === $endNodeKey && position !== $startNodeKey) {
-					endNodeKey.set(position);
-					selectedNode.set(null);
-				}
-				animateWithSvelte(node);
+				handleSelectedNode(position);
+				animateNode(node);
 				return;
 			}
 
+			// Start/End node just selected
 			if (position === $startNodeKey || position === $endNodeKey) {
+				tool.set(null);
 				selectedNode.set(position);
-			} else {
-				animateWithSvelte(node);
-				setupPointerTracking();
+				return;
 			}
+
+			// Tool selected
+			if ($tool) {
+				handleTool(node);
+				animateNode(node);
+				setupPointerTracking();
+				return;
+			}
+
+			// Hit empty node
+			animateNode(node);
+			setupPointerTracking();
+		};
+
+		const noop = (e) => {
+			e.preventDefault();
 		};
 
 		gridNode.addEventListener('pointerdown', handlePointerDown);
+		window.addEventListener('contextmenu', noop);
 
 		return () => {
 			gridNode.removeEventListener('pointerdown', handlePointerDown);
+			window.removeEventListener('contextmenu', noop);
 		};
 	});
 
