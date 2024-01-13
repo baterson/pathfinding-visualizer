@@ -1,7 +1,11 @@
-import { get, writable } from "svelte/store"
-import { execution } from "./execution"
-import { setSelectedNode } from "./nodes"
-
-// TODO Rename to tools
+import { writable } from "svelte/store"
 
 export const tool = writable(null)
+export const setTool = (name) => {
+    tool.update(current => {
+        if (name === current) {
+            return null
+        }
+        return name
+    })
+}

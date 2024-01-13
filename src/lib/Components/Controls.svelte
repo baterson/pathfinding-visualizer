@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import Player from './Player.svelte';
-	import Tools from './Tools/Tools.svelte';
+	import Tools from './Tools.svelte';
 	import { layout } from '$lib/stores/layout';
 	import { execution } from '$lib/stores/execution';
 	import { algorithmState, selectedAlgorithm } from '$lib/stores/algorithm';
@@ -95,8 +95,6 @@
 		}
 	};
 </script>
-
-<!-- <svelte:window bind:innerHeight bind:innerWidth /> -->
 
 <div class="wrapper" style="--height:{$layout.playerHeight}px">
 	<Tools />

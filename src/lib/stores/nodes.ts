@@ -123,3 +123,10 @@ export const drawShortestPath = async (node) => {
 
     return drawShortestPath(node.prevNode || null);
 };
+
+
+export const resetNodes = () => {
+    walls.set(new Set())
+    weight.set(new Map())
+    path.set(new Set())
+}

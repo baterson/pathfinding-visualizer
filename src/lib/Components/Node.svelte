@@ -108,7 +108,7 @@
 	}
 
 	.node {
-		/* transition: all ease-in-out 0.5s; */
+		/* transition: background-color ease-in-out 0.5s; */
 
 		height: 30px;
 		width: 30px;

@@ -1,25 +1,36 @@
 <script>
+	import { layout } from '$lib/stores/layout';
+	import { resetState } from '$lib/stores/reset';
 	import { tool } from '$lib/stores/tool';
-	import Border from './Border.svelte';
+	import Tool from './Tool.svelte';
 
 	export let name;
+
+	const resetMap = () => {
+		resetState($layout.screen);
+	};
 </script>
 
-<Border {name}>
+<Tool {name}>
 	<div class="wrapper" class:selected={$tool === name}>
-		<div class="a"></div>
+		<div
+			class="a"
+			on:transitionstart={() => {
+				resetMap();
+			}}
+		></div>
 		<div class="b"></div>
 		<div class="c"></div>
 		<div
 			class="d"
 			on:transitionend={(e) => {
-				if (tool.get() === 'reset') {
+				if ($tool === 'reset') {
 					tool.set(null);
 				}
 			}}
 		></div>
 	</div>
-</Border>
+</Tool>
 
 <style>
 	.wrapper {
@@ -30,7 +41,6 @@
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		grid-template-rows: 1fr 1fr;
-		opacity: 0.5;
 	}
 
 	.wrapper :nth-child(1) {

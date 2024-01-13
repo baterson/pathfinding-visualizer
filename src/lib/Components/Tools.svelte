@@ -1,16 +1,8 @@
 <script>
 	import AlgoSelect from '$lib/Components/AlgoSelect.svelte';
-	import Wall from './Wall.svelte';
-	import Weight from './Weight.svelte';
-	import Reset from './Reset.svelte';
-
-	// name="wall"
-	// --default-color="hsla(0, 5%, 100%, 30%);"
-	// 		--active-color="var(--wall-color);"
-
-	// name="weight"
-	// 		--default-color="hsla(220, 100%, 72%, 30%)"
-	// 		--active-color="hsla(220, 100%, 72%, 80%)"
+	import Wall from './Tools/Wall.svelte';
+	import Weight from './Tools/Weight.svelte';
+	import Reset from './Tools/Reset.svelte';
 </script>
 
 <div class="wrapper">

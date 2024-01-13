@@ -1,13 +1,13 @@
 <script>
 	import { tool } from '$lib/stores/tool';
-	import Border from './Border.svelte';
+	import Tool from './Tool.svelte';
 
 	export let name;
 </script>
 
-<Border {name}>
+<Tool {name}>
 	<div class="wrapper" class:selected={$tool === name}></div>
-</Border>
+</Tool>
 
 <style>
 	.wrapper {
@@ -15,14 +15,10 @@
 		height: 30px;
 		width: 30px;
 		transform: scale(1);
-
-		opacity: 0.5;
-
 		background-color: var(--bg-wall);
 	}
 
 	.wrapper.selected {
-		opacity: 1;
 		transform: scale(1.1);
 	}
 </style>
