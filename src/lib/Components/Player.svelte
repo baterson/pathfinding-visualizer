@@ -1,137 +1,277 @@
 <script>
-	import Icon from './Icon.svelte';
-	import { algorithmState } from '$lib/stores/algorithm';
-	import { execution } from '$lib/stores/execution';
-	import SpeedSelect from './SpeedSelect.svelte';
-	import { longPress } from '$lib/actions/longPress';
-	import { setSelectedNode } from '$lib/stores/nodes';
-	import { tool } from '$lib/stores/tool';
-	import { resetExecution } from '$lib/stores/reset';
+	import { beforeUpdate, afterUpdate } from 'svelte';
+
+	import Controls from '$lib/Components/PlayerControls/Controls.svelte';
+	import Tools from '$lib/Components/Tools.svelte';
 	import { layout } from '$lib/stores/layout';
-	import throttle from 'lodash.throttle';
+	import { algorithmState, selectedAlgorithm } from '$lib/stores/algorithm';
+	import { resetExecution, resetState } from '$lib/stores/reset';
+	import { startNodeKey, endNodeKey, walls, weight } from '$lib/stores/nodes';
+	import { grid, toMapKey } from '$lib/stores/grid';
+	import { player, lastCancel } from '$lib/stores/player';
+	import { history, historyTrack } from '$lib/stores/history';
+	import { algorithms } from '$lib/algorithms';
 
-	export let handlePlay;
+	const isTrackAtTheEnd = () => {
+		console.log('$historyTrack', $historyTrack);
+		console.log('history.length', $history.length);
+		return $historyTrack === $history.length - 1;
+		// return $historyTrack === $history.length;
+	};
 
-	const handlePressStart = () => {
-		if (!$execution.isPaused) {
-			execution.play();
+	const drawShortestPath = async (node) => {
+		const key = toMapKey(node);
+
+		if (!node) {
+			return;
+		}
+
+		if ($startNodeKey === key) {
+			return;
+		}
+
+		// // Don't update path for start or end Node
+		if (key !== $endNodeKey) {
+			grid.updateNode(node, { path: true });
+		}
+
+		try {
+			await createIntercept();
+		} catch (e) {
+			return;
+		}
+
+		return drawShortestPath(node.prevNode || null);
+	};
+
+	const startAlgorithm = async () => {
+		const algorithm = algorithms[$selectedAlgorithm];
+
+		resetExecution($layout.screen);
+
+		try {
+			algorithmState.set('started');
+
+			await algorithm({
+				startNode: $grid.get($startNodeKey),
+				endNode: $grid.get($endNodeKey),
+				isEndNode: (node) => toMapKey(node) === $endNodeKey,
+				isWall: (node) => $walls.has(toMapKey(node)),
+				getNode: (node) => $grid.get(toMapKey(node)),
+				screen: $layout.screen,
+				getWeight: (node) => {
+					return $weight.get(toMapKey(node)) || 0;
+				},
+				hitPlayerBoundary: (node) => {
+					// 21 18
+					// console.log('$layout.player', $layout.player);
+					if (node.row > $layout.player.row && node.col <= $layout.player.col) {
+						console.log('Hit...', node.row, node.col);
+						// console.log($layout.player);
+						return true;
+					}
+				},
+				intercept: createIntercept
+			});
+
+			await drawShortestPath($grid.get($endNodeKey));
+
+			algorithmState.set('finished');
+		} catch (e) {
+			resetExecution($layout.screen);
 		}
 	};
 
-	const forward = () => execution.setInForward(true);
-
-	const backward = () => execution.setInBackward(true);
-
-	// TODO refactor to state var ie execution = 'inFor' || 'inBack'
-	const stopHistory = () => {
-		execution.setInBackward(false);
-		execution.setInForward(false);
+	const playAlgorithm = async () => {
+		if ($algorithmState === 'notStarted' || $algorithmState === 'finished') {
+			try {
+				await startAlgorithm();
+			} catch (e) {
+				console.log('Execution canceled');
+			}
+		} else {
+			player.play();
+		}
 	};
 
-	const reset = () => resetExecution($layout.screen);
+	const wait = (isCanceled) => {
+		let tickToWait = Number($player.speed);
+
+		return new Promise((res, rej) => {
+			const cb = () => {
+				if (isCanceled()) {
+					return rej();
+				}
+
+				console.log('tickToWait', tickToWait);
+				if (tickToWait === 0) {
+					return res();
+				} else {
+					tickToWait -= 1;
+					return requestAnimationFrame(cb);
+				}
+			};
+
+			return requestAnimationFrame(cb);
+		});
+	};
+
+	// const pause = async (isCanceled) => {
+	//     return new Promise((res, rej) => {
+	//         const cb = () => {
+
+	//             if (isCanceled()) {
+	//                 return rej()
+	//             }
+
+	//             const storeState = get(store)
+	//             const { decrTrack, incrTrack, isTrackAtTheEnd } = history
+
+	//             if (!storeState.isPaused) {
+	//                 return res()
+	//             }
+
+	//             if (storeState.inForward) {
+	//                 if (isTrackAtTheEnd()) {
+	//                     setInForward(false)
+	//                     // Tracking ended continue execution
+	//                     return res()
+	//                 } else {
+	//                     incrTrack()
+	//                     setInForward(false)
+	//                     return requestAnimationFrame(cb)
+	//                 }
+
+	//             } else if (storeState.inBackward) {
+	//                 setInBackward(false)
+	//                 decrTrack()
+	//                 return requestAnimationFrame(cb)
+	//             } else {
+	//                 return requestAnimationFrame(cb)
+	//             }
+	//         }
+	//         return requestAnimationFrame(cb)
+	//     })
+	// }
+
+	// const restoreHistory = (isCanceled) => {
+	//     return new Promise((res, rej) => {
+	//         const cb = async () => {
+	//             if (isCanceled()) {
+	//                 return rej()
+	//             }
+
+	//             const { incrTrack, isTrackAtTheEnd } = history
+
+	//             if (store.isPaused) {
+	//                 return res()
+	//             }
+
+	//             if (isTrackAtTheEnd()) {
+	//                 return res()
+	//             } else {
+	//                 await wait(isCanceled)
+
+	//                 if (isCanceled()) {
+	//                     return rej()
+	//                 }
+
+	//                 incrTrack()
+	//                 return requestAnimationFrame(cb)
+	//             }
+	//         }
+
+	//         return requestAnimationFrame(cb)
+	//     })
+	// }
+
+	const cancelablePromise = () => {
+		let _canceled = false;
+		const isCanceled = () => _canceled;
+		const cancel = () => (_canceled = true);
+
+		return [
+			cancel,
+			(cb) => {
+				return new Promise((res, rej) => {
+					return cb(res, rej, isCanceled);
+				});
+			}
+		];
+	};
+
+	const intercept = () => {
+		const [cancel, Cancelable] = cancelablePromise();
+
+		const executor = async (res, rej, isCanceled) => {
+			if (isCanceled()) {
+				rej();
+			}
+
+			if ($player.state === 'pause') {
+				try {
+					// await pause(isCanceled);
+				} catch (e) {
+					return rej();
+				}
+
+				return res();
+				// } else if (!isTrackAtTheEnd()) {
+				// 	// console.log($historyTrack, $history.length);
+				// 	// await restoreHistory(isCanceled);
+				// 	return res();
+			} else {
+				try {
+					await wait(isCanceled);
+					return res();
+				} catch (e) {
+					return rej();
+				}
+			}
+		};
+
+		// TODO: check return with request anim
+		return [cancel, () => Cancelable(executor)];
+	};
+
+	const createIntercept = () => {
+		const [cancel, Intercept] = intercept();
+		lastCancel.set(cancel);
+		return Intercept();
+	};
 </script>
 
 <div
 	class="wrapper"
-	on:pointerdown={() => {
-		tool.set(null);
-		setSelectedNode(null);
-	}}
+	style="--height:{$layout.player.height}px;--width:{$layout.player.width}px;"
+	id="player"
 >
-	<SpeedSelect />
-	<button
-		id="player-backward"
-		tabindex="-1"
-		use:longPress={{
-			onStart: handlePressStart,
-			onPress: throttle(backward, 20),
-			onCancel: stopHistory
-		}}
-		class:disabled={$algorithmState !== 'started'}
-		on:keydown|preventDefault={() => {}}
-	>
-		<Icon name="playBack" />
-	</button>
-	<button
-		tabindex="-1"
-		class="play"
-		on:keydown|preventDefault={() => {}}
-		on:pointerdown={handlePlay}
-	>
-		{#if $algorithmState === 'finished'}
-			<Icon name="replay" />
-		{:else if $execution.isPaused || $algorithmState === 'notStarted'}
-			<Icon name="play" />
-		{:else}
-			<Icon name="pause" />
-		{/if}
-	</button>
-	<button
-		class:disabled={$algorithmState !== 'started'}
-		tabindex="-1"
-		id="player-forward"
-		use:longPress={{
-			onStart: handlePressStart,
-			onPress: throttle(forward, 20),
-			onCancel: stopHistory
-		}}
-		on:keydown|preventDefault={() => {}}
-	>
-		<Icon name="playForward" />
-	</button>
-	<button tabindex="-1" on:pointerdown={reset}>
-		<Icon name="stop" />
-	</button>
+	<Tools />
+	<Controls handlePlay={playAlgorithm} />
 </div>
 
 <style>
 	.wrapper {
-		flex: 1;
-		width: 100%;
+		transition: background-color ease-in-out 0.5s;
+
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		height: var(--height);
+		min-height: var(--height);
+		width: var(--width);
+		background-color: var(--bg-player);
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
-		align-items: center;
-		gap: 16px;
-		color: var(--color-player);
+		gap: 10px;
 	}
 
-	button {
-		padding: 0;
-		background: transparent;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border: none;
-		color: inherit;
-		font-size: 32px;
-	}
-
-	button.disabled:hover {
-		color: var(--color-player);
-		cursor: not-allowed;
-	}
-
-	button:hover {
-		color: white;
-	}
-
-	.play {
-		color: white;
-		font-size: 68px;
-	}
-
-	.play:hover {
-		transform: scale(1.1);
-	}
-
-	@media (min-width: 1600px) {
-		button {
-			font-size: 42px;
-			margin: 0 6px;
+	/* @media (min-width: 1024px) {
+		.wrapper {
+			left: 0;
+			width: 576px;
+			height: var(--height);
 		}
-
-		.play {
-			font-size: 86px;
-		}
-	}
+	} */
 </style>

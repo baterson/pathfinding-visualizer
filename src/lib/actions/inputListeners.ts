@@ -39,7 +39,7 @@ export const inputListeners = (gridNode) => {
     let events = []
 
     const resetMap = () => {
-        execution.reset()
+        player.reset()
     }
 
     const handleKeyboardHotkeys = (e) => {
@@ -48,7 +48,7 @@ export const inputListeners = (gridNode) => {
         }
 
         if (e.code === 'KeyC') {
-            execution.reset();
+            player.reset();
             return;
         }
 

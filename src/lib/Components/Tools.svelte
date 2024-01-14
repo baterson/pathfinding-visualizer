@@ -1,8 +1,8 @@
 <script>
 	import AlgoSelect from '$lib/Components/AlgoSelect.svelte';
-	import Wall from './Tools/Wall.svelte';
-	import Weight from './Tools/Weight.svelte';
-	import Reset from './Tools/Reset.svelte';
+	import Wall from '$lib/Components/Tools/Wall.svelte';
+	import Weight from '$lib/Components/Tools/Weight.svelte';
+	import Reset from '$lib/Components/Tools/Reset.svelte';
 </script>
 
 <div class="wrapper">

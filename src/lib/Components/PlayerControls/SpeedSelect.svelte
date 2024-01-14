@@ -1,7 +1,7 @@
 <script>
 	import { execution, speedDisplayNames } from '$lib/stores/execution';
-	import { pointerOutside } from '../actions/pointerOutside';
-	import Icon from './Icon.svelte';
+	import { pointerOutside } from '../../actions/pointerOutside';
+	import Icon from '../Icon.svelte';
 
 	let isOpen = false;
 

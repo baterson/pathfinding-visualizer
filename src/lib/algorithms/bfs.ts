@@ -1,9 +1,16 @@
-import { execution } from '$lib/stores/execution';
 import { grid } from '$lib/stores/grid';
 import { getGridNeibhours } from './utils/grid';
 import { queue } from './utils/collections';
 
-export const bfs = async ({ startNode, isWall, isEndNode, getNode, screen }) => {
+export const bfs = async ({
+    startNode,
+    isWall,
+    isEndNode,
+    getNode,
+    screen,
+    intercept,
+    hitPlayerBoundary
+}) => {
     const q = queue();
 
     q.enqueue(startNode);
@@ -19,14 +26,13 @@ export const bfs = async ({ startNode, isWall, isEndNode, getNode, screen }) => 
             return
         }
 
-        await execution.intercept();
+        await intercept();
 
-        const neibhours = getGridNeibhours(currentNode, getNode, screen);
-        console.log('neibhours', neibhours);
+        const neibhours = getGridNeibhours(currentNode, getNode, screen, hitPlayerBoundary);
 
 
         for (let nextNode of neibhours) {
-            if (nextNode.visited) {
+            if (nextNode.visited || hitPlayerBoundary(nextNode)) {
                 continue
             }
 

@@ -1,0 +1,132 @@
+<script>
+	import Icon from '$lib/Components/Icon.svelte';
+	import { algorithmState } from '$lib/stores/algorithm';
+	import { player } from '$lib/stores/player';
+	import SpeedSelect from './SpeedSelect.svelte';
+	import { longPress } from '$lib/actions/longPress';
+	import { setSelectedNode } from '$lib/stores/nodes';
+	import { tool } from '$lib/stores/tool';
+	import { resetExecution } from '$lib/stores/reset';
+	import { layout } from '$lib/stores/layout';
+	// import throttle from 'lodash.throttle';
+
+	export let handlePlay;
+
+	const handlePressStart = () => {
+		if (!$player.state === 'pause') {
+			player.play();
+		}
+	};
+
+	const stopHistory = () => {
+		// execution.setInBackward(false);
+		// execution.setInForward(false);
+	};
+
+	const reset = () => resetExecution($layout.screen);
+</script>
+
+<div
+	class="wrapper"
+	on:pointerdown={() => {
+		tool.set(null);
+		setSelectedNode(null);
+	}}
+>
+	<SpeedSelect />
+	<button
+		id="player-backward"
+		tabindex="-1"
+		use:longPress={{
+			onStart: handlePressStart,
+			onPress: player.setInForward,
+			onCancel: stopHistory
+		}}
+		class:disabled={$algorithmState !== 'started'}
+		on:keydown|preventDefault={() => {}}
+	>
+		<Icon name="playBack" />
+	</button>
+	<button
+		tabindex="-1"
+		class="play"
+		on:keydown|preventDefault={() => {}}
+		on:pointerdown={handlePlay}
+	>
+		{#if $algorithmState === 'finished'}
+			<Icon name="replay" />
+		{:else if $player.state === 'pause' || $algorithmState === 'notStarted'}
+			<Icon name="play" />
+		{:else}
+			<Icon name="pause" />
+		{/if}
+	</button>
+	<button
+		class:disabled={$algorithmState !== 'started'}
+		tabindex="-1"
+		id="player-forward"
+		use:longPress={{
+			onStart: handlePressStart,
+			onPress: player.setInForward,
+			onCancel: stopHistory
+		}}
+		on:keydown|preventDefault={() => {}}
+	>
+		<Icon name="playForward" />
+	</button>
+	<button tabindex="-1" on:pointerdown={reset}>
+		<Icon name="stop" />
+	</button>
+</div>
+
+<style>
+	.wrapper {
+		flex: 1;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 16px;
+		color: var(--color-player);
+	}
+
+	button {
+		padding: 0;
+		background: transparent;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: none;
+		color: inherit;
+		font-size: 32px;
+	}
+
+	button.disabled:hover {
+		color: var(--color-player);
+		cursor: not-allowed;
+	}
+
+	button:hover {
+		color: white;
+	}
+
+	.play {
+		color: white;
+		font-size: 68px;
+	}
+
+	.play:hover {
+		transform: scale(1.1);
+	}
+
+	@media (min-width: 1600px) {
+		button {
+			font-size: 42px;
+			margin: 0 6px;
+		}
+
+		.play {
+			font-size: 86px;
+		}
+	}
+</style>

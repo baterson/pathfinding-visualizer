@@ -1,4 +1,6 @@
-export const getGridNeibhours = (node, getNode, screen) => {
+// Refactor grid neibhours
+
+export const getGridNeibhours = (node, getNode, screen, hitBoundaries) => {
     const { row, col } = node
 
     let left, top, right, bottom;

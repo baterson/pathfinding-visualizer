@@ -1,7 +1,7 @@
 <script>
 	import Node from '$lib/Components/Node.svelte';
 	import { history } from '$lib/stores/history';
-	import Controls from './Controls.svelte';
+	import Player from './Player.svelte';
 	import { theme } from '$lib/stores/theme';
 	import { layout } from '$lib/stores/layout';
 	import { CELL_SIZE, GRID_GAP, toMapKey, grid } from '$lib/stores/grid';
@@ -224,7 +224,7 @@
 		<Node {key} {node} />
 	{/each}
 
-	<Controls />
+	<Player />
 </div>
 
 <style>

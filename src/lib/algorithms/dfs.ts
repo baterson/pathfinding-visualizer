@@ -1,10 +1,10 @@
 import { execution } from '$lib/stores/execution';
 import { grid } from '$lib/stores/grid';
 
-export const startDfs = ({ startNode, isWall, isEndNode, getNode }) => {
+export const startDfs = ({ startNode, isWall, isEndNode, getNode, hitPlayerBoundary }) => {
 
     const checkNode = (node) => {
-        if (!node || isWall(node) || node.visited) {
+        if (!node || isWall(node) || node.visited || hitPlayerBoundary(node)) {
             return null
         }
         return node
@@ -46,14 +46,12 @@ export const startDfs = ({ startNode, isWall, isEndNode, getNode }) => {
 
 
     const dfs = async (node) => {
-        console.log('node', node);
 
         if (isEndNode(node) || !node) {
             return
         }
 
         const nextNode = getNextNode(node)
-        console.log('nex', nextNode);
 
 
         grid.updateNode(node, { visited: true })

@@ -1,4 +1,3 @@
-import { execution } from '$lib/stores/execution';
 import { grid } from '$lib/stores/grid';
 import { getGridNeibhours } from './utils/grid';
 import { minQueue } from './utils/collections';
@@ -7,7 +6,16 @@ const getHeuristic = (node, endNode) => {
     return Math.abs(endNode.row - node.row) + Math.abs(endNode.col - node.col)
 }
 
-export const aStar = async ({ startNode, endNode, isWall, isEndNode, getNode, getWeight, screen }) => {
+export const aStar = async ({ startNode,
+    endNode,
+    isWall,
+    isEndNode,
+    getNode,
+    getWeight,
+    screen,
+    hitBoundaries,
+    intercept
+}) => {
     const q = minQueue();
 
     q.enqueue({ node: startNode, weight: getHeuristic(startNode, endNode) });
@@ -24,7 +32,7 @@ export const aStar = async ({ startNode, endNode, isWall, isEndNode, getNode, ge
             return
         }
 
-        await execution.intercept();
+        await intercept();
 
         const neibhours = getGridNeibhours(currentNode, getNode, screen);
 

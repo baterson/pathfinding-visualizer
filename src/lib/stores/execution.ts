@@ -10,12 +10,14 @@ export const speedDisplayNames = {
     50: '0.25x'
 }
 
+export const lastCancel = writable(null)
+
 // Refactor to one state var from 3
 const INITIAL_STATE = { isPaused: false, inForward: false, inBackward: false, speed: 1 }
 
 export const createExecutionStore = () => {
     const store = writable(INITIAL_STATE);
-    const lastCancel = writable(null)
+    const _lastCancel = writable(null)
 
     const play = () => {
         store.update(current => ({ ...current, isPaused: !current.isPaused }))
