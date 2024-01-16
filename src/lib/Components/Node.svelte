@@ -1,6 +1,5 @@
 <script>
 	import { animationQ } from '$lib/stores/animation';
-	import { toMapKey } from '../stores/grid';
 	import { startNodeKey, endNodeKey, selectedNodeKey, walls, weight } from '../stores/nodes';
 
 	export let key;
@@ -25,8 +24,8 @@
 </script>
 
 <div
-	id={toMapKey(node)}
-	data-position={toMapKey(node)}
+	id={key}
+	data-position={key}
 	style="--weight-opacity:{$weight.get(key) ? getWeightOpacity() : 0};"
 	class="node"
 	class:visited={node.visited}
@@ -51,42 +50,10 @@
 		35% {
 			transform: scale(0.9);
 		}
-		70% {
-			scale: rotate(0.7);
-		}
 		100% {
 			transform: scale(1);
 		}
 	}
-
-	@keyframes _dropIn {
-		0% {
-			transform: scale(2);
-		}
-		35% {
-			transform: scale(3);
-		}
-		70% {
-			scale: rotate(2);
-		}
-		100% {
-			transform: scale(1);
-		}
-	}
-	/* @keyframes _dropIn {
-		0% {
-			transform: scale(0.7);
-		}
-		35% {
-			transform: scale(0.9);
-		}
-		70% {
-			scale: rotate(0.7);
-		}
-		100% {
-			transform: scale(1);
-		}
-	} */
 
 	@keyframes inSelect {
 		0%,

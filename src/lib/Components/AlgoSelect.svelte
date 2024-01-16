@@ -41,7 +41,6 @@
 	.wrapper {
 		height: 100%;
 		min-width: 160px;
-		/* min-width: 156px; */
 		display: flex;
 		justify-content: center;
 		align-items: center;

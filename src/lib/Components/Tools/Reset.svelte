@@ -57,7 +57,7 @@
 
 	.wrapper :nth-child(3) {
 		border-top: none;
-		background-color: var(--bg-weight);
+		background-color: var(--bg-weight-tool);
 	}
 
 	.wrapper :nth-child(4) {

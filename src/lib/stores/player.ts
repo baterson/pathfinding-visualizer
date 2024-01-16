@@ -6,12 +6,12 @@ const speedValues = [1, 10, 30, 50]
 
 export const speedDisplayNames = {
     1: '2x',
-    10: '1x',
-    30: '0.5x',
-    50: '0.25x'
+    5: '1x',
+    10: '0.5x',
+    20: '0.25x'
 }
 
-const INITIAL_STATE = { speed: 10, state: 'notStarted' }
+const INITIAL_STATE = { speed: 5, state: 'notStarted' }
 
 export const cancelFunction = writable(null)
 

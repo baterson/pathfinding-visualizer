@@ -5,7 +5,6 @@
 	import { longPress } from '$lib/actions/longPress';
 	import { selectedNodeKey } from '$lib/stores/nodes';
 	import { tool } from '$lib/stores/tool';
-	// import throttle from 'lodash.throttle';
 
 	export let playAlgorithm;
 </script>
@@ -21,6 +20,7 @@
 	<button
 		id="player-backward"
 		tabindex="-1"
+		use:longPress={{ onPress: () => player.updateState('backward') }}
 		on:pointerdown={() => player.updateState('backward')}
 		class:disabled={$player.state === 'notStarted' || $player.state === 'finished'}
 		on:keydown|preventDefault={() => {}}
@@ -35,17 +35,17 @@
 	>
 		{#if $player.state === 'finished'}
 			<Icon name="replay" />
-		{:else if $player.state === 'pause' || $player.state === 'notStarted'}
-			<Icon name="play" />
-		{:else}
+		{:else if $player.state === 'play'}
 			<Icon name="pause" />
+		{:else}
+			<Icon name="play" />
 		{/if}
 	</button>
 	<button
 		class:disabled={$player.state === 'notStarted' || $player.state === 'finished'}
 		tabindex="-1"
 		id="player-forward"
-		on:pointerdown={() => player.updateState('forward')}
+		use:longPress={{ onPress: () => player.updateState('forward') }}
 		on:keydown|preventDefault={() => {}}
 	>
 		<Icon name="playForward" />

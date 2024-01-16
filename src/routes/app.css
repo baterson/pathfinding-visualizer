@@ -77,36 +77,36 @@ input[type="search"] {
     color: #fff; /* Light text color for better visibility on dark background */
 }
 
-
-body.dark {
+body {
     --bg-body: hsl(229, 26%, 8%);
     --bg-player: hsl(240, 10%, 20%);
 
     --bg-start: hsl(21, 94%, 62%);
     --bg-end: hsl(94, 82%, 60%);
     --bg-path: hsla(162, 43%, 48%, 0.8);
-    --bg-not-visited: hsla(220, 9%, 27%, 0.302);
-    --bg-visited: hsla(359, 94%, 55%, 0.2);
-
-    --bg-wall: hsl(0, 5%, 75%);
-
-    /* --bg-weight: hsl(220, 100%, 72%, 0.7); */
-
-    --bg-weight: hsl(220, 100%, 72%, 0.7);
+    --bg-select:hsl(0, 0%, 3%);
+    --bg-tool-border: hsl(227, 25%, 15%);
+    --bg-weight-tool: hsla(210, 100%, 72%, .7);
 
     --color-weight: hsl(218, 13%, 88%);
-
     --color-player: hsl(210, 19%, 73%);
-
-    --bg-select:hsl(0, 0%, 3%);
-
     --color-nav-icon: white;
+}
 
-    --bg-weight-tool: hsla(210, 100%, 72%, .7)
+body.dark {
+    --bg-not-visited: hsla(220, 9%, 27%, 0.302);
+    --bg-visited: hsla(359, 94%, 55%, 0.3);
+    --bg-wall: hsl(0, 5%, 75%);
 }
 
 body.light {
-    --bg-body: hsl(229, 26%, 1%);
+    --bg-not-visited: hsl(0, 10%, 80%, 0.6);
+    --bg-visited: hsla(359, 94%, 55%, 0.2);
+    --bg-wall: hsl(0, 10%, 95%, 0.9);
+
+
+    /* --bg-body: hsl(229, 26%, 1%);
+
     --bg-player: hsla(220, 9%, 27%, 1);
 
     --bg-start: hsl(30, 95%, 55%);
@@ -127,5 +127,6 @@ body.light {
     --color-nav-icon: black;
 
     --bg-weight-tool: hsla(210, 100%, 72%, .5)
+ */
 }
 

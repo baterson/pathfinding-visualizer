@@ -87,6 +87,12 @@
 						return rej();
 					}
 
+					if ($player.state === 'pause') {
+						await wait($player.speed, isCanceled);
+
+						return requestAnimationFrame(cb);
+					}
+
 					if ($player.state === 'play') {
 						if ($trackAtTheEnd) {
 							return res();
@@ -113,9 +119,9 @@
 						history.decrTrack();
 
 						return requestAnimationFrame(cb);
-					} else {
-						return requestAnimationFrame(cb);
 					}
+
+					throw new Error('Unexpected state in intercept');
 				};
 
 				return requestAnimationFrame(cb);

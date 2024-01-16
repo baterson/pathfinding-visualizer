@@ -30,7 +30,7 @@
 	.border {
 		position: absolute;
 		transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
-		background-color: var(--bg-body);
+		background-color: var(--bg-tool-border);
 		height: 3px;
 		width: 10px;
 		bottom: 0;

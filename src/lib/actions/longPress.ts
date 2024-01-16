@@ -1,11 +1,12 @@
 import throttle from 'lodash.throttle';
 
-export const longPress = (node, { onStart, onPress, onCancel }) => {
+export const longPress = (node, { onPress }) => {
     let isPressed = false
+    const pr = throttle(onPress, 20)
 
     const handleLongPress = () => {
         if (isPressed) {
-            onPress();
+            pr();
             return requestAnimationFrame(handleLongPress)
         } else {
             return
@@ -14,12 +15,10 @@ export const longPress = (node, { onStart, onPress, onCancel }) => {
 
     const cancelPress = () => {
         isPressed = false
-        onCancel();
     }
 
     const handlePointerDown = () => {
         isPressed = true
-        onStart();
         return handleLongPress()
     }
 
