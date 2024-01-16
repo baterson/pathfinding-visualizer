@@ -15,7 +15,7 @@
 		height: 30px;
 		width: 30px;
 		transform: scale(1);
-		background-color: var(--bg-wall);
+		background-color: var(--bg-wall-tool);
 	}
 
 	.wrapper.selected {

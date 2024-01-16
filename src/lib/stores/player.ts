@@ -11,7 +11,7 @@ export const speedDisplayNames = {
     20: '0.25x'
 }
 
-const INITIAL_STATE = { speed: 5, state: 'notStarted' }
+const INITIAL_STATE = { speed: 1, state: 'notStarted' }
 
 export const cancelFunction = writable(null)
 

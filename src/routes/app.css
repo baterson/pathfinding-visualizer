@@ -39,15 +39,6 @@ ol, ul {
 html, body {
     touch-action:none;
     margin: 0;
-
-
-
-    --select-active:hsl(215, 80%, 35%);
-    --bg-select:hsl(0, 0%, 3%);
-    /* --tool-bg:hsl(215, 18%, 13%); */
-    /* --player-bg: hsla(0, 0%, 0%, 1);
-    --gray: rgb(173, 186, 199); */
-
 }
 
 body {
@@ -78,15 +69,16 @@ input[type="search"] {
 }
 
 body {
-    --bg-body: hsl(229, 26%, 8%);
-    --bg-player: hsl(240, 10%, 20%);
-
     --bg-start: hsl(21, 94%, 62%);
     --bg-end: hsl(94, 82%, 60%);
     --bg-path: hsla(162, 43%, 48%, 0.8);
     --bg-select:hsl(0, 0%, 3%);
     --bg-tool-border: hsl(227, 25%, 15%);
     --bg-weight-tool: hsla(210, 100%, 72%, .7);
+    --bg-wall-tool: hsl(0, 5%, 75%);
+
+    --bg-select:hsl(0, 0%, 3%);
+    --select-active:hsl(215, 80%, 35%);
 
     --color-weight: hsl(218, 13%, 88%);
     --color-player: hsl(210, 19%, 73%);
@@ -94,39 +86,18 @@ body {
 }
 
 body.dark {
+    --bg-body: hsl(229, 26%, 8%);
+    --bg-player: hsl(240, 10%, 20%);
     --bg-not-visited: hsla(220, 9%, 27%, 0.302);
     --bg-visited: hsla(359, 94%, 55%, 0.3);
     --bg-wall: hsl(0, 5%, 75%);
 }
 
 body.light {
-    --bg-not-visited: hsl(0, 10%, 80%, 0.6);
-    --bg-visited: hsla(359, 94%, 55%, 0.2);
-    --bg-wall: hsl(0, 10%, 95%, 0.9);
-
-
-    /* --bg-body: hsl(229, 26%, 1%);
-
-    --bg-player: hsla(220, 9%, 27%, 1);
-
-    --bg-start: hsl(30, 95%, 55%);
-    --bg-end: hsl(94, 71%, 45%);
-    --bg-path: hsla(162, 43%, 48%, 1);
-    --bg-not-visited: hsla(0, 0%, 100%, 0.95);
-    --bg-visited: hsla(359, 96%, 55%, 0.553);
-
-    --bg-wall: hsl(0, 2%, 52%);
-
-    --bg-weight: hsl(220, 100%, 72%, 1);
-
-    --color-weight: hsl(218, 13%, 88%);
-
-    --color-player: hsl(210, 19%, 80%);
-
-
-    --color-nav-icon: black;
-
-    --bg-weight-tool: hsla(210, 100%, 72%, .5)
- */
+    --bg-not-visited: hsla(0, 0%, 100%, 1);
+    --bg-visited: hsla(359, 94%, 55%, 0.3);
+    --bg-body: hsl(220, 3%, 21%);
+    --bg-player: hsl(240, 10%, 30%);
+    --bg-wall: hsla(0, 0%, 55%, 1);
 }
 
