@@ -1,9 +1,8 @@
-import { execution } from '$lib/stores/execution';
 import { grid } from '$lib/stores/grid';
-import { getGridNeibhours } from './utils/grid';
-import { minQueue } from './utils/collections';
+import { getGridNeibhours } from '../utils/grid';
+import { minQueue } from '../utils/collections';
 
-export const dijkstra = async ({ startNode, isEndNode, isWall, getNode, getWeight, screen }) => {
+export const dijkstra = async ({ startNode, isEndNode, isWall, getNode, getWeight, screen, intercept }) => {
     const q = minQueue();
 
     q.enqueue({ node: startNode, weight: 0 });
@@ -19,7 +18,7 @@ export const dijkstra = async ({ startNode, isEndNode, isWall, getNode, getWeigh
             return
         }
 
-        await execution.intercept();
+        await intercept();
 
         const neibhours = getGridNeibhours(currentNode, getNode, screen);
 
@@ -40,7 +39,7 @@ export const dijkstra = async ({ startNode, isEndNode, isWall, getNode, getWeigh
                     }
                 );
 
-                q.enqueue({ node: grid.getNode(nextNode), weight: neibhourWeight });
+                q.enqueue({ node: getNode(nextNode), weight: neibhourWeight });
             }
         }
     }

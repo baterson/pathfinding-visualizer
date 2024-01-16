@@ -1,6 +1,6 @@
 import { grid } from '$lib/stores/grid';
-import { getGridNeibhours } from './utils/grid';
-import { minQueue } from './utils/collections';
+import { getGridNeibhours } from '../utils/grid';
+import { minQueue } from '../utils/collections';
 
 const getHeuristic = (node, endNode) => {
     return Math.abs(endNode.row - node.row) + Math.abs(endNode.col - node.col)
@@ -21,7 +21,7 @@ export const aStar = async ({ startNode,
     q.enqueue({ node: startNode, weight: getHeuristic(startNode, endNode) });
 
     while (!q.isEmpty()) {
-        const { node: currentNode, weight: currentWeight } = q.dequeue();
+        const { node: currentNode } = q.dequeue();
 
         if (!currentNode) {
             return;
@@ -47,7 +47,6 @@ export const aStar = async ({ startNode,
                 grid.updateNode(nextNode, { visited: true })
             } else {
                 const neibhourWeight = getWeight(nextNode) + getHeuristic(nextNode, endNode) + 1
-                // const neibhourWeight = getWeight(nextNode) + getHeuristic(nextNode, endNode) + 1 + currentWeight
 
                 grid.updateNode(nextNode,
                     {
@@ -56,7 +55,7 @@ export const aStar = async ({ startNode,
                     }
                 );
 
-                q.enqueue({ node: grid.getNode(nextNode), weight: neibhourWeight });
+                q.enqueue({ node: getNode(nextNode), weight: neibhourWeight });
             }
         }
     }

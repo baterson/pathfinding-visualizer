@@ -1,8 +1,7 @@
 <script>
-	import { animationQ, runSvelte } from '$lib/stores/animation';
-	import { theme } from '$lib/stores/theme';
+	import { animationQ } from '$lib/stores/animation';
 	import { toMapKey } from '../stores/grid';
-	import { startNodeKey, endNodeKey, selectedNode, walls, weight } from '../stores/nodes';
+	import { startNodeKey, endNodeKey, selectedNodeKey, walls, weight } from '../stores/nodes';
 
 	export let key;
 	export let node;
@@ -27,11 +26,7 @@
 
 <div
 	id={toMapKey(node)}
-	data-type="node"
 	data-position={toMapKey(node)}
-	data-startNode={$startNodeKey === toMapKey(node)}
-	data-endNode={$endNodeKey === toMapKey(node)}
-	data-visited={$endNodeKey === toMapKey(node)}
 	style="--weight-opacity:{$weight.get(key) ? getWeightOpacity() : 0};"
 	class="node"
 	class:visited={node.visited}
@@ -40,8 +35,8 @@
 	class:wall={$walls.has(key)}
 	class:weight={$weight.has(key)}
 	class:path={node.path}
-	class:inSelect={$selectedNode === key}
-	class:inAnimation={$runSvelte ? $animationQ.has(key) : null}
+	class:inSelect={$selectedNodeKey === key}
+	class:inAnimation={$animationQ.has(key)}
 >
 	{#if $weight.has(key)}
 		{$weight.get(key)}

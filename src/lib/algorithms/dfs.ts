@@ -1,7 +1,6 @@
-import { execution } from '$lib/stores/execution';
 import { grid } from '$lib/stores/grid';
 
-export const startDfs = ({ startNode, isWall, isEndNode, getNode, hitPlayerBoundary }) => {
+export const startDfs = ({ startNode, isWall, isEndNode, getNode, hitPlayerBoundary, intercept }) => {
 
     const checkNode = (node) => {
         if (!node || isWall(node) || node.visited || hitPlayerBoundary(node)) {
@@ -57,7 +56,7 @@ export const startDfs = ({ startNode, isWall, isEndNode, getNode, hitPlayerBound
         grid.updateNode(node, { visited: true })
 
         if (nextNode) {
-            await execution.intercept()
+            await intercept()
 
             grid.updateNode(nextNode, { prevNode: node })
             const nodeUpdated = getNode(nextNode)

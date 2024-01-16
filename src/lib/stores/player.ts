@@ -1,4 +1,6 @@
-import { writable, get } from 'svelte/store';
+import { get, writable } from 'svelte/store';
+import { layout } from './layout';
+import { grid } from './grid';
 
 const speedValues = [1, 10, 30, 50]
 
@@ -9,14 +11,21 @@ export const speedDisplayNames = {
     50: '0.25x'
 }
 
-// Refactor to one state var from 3
 const INITIAL_STATE = { speed: 10, state: 'notStarted' }
 
-export const lastCancel = writable(null)
-
+export const cancelFunction = writable(null)
 
 export const createPlayerStore = () => {
     const store = writable(INITIAL_STATE);
+
+    const updateState = (state) => store.update(current => {
+        if ((current.state === 'notStarted' || current.state === 'finished') && state !== 'play') {
+            return current
+        }
+
+        current.state = state
+        return current
+    })
 
     const play = () => {
         store.update(current => {
@@ -25,24 +34,8 @@ export const createPlayerStore = () => {
             } else {
                 current.state = 'play'
             }
+            return current
         })
-    }
-
-    const updateState = (state) => store.update(current => {
-        current.state = state
-    })
-
-
-    const setInForward = () => {
-        updateState('inForward')
-    }
-
-    const setInBackward = () => {
-        updateState('inBackward')
-    }
-
-    const setSpeed = (speed) => {
-        store.update(current => ({ ...current, speed }))
     }
 
     const incrSpeed = () => {
@@ -68,10 +61,16 @@ export const createPlayerStore = () => {
     }
 
     const reset = () => {
-        // const cancelEval = get(lastCancel)
-        // if (cancelEval) {
-        //     cancelEval()
-        // }
+        cancelFunction.update(current => {
+            if (current) {
+                current()
+            }
+            return null
+        })
+
+        const { screen } = get(layout)
+
+        grid.reset(screen)
         store.update(current => ({ state: 'notStarted', speed: current.speed }))
     }
 
@@ -79,12 +78,8 @@ export const createPlayerStore = () => {
 
     return {
         subscribe: store.subscribe,
-        update: store.update,
-        get: () => get(store),
+        updateState: updateState,
         play,
-        setInForward,
-        setInBackward,
-        setSpeed,
         incrSpeed,
         decrSpeed,
         reset,

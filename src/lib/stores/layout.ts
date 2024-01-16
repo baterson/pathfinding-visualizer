@@ -4,7 +4,7 @@ import { tick } from 'svelte';
 const INITIAL_STATE = { screen: { row: 0, col: 0 }, player: { row: 0, col: 0, height: 0, width: 0 }, isCalculating: true }
 
 const createLayoutStore = () => {
-    const store = writable(INITIAL_STATE);
+    const { subscribe, update } = writable(INITIAL_STATE);
 
     const setLayout = () => {
         const screenWidth = window.innerWidth;
@@ -14,7 +14,7 @@ const createLayoutStore = () => {
 
         const player = getPlayerLayout(screenHeight, screenCols, screenRows)
 
-        store.update(current => {
+        update(current => {
             current.screen.row = screenRows
             current.screen.col = screenCols
             current.player = player
@@ -23,7 +23,7 @@ const createLayoutStore = () => {
         })
 
         tick().then(() => {
-            store.update(current => {
+            update(current => {
                 current.isCalculating = false
                 return current
             })
@@ -59,7 +59,7 @@ const createLayoutStore = () => {
     }
 
     return {
-        subscribe: store.subscribe,
+        subscribe,
         setLayout
     }
 }

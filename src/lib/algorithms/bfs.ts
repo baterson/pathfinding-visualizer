@@ -1,6 +1,6 @@
 import { grid } from '$lib/stores/grid';
-import { getGridNeibhours } from './utils/grid';
-import { queue } from './utils/collections';
+import { getGridNeibhours } from '../utils/grid';
+import { queue } from '../utils/collections';
 
 export const bfs = async ({
     startNode,
@@ -42,7 +42,7 @@ export const bfs = async ({
             } else {
                 grid.updateNode(nextNode, { prevNode: currentNode, visited: true });
 
-                q.enqueue(grid.getNode(nextNode));
+                q.enqueue(getNode(nextNode));
             }
         }
     }

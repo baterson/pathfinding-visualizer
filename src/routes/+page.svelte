@@ -4,11 +4,11 @@
 	import { onMount } from 'svelte';
 	import { layout } from '$lib/stores/layout';
 	import { fade } from 'svelte/transition';
-	import { resetState } from '$lib/stores/reset';
+	import { grid } from '$lib/stores/grid';
 
 	onMount(() => {
 		const uns = layout.subscribe(({ screen }) => {
-			resetState(screen);
+			grid.reset(screen);
 		});
 
 		requestAnimationFrame(() => {

@@ -1,13 +1,14 @@
 <script>
-	import { layout } from '$lib/stores/layout';
-	import { resetState } from '$lib/stores/reset';
+	import { player } from '$lib/stores/player';
+	import { resetNodes } from '$lib/stores/nodes';
 	import { tool } from '$lib/stores/tool';
 	import Tool from './Tool.svelte';
 
 	export let name;
 
 	const resetMap = () => {
-		resetState($layout.screen);
+		player.reset();
+		resetNodes();
 	};
 </script>
 

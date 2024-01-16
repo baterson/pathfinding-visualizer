@@ -1,6 +1,6 @@
 <script>
-	import { selectedNode } from '$lib/stores/nodes';
-	import { setTool, tool } from '$lib/stores/tool';
+	import { selectedNodeKey } from '$lib/stores/nodes';
+	import { tool, setTool } from '$lib/stores/tool';
 
 	export let name;
 </script>
@@ -9,7 +9,7 @@
 	class="wrapper"
 	class:selected={name === $tool}
 	on:pointerdown={() => {
-		selectedNode.set(null);
+		selectedNodeKey.set(null);
 		setTool(name);
 	}}
 >

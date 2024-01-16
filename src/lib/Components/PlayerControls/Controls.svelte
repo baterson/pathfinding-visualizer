@@ -1,48 +1,28 @@
 <script>
 	import Icon from '$lib/Components/Icon.svelte';
-	import { algorithmState } from '$lib/stores/algorithm';
 	import { player } from '$lib/stores/player';
 	import SpeedSelect from './SpeedSelect.svelte';
 	import { longPress } from '$lib/actions/longPress';
-	import { setSelectedNode } from '$lib/stores/nodes';
+	import { selectedNodeKey } from '$lib/stores/nodes';
 	import { tool } from '$lib/stores/tool';
-	import { resetExecution } from '$lib/stores/reset';
-	import { layout } from '$lib/stores/layout';
 	// import throttle from 'lodash.throttle';
 
-	export let handlePlay;
-
-	const handlePressStart = () => {
-		if (!$player.state === 'pause') {
-			player.play();
-		}
-	};
-
-	const stopHistory = () => {
-		// execution.setInBackward(false);
-		// execution.setInForward(false);
-	};
-
-	const reset = () => resetExecution($layout.screen);
+	export let playAlgorithm;
 </script>
 
 <div
 	class="wrapper"
 	on:pointerdown={() => {
 		tool.set(null);
-		setSelectedNode(null);
+		selectedNodeKey.set(null);
 	}}
 >
 	<SpeedSelect />
 	<button
 		id="player-backward"
 		tabindex="-1"
-		use:longPress={{
-			onStart: handlePressStart,
-			onPress: player.setInForward,
-			onCancel: stopHistory
-		}}
-		class:disabled={$algorithmState !== 'started'}
+		on:pointerdown={() => player.updateState('backward')}
+		class:disabled={$player.state === 'notStarted' || $player.state === 'finished'}
 		on:keydown|preventDefault={() => {}}
 	>
 		<Icon name="playBack" />
@@ -51,30 +31,26 @@
 		tabindex="-1"
 		class="play"
 		on:keydown|preventDefault={() => {}}
-		on:pointerdown={handlePlay}
+		on:pointerdown={playAlgorithm}
 	>
-		{#if $algorithmState === 'finished'}
+		{#if $player.state === 'finished'}
 			<Icon name="replay" />
-		{:else if $player.state === 'pause' || $algorithmState === 'notStarted'}
+		{:else if $player.state === 'pause' || $player.state === 'notStarted'}
 			<Icon name="play" />
 		{:else}
 			<Icon name="pause" />
 		{/if}
 	</button>
 	<button
-		class:disabled={$algorithmState !== 'started'}
+		class:disabled={$player.state === 'notStarted' || $player.state === 'finished'}
 		tabindex="-1"
 		id="player-forward"
-		use:longPress={{
-			onStart: handlePressStart,
-			onPress: player.setInForward,
-			onCancel: stopHistory
-		}}
+		on:pointerdown={() => player.updateState('forward')}
 		on:keydown|preventDefault={() => {}}
 	>
 		<Icon name="playForward" />
 	</button>
-	<button tabindex="-1" on:pointerdown={reset}>
+	<button tabindex="-1" on:pointerdown={player.reset}>
 		<Icon name="stop" />
 	</button>
 </div>

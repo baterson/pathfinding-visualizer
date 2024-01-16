@@ -1,29 +1,19 @@
 <script>
 	import Node from '$lib/Components/Node.svelte';
-	import { history } from '$lib/stores/history';
+	import { gridSnapshot } from '$lib/stores/history';
 	import Player from './Player.svelte';
 	import { theme } from '$lib/stores/theme';
 	import { layout } from '$lib/stores/layout';
-	import { CELL_SIZE, GRID_GAP, toMapKey, grid } from '$lib/stores/grid';
+	import { CELL_SIZE, GRID_GAP, grid } from '$lib/stores/grid';
 	import { tool } from '$lib/stores/tool';
 	import { onMount } from 'svelte';
 	import { queueAnimationByKey, removeFromAnimationQByKey } from '$lib/stores/animation';
-	import {
-		selectedNode,
-		startNodeKey,
-		endNodeKey,
-		walls,
-		updateWalls,
-		weight,
-		updateWeight,
-		removeWall,
-		removeWeight
-	} from '$lib/stores/nodes';
-	import { resetExecution } from '$lib/stores/reset';
+	import { selectedNodeKey, startNodeKey, endNodeKey, walls, weight } from '$lib/stores/nodes';
 	import Icon from './Icon.svelte';
+	import { player } from '$lib/stores/player';
 
 	const changeTheme = () => {
-		if (theme.get() === 'dark') {
+		if ($theme === 'dark') {
 			theme.set('light');
 		} else {
 			theme.set('dark');
@@ -43,7 +33,7 @@
 				return;
 			}
 
-			updateWalls(key);
+			walls.addWall(key);
 		};
 
 		const addWeight = (key) => {
@@ -51,31 +41,19 @@
 				return;
 			}
 
-			updateWeight(key);
+			weight.addWeight(key);
 		};
 
 		const animateNode = (node) => {
 			queueAnimationByKey(node.id);
 
-			node.addEventListener(
-				'animationend',
-				() => {
-					console.log('---animation end');
+			node.addEventListener('animationend', () => removeFromAnimationQByKey(node.id), {
+				once: true
+			});
 
-					removeFromAnimationQByKey(node.id);
-				},
-				{ once: true }
-			);
-
-			node.addEventListener(
-				'animationcancel',
-				() => {
-					console.log('---animation cancel');
-
-					removeFromAnimationQByKey(node.id);
-				},
-				{ once: true }
-			);
+			node.addEventListener('animationcancel', () => removeFromAnimationQByKey(node.id), {
+				once: true
+			});
 		};
 
 		const handleTool = (node) => {
@@ -88,9 +66,9 @@
 
 		const handleEraser = (node) => {
 			if (isWall(node.id)) {
-				removeWall(node.id);
+				walls.removeWall(node.id);
 			} else if (isWeight(node.id)) {
-				removeWeight(node.id);
+				weight.removeWeight(node.id);
 			}
 		};
 
@@ -99,12 +77,12 @@
 				return;
 			}
 
-			if ($selectedNode === $startNodeKey && placePosition !== $endNodeKey) {
+			if ($selectedNodeKey === $startNodeKey && placePosition !== $endNodeKey) {
 				startNodeKey.set(placePosition);
-				selectedNode.set(null);
-			} else if ($selectedNode === $endNodeKey && placePosition !== $startNodeKey) {
+				selectedNodeKey.set(null);
+			} else if ($selectedNodeKey === $endNodeKey && placePosition !== $startNodeKey) {
 				endNodeKey.set(placePosition);
-				selectedNode.set(null);
+				selectedNodeKey.set(null);
 			}
 		};
 
@@ -125,8 +103,6 @@
 		};
 
 		const setupPointerTracking = () => {
-			// const handle = throttle(handlePointerMove, 20);
-
 			gridNode.addEventListener('pointermove', handlePointerMove);
 
 			gridNode.addEventListener(
@@ -145,7 +121,7 @@
 			// RMB cancels selected Tool
 			if (e.pointerType === 'mouse' && e.button === 2) {
 				tool.set(null);
-				selectedNode.set(null);
+				selectedNodeKey.set(null);
 				return;
 			}
 
@@ -157,7 +133,7 @@
 			}
 
 			// Start/End Node already selected
-			if ($selectedNode) {
+			if ($selectedNodeKey) {
 				handleSelectedNode(position);
 				animateNode(node);
 				return;
@@ -165,9 +141,11 @@
 
 			// Start/End node just selected
 			if (position === $startNodeKey || position === $endNodeKey) {
+				selectedNodeKey.set(position);
+
 				tool.set(null);
-				resetExecution($layout.screen);
-				selectedNode.set(position);
+				grid.reset($layout.screen);
+				player.reset();
 				return;
 			}
 
@@ -197,17 +175,6 @@
 			window.removeEventListener('contextmenu', noop);
 		};
 	});
-
-	// <div class="navbar" on:click={changeTheme}>
-	// 	<div><Icon name="sun" /></div>
-	// 	<div class="rightNav">
-	// 		<Icon name="faq" />
-	// 		<Icon name="git" />
-	// 	</div>
-	// </div>
-	// $: {
-	// 	console.log('sss', $history);
-	// }
 </script>
 
 <div
@@ -220,7 +187,7 @@
 		<div><Icon name="sun" /></div>
 	</div>
 
-	{#each $history as { key, node } (key)}
+	{#each $gridSnapshot as { key, node } (key)}
 		<Node {key} {node} />
 	{/each}
 

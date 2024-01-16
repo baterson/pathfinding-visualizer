@@ -1,61 +1,48 @@
-import { derived, get, writable } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
 
-export const historyTrack = writable(-1)
+const createHistoryStore = () => {
+    const { subscribe, update, set } = writable([])
 
-export const createHistoryStore = () => {
-    const history = writable([])
+    return {
+        subscribe,
+        update: (item) => {
+            update(current => {
+                return [...current, item]
+            })
 
-    const stateSnapshot = derived([history, historyTrack], ([$history, $historyTrack]) => {
-        return $history[$historyTrack]
-    })
-
-    const update = (item) => {
-        history.update(current => {
-            return [...current, item]
-        })
-        historyTrack.update(current => {
-            return current + 1
-        })
-
-    }
-
-    const decrTrack = () => {
-        historyTrack.update(current => {
-            if (current > 0) {
-                return current - 1
-            }
-
-            return current
-        })
-    }
-
-    const incrTrack = () => {
-        if (get(historyTrack) < get(history).length - 1) {
             historyTrack.update(current => {
                 return current + 1
             })
+        },
+        decrTrack: () => {
+            historyTrack.update(current => {
+                if (current > 0) {
+                    return current - 1
+                }
+
+                return current
+            })
+        },
+        incrTrack: () => {
+            historyTrack.update(current => {
+                return current + 1
+            })
+        },
+        reset: () => {
+            set([])
+            historyTrack.set(-1)
         }
     }
-
-    const isTrackAtTheEnd = () => {
-        return get(historyTrack) === get(history).length - 1
-    }
-
-    const reset = () => {
-        history.set([])
-        historyTrack.set(-1)
-    }
-
-
-    return {
-        subscribe: stateSnapshot.subscribe,
-        getHistoryTrack: () => get(historyTrack),
-        update,
-        decrTrack,
-        incrTrack,
-        reset,
-        isTrackAtTheEnd,
-    };
 }
 
+export const historyTrack = writable(-1)
+
 export const history = createHistoryStore()
+
+export const gridSnapshot = derived([history, historyTrack], ([$history, $historyTrack]) => {
+    return $history[$historyTrack]
+})
+
+export const trackAtTheEnd = derived([history, historyTrack], ([$history, $historyTrack]) => {
+    return $historyTrack === $history.length - 1
+})

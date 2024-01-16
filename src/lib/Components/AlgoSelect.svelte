@@ -1,10 +1,11 @@
 <script>
-	import { algorithmState, selectedAlgorithm } from '$lib/stores/algorithm';
+	import { selectedAlgorithm } from '$lib/stores/algorithm';
 	import { displayNames } from '$lib/algorithms';
 	import { pointerOutside } from '../actions/pointerOutside';
 	import { tool } from '$lib/stores/tool';
-	import { resetExecution } from '$lib/stores/reset';
 	import { layout } from '$lib/stores/layout';
+	import { player } from '$lib/stores/player';
+	import { grid } from '$lib/stores/grid';
 
 	let isOpen = false;
 
@@ -14,9 +15,9 @@
 	};
 
 	const selectAlgorithm = (name) => {
-		resetExecution($layout.screen);
-		algorithmState.set('notStarted');
 		selectedAlgorithm.set(name);
+		player.reset();
+		grid.reset($layout.screen);
 	};
 </script>
 
