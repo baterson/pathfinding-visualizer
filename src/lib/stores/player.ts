@@ -38,6 +38,9 @@ export const createPlayerStore = () => {
         })
     }
 
+    const setSpeed = (speed) => store.update(current => ({ ...current, speed }))
+
+
     const incrSpeed = () => {
         store.update(current => {
             const index = speedValues.indexOf(current.speed)
@@ -80,6 +83,7 @@ export const createPlayerStore = () => {
         subscribe: store.subscribe,
         updateState: updateState,
         play,
+        setSpeed,
         incrSpeed,
         decrSpeed,
         reset,

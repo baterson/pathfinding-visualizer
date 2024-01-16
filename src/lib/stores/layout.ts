@@ -38,7 +38,7 @@ const createLayoutStore = () => {
 
         if (screenRows <= 10) {
             playerRows = 4
-        } else if (screenRows <= 12) {
+        } else if (screenRows <= 22) {
             playerRows = 5
         } else {
             playerRows = 6

@@ -107,15 +107,15 @@ body.dark {
 
 body.light {
     --bg-body: hsl(229, 26%, 1%);
-    --bg-player: hsl(240, 8%, 45%);
+    --bg-player: hsla(220, 9%, 27%, 1);
 
-    --bg-start: hsl(21, 95%, 54%);
-    --bg-end: rgb(116, 233, 27);
+    --bg-start: hsl(30, 95%, 55%);
+    --bg-end: hsl(94, 71%, 45%);
     --bg-path: hsla(162, 43%, 48%, 1);
     --bg-not-visited: hsla(0, 0%, 100%, 0.95);
-    --bg-visited: hsl(359, 47%, 44%);
+    --bg-visited: hsla(359, 96%, 55%, 0.553);
 
-    --bg-wall: hsl(0, 2%, 35%);
+    --bg-wall: hsl(0, 2%, 52%);
 
     --bg-weight: hsl(220, 100%, 72%, 1);
 
@@ -126,6 +126,6 @@ body.light {
 
     --color-nav-icon: black;
 
-    --bg-weight-tool: hsla(210, 100%, 72%, .7)
+    --bg-weight-tool: hsla(210, 100%, 72%, .5)
 }
 
