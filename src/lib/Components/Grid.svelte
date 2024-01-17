@@ -2,7 +2,7 @@
 	import Node from '$lib/Components/Node.svelte';
 	import { gridSnapshot } from '$lib/stores/history';
 	import Player from './Player.svelte';
-	import { theme } from '$lib/stores/theme';
+	import Nav from '$lib/Components/Nav.svelte';
 	import { layout } from '$lib/stores/layout';
 	import { CELL_SIZE, GRID_GAP, grid } from '$lib/stores/grid';
 	import { tool } from '$lib/stores/tool';
@@ -11,14 +11,6 @@
 	import { selectedNodeKey, startNodeKey, endNodeKey, walls, weight } from '$lib/stores/nodes';
 	import Icon from './Icon.svelte';
 	import { player } from '$lib/stores/player';
-
-	const changeTheme = () => {
-		if ($theme === 'dark') {
-			theme.set('light');
-		} else {
-			theme.set('dark');
-		}
-	};
 
 	onMount(() => {
 		const gridNode = document.getElementById('grid') as HTMLElement;
@@ -186,12 +178,7 @@
 	style="--col:{$layout.screen.col};--row:{$layout.screen
 		.row};--cell-size:{CELL_SIZE}px;--grid-gap:{GRID_GAP}px"
 >
-	<div class="theme" on:pointerdown|stopPropagation={changeTheme}>
-		<div><Icon name="sun" /></div>
-		<div><Icon name="help" /></div>
-		<div><Icon name="git" /></div>
-	</div>
-
+	<Nav />
 	{#each $gridSnapshot as { key, node } (key)}
 		<Node {key} {node} />
 	{/each}
@@ -208,27 +195,5 @@
 		display: grid;
 		grid-template-columns: repeat(var(--col), var(--cell-size));
 		grid-template-rows: repeat(var(--row), var(--cell-size));
-	}
-
-	.theme {
-		position: absolute;
-		top: 0;
-		right: 0;
-		padding: 8px 0;
-		width: 62px;
-		height: 160px;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		align-items: center;
-		background-color: var(--bg-player);
-		/* background-color: hsl(240, 10%, 20%, 1); */
-		color: white;
-	}
-
-	@media (min-width: 1600px) {
-		.wrapper {
-			width: auto;
-		}
 	}
 </style>
