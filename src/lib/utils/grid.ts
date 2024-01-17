@@ -1,6 +1,11 @@
-// Refactor grid neibhours
+import type { Node, AlgorithmOptions, Screen } from '$lib/types'
 
-export const getGridNeibhours = (node, getNode, screen, hitBoundaries) => {
+export const getGridNeibhours = (
+    node: Node,
+    screen: Screen,
+    getNode: AlgorithmOptions['getNode'],
+    hitBoundary: AlgorithmOptions['hitBoundary']
+) => {
     const { row, col } = node
 
     let left, top, right, bottom;
@@ -27,5 +32,3 @@ export const getGridNeibhours = (node, getNode, screen, hitBoundaries) => {
 
     return [left, top, right, bottom].filter((el) => el)
 };
-
-export const isEqualNodes = (a, b) => a.row === b.row && a.row === b.row

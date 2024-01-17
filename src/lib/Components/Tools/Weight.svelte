@@ -1,8 +1,9 @@
-<script>
+<script lang="ts">
 	import { tool } from '$lib/stores/tool';
 	import Tool from './Tool.svelte';
+	import type { Tool as ToolType } from '$lib/types';
 
-	export let name;
+	export let name: ToolType;
 </script>
 
 <Tool {name}>

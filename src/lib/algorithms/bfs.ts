@@ -1,6 +1,7 @@
 import { grid } from '$lib/stores/grid';
 import { getGridNeibhours } from '../utils/grid';
 import { queue } from '../utils/collections';
+import type { AlgorithmOptions } from '$lib/types'
 
 export const bfs = async ({
     startNode,
@@ -9,8 +10,8 @@ export const bfs = async ({
     getNode,
     screen,
     intercept,
-    hitPlayerBoundary
-}) => {
+    hitBoundary
+}: AlgorithmOptions) => {
     const q = queue();
 
     q.enqueue(startNode);
@@ -28,19 +29,17 @@ export const bfs = async ({
 
         await intercept();
 
-        const neibhours = getGridNeibhours(currentNode, getNode, screen, hitPlayerBoundary);
-
+        const neibhours = getGridNeibhours(currentNode, screen, getNode, hitBoundary);
 
         for (let nextNode of neibhours) {
-            if (nextNode.visited || hitPlayerBoundary(nextNode)) {
+            if (!nextNode || nextNode.visited || hitBoundary(nextNode)) {
                 continue
             }
 
-
             if (isWall(nextNode)) {
-                grid.updateNode(nextNode, { visited: true })
+                grid.visitNode(nextNode)
             } else {
-                grid.updateNode(nextNode, { prevNode: currentNode, visited: true });
+                grid.visitNode(nextNode, currentNode);
 
                 q.enqueue(getNode(nextNode));
             }

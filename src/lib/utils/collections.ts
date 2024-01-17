@@ -1,5 +1,15 @@
-export const queue = () => {
-    let q = [];
+import type { Node } from '$lib/types'
+
+type WeightedNode = { weight: number, node: Node }
+
+interface Q<T> {
+    isEmpty: () => boolean;
+    enqueue: (el: T) => void;
+    dequeue: () => T | undefined;
+}
+
+export const queue = (): Q<Node> => {
+    let q: Node[] = [];
 
     return {
         isEmpty: () => !q.length,
@@ -12,8 +22,8 @@ export const queue = () => {
     };
 };
 
-export const minQueue = () => {
-    let q = [];
+export const minQueue = (): Q<WeightedNode> => {
+    let q: WeightedNode[] = [];
 
     return {
         isEmpty: () => !q.length,

@@ -30,7 +30,7 @@ const createLayoutStore = () => {
         })
     }
 
-    const getPlayerLayout = (screenHeight, screenCols, screenRows) => {
+    const getPlayerLayout = (screenHeight: number, screenCols: number, screenRows: number) => {
         let playerRows;
         let playerCols;
 

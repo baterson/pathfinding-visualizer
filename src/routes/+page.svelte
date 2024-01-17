@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Grid from '$lib/Components/Grid.svelte';
 	import { theme } from '$lib/stores/theme';
 	import { onMount } from 'svelte';

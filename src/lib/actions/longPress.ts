@@ -1,6 +1,6 @@
 import throttle from 'lodash.throttle';
 
-export const longPress = (node, { onPress }) => {
+export const longPress = (node: HTMLElement, { onPress }: { onPress: () => void }) => {
     let isPressed = false
     const pr = throttle(onPress, 20)
 

@@ -1,12 +1,12 @@
-export function pointerOutside(node) {
+export function pointerOutside(node: HTMLElement, { cb }: { cb: () => void }) {
 
-    const handlePointerOutside = event => {
-        if (node && !node.contains(event.target) && !event.defaultPrevented) {
+    const handlePointerOutside = (event: Event) => {
+        if (node && !node.contains(event.target as typeof node) && !event.defaultPrevented) {
             event.stopPropagation();
-
-            node.dispatchEvent(
-                new CustomEvent('pointer_outside', node)
-            )
+            cb()
+            // node.dispatchEvent(
+            //     new CustomEvent('pointer_outside', node)
+            // )
         }
     }
 

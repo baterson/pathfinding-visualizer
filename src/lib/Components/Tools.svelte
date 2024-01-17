@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import AlgoSelect from '$lib/Components/AlgoSelect.svelte';
 	import Wall from '$lib/Components/Tools/Wall.svelte';
 	import Weight from '$lib/Components/Tools/Weight.svelte';

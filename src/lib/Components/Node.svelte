@@ -1,9 +1,10 @@
-<script>
+<script lang="ts">
 	import { animationQ } from '$lib/stores/animation';
+	import type { Node } from '$lib/types';
 	import { startNodeKey, endNodeKey, selectedNodeKey, walls, weight } from '../stores/nodes';
 
-	export let key;
-	export let node;
+	export let key: string;
+	export let node: Node;
 
 	const getWeightOpacity = () => {
 		let opacity;
@@ -25,7 +26,7 @@
 
 <div
 	id={key}
-	data-position={key}
+	data-type="node"
 	style="--weight-opacity:{$weight.get(key) ? getWeightOpacity() : 0};"
 	class="node"
 	class:visited={node.visited}

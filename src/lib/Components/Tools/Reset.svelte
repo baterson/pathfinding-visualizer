@@ -1,10 +1,11 @@
-<script>
+<script lang="ts">
 	import { player } from '$lib/stores/player';
 	import { resetNodes } from '$lib/stores/nodes';
 	import { tool } from '$lib/stores/tool';
 	import Tool from './Tool.svelte';
+	import type { Tool as ToolType } from '$lib/types';
 
-	export let name;
+	export let name: ToolType;
 
 	const resetMap = () => {
 		player.reset();

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Icon from '$lib/Components/Icon.svelte';
 	import { player } from '$lib/stores/player';
 	import SpeedSelect from './SpeedSelect.svelte';
@@ -6,7 +6,7 @@
 	import { selectedNodeKey } from '$lib/stores/nodes';
 	import { tool } from '$lib/stores/tool';
 
-	export let playAlgorithm;
+	export let playAlgorithm: () => Promise<void>;
 </script>
 
 <div

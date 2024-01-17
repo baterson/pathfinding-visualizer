@@ -1,24 +1,33 @@
-<script>
+<script lang="ts">
 	import { onMount } from 'svelte';
 
 	import Controls from '$lib/Components/PlayerControls/Controls.svelte';
 	import Tools from '$lib/Components/Tools.svelte';
+	import type { Node } from '$lib/types';
+	import type { Callback } from '$lib/utils/promise';
 	import { layout } from '$lib/stores/layout';
 	import { wait, cancelablePromise } from '$lib/utils/promise';
 	import { selectedAlgorithm } from '$lib/stores/algorithm';
-	import { startNodeKey, endNodeKey, walls, weight, resetNodes } from '$lib/stores/nodes';
+	import {
+		startNodeKey,
+		endNodeKey,
+		walls,
+		weight,
+		resetNodes,
+		selectedNodeKey
+	} from '$lib/stores/nodes';
 	import { grid, toMapKey } from '$lib/stores/grid';
 	import { player, cancelFunction } from '$lib/stores/player';
 	import { history, trackAtTheEnd } from '$lib/stores/history';
 	import { algorithms } from '$lib/algorithms';
 
 	const playAlgorithm = async () => {
-		const drawShortestPath = async (node) => {
-			const key = toMapKey(node);
-
+		const drawShortestPath = async (node: Node | undefined): Promise<void> => {
 			if (!node) {
 				return;
 			}
+
+			const key = toMapKey(node);
 
 			if ($startNodeKey === key) {
 				return;
@@ -26,12 +35,12 @@
 
 			// // Don't update path for start or end Node
 			if (key !== $endNodeKey) {
-				grid.updateNode(node, { path: true });
+				grid.setPath(node);
 			}
 
 			await intercept();
 
-			return drawShortestPath(node.prevNode || null);
+			return drawShortestPath(node.prevNode || undefined);
 		};
 
 		const startAlgorithm = async () => {
@@ -43,23 +52,22 @@
 				player.updateState('play');
 
 				await algorithm({
-					startNode: $grid.get($startNodeKey),
-					endNode: $grid.get($endNodeKey),
+					startNode: $grid.get($startNodeKey) as Node,
+					endNode: $grid.get($endNodeKey) as Node,
 					isEndNode: (node) => toMapKey(node) === $endNodeKey,
 					isWall: (node) => $walls.has(toMapKey(node)),
-					getNode: (node) => $grid.get(toMapKey(node)),
+					getNode: (node) => $grid.get(toMapKey(node)) as Node,
 					screen: $layout.screen,
 					getWeight: (node) => {
 						return $weight.get(toMapKey(node)) || 0;
 					},
-					hitPlayerBoundary: (node) => {
-						// 21 18
-						// console.log('$layout.player', $layout.player);
+					hitBoundary: (node) => {
 						if (node.row > $layout.player.row && node.col <= $layout.player.col) {
 							console.log('Hit...', node.row, node.col);
 							// console.log($layout.player);
 							return true;
 						}
+						return false;
 					},
 					intercept: intercept
 				});
@@ -80,8 +88,8 @@
 	};
 
 	const intercept = () => {
-		const handlePlayer = (isCanceled) => {
-			return new Promise((res, rej) => {
+		const handlePlayer = (isCanceled: () => boolean) => {
+			return new Promise<void>((res, rej) => {
 				const cb = async () => {
 					if (isCanceled()) {
 						return rej();
@@ -128,10 +136,10 @@
 			});
 		};
 
-		const createIntercept = () => {
+		const createIntercept = (): [() => void, () => Promise<void>] => {
 			const [cancel, Cancelable] = cancelablePromise();
 
-			const executor = async (res, rej, isCanceled) => {
+			const executor: Callback = async (res, rej, isCanceled) => {
 				if (isCanceled()) {
 					return rej();
 				}
@@ -166,9 +174,9 @@
 	};
 
 	onMount(() => {
-		const handleKeyDown = (e) => {
+		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.code === 'Escape') {
-				selectedNode.set(null);
+				selectedNodeKey.set(null);
 			}
 
 			if (e.code === 'KeyC') {
@@ -210,7 +218,7 @@
 			}
 		};
 
-		const handleWheel = (e) => {
+		const handleWheel = (e: WheelEvent) => {
 			if (e.deltaY < 0) {
 				player.incrSpeed();
 			} else if (e.deltaY > 0) {

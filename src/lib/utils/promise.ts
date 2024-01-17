@@ -1,5 +1,5 @@
-export const wait = (tickToWait, isCanceled) => {
-    return new Promise((res, rej) => {
+export const wait = (tickToWait: number, isCanceled: () => boolean) => {
+    return new Promise<void>((res, rej) => {
         const cb = () => {
             if (isCanceled()) {
                 return rej();
@@ -17,15 +17,17 @@ export const wait = (tickToWait, isCanceled) => {
     });
 };
 
-export const cancelablePromise = () => {
+export type Callback = (res: () => void, rej: () => void, isCanceled: () => boolean) => void;
+
+export const cancelablePromise = (): [() => void, (cb: Callback) => Promise<void>] => {
     let _canceled = false;
     const isCanceled = () => _canceled;
     const cancel = () => (_canceled = true);
 
     return [
         cancel,
-        (cb) => {
-            return new Promise((res, rej) => {
+        (cb: Callback) => {
+            return new Promise<void>((res, rej) => {
                 return cb(res, rej, isCanceled);
             });
         }

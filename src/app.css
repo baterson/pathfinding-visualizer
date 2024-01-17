@@ -91,6 +91,9 @@ body.dark {
     --bg-not-visited: hsla(220, 9%, 27%, 0.302);
     --bg-visited: hsla(359, 94%, 55%, 0.3);
     --bg-wall: hsl(0, 5%, 75%);
+
+    --color-nav-icon: hsla(0, 0%, 100%, 1);
+
 }
 
 body.light {
@@ -99,5 +102,8 @@ body.light {
     --bg-body: hsl(220, 3%, 21%);
     --bg-player: hsl(240, 10%, 30%);
     --bg-wall: hsla(0, 0%, 55%, 1);
+
+    --color-nav-icon: hsl(240, 10%, 30%);
+
 }
 

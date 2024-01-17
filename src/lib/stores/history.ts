@@ -1,11 +1,14 @@
 import { derived, writable } from 'svelte/store';
+import type { Node } from '$lib/types'
+
+export type HistoryItem = { key: string, node: Node }[]
 
 const createHistoryStore = () => {
-    const { subscribe, update, set } = writable([])
+    const { subscribe, update, set } = writable<HistoryItem[]>([])
 
     return {
         subscribe,
-        update: (item) => {
+        update: (item: HistoryItem) => {
             update(current => {
                 return [...current, item]
             })
@@ -14,6 +17,7 @@ const createHistoryStore = () => {
                 return current + 1
             })
         },
+
         decrTrack: () => {
             historyTrack.update(current => {
                 if (current > 0) {

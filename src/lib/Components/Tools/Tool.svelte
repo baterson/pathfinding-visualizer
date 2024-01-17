@@ -1,8 +1,9 @@
-<script>
+<script lang="ts">
 	import { selectedNodeKey } from '$lib/stores/nodes';
 	import { tool, setTool } from '$lib/stores/tool';
+	import type { Tool } from '$lib/types';
 
-	export let name;
+	export let name: Tool;
 </script>
 
 <div

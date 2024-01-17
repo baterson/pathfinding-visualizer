@@ -2,14 +2,14 @@ import { writable } from "svelte/store"
 
 // Walls
 const createWallsStore = () => {
-    const { subscribe, update, set } = writable(new Set())
+    const { subscribe, update, set } = writable(new Set<string>())
     return {
         subscribe,
-        addWall: key => update(current => {
+        addWall: (key: string) => update(current => {
             current.add(key)
             return current
         }),
-        removeWall: key => update(current => {
+        removeWall: (key: string) => update(current => {
             current.delete(key)
             return current
         }),
@@ -19,10 +19,10 @@ const createWallsStore = () => {
 }
 
 const createWeightStore = () => {
-    const { subscribe, update, set } = writable(new Map())
+    const { subscribe, update, set } = writable(new Map<string, number>())
     return {
         subscribe,
-        addWeight: (key) => {
+        addWeight: (key: string) => {
             update((current) => {
                 const weightedNode = current.get(key)
                 if (weightedNode) {
@@ -34,16 +34,15 @@ const createWeightStore = () => {
                 return current
             })
         },
-        removeWeight: (key) => {
+        removeWeight: (key: string) => {
             update(current => {
                 const weightedNode = current.get(key)
 
                 if (!weightedNode) {
-                    return
+                    return current
                 }
 
                 const nextWeight = weightedNode - 1
-                console.log('nextWeight', nextWeight);
 
                 if (nextWeight <= 0) {
                     current.delete(key)
@@ -64,7 +63,7 @@ export const startNodeKey = writable('3,3')
 export const endNodeKey = writable('7,7')
 
 // Selected Start/End
-export const selectedNodeKey = writable(null)
+export const selectedNodeKey = writable<string | null>(null)
 
 export const walls = createWallsStore()
 export const weight = createWeightStore()

@@ -1,8 +1,9 @@
 import { grid } from '$lib/stores/grid';
 import { getGridNeibhours } from '../utils/grid';
 import { minQueue } from '../utils/collections';
+import type { AlgorithmOptions, Node } from '$lib/types'
 
-const getHeuristic = (node, endNode) => {
+const getHeuristic = (node: Node, endNode: Node) => {
     return Math.abs(endNode.row - node.row) + Math.abs(endNode.col - node.col)
 }
 
@@ -13,20 +14,20 @@ export const aStar = async ({ startNode,
     getNode,
     getWeight,
     screen,
-    hitBoundaries,
+    hitBoundary,
     intercept
-}) => {
+}: AlgorithmOptions) => {
     const q = minQueue();
 
     q.enqueue({ node: startNode, weight: getHeuristic(startNode, endNode) });
 
     while (!q.isEmpty()) {
-        const { node: currentNode } = q.dequeue();
-
-        if (!currentNode) {
+        const current = q.dequeue();
+        if (!current) {
             return;
         }
 
+        const { node: currentNode } = current
 
         if (isEndNode(currentNode)) {
             return
@@ -34,26 +35,21 @@ export const aStar = async ({ startNode,
 
         await intercept();
 
-        const neibhours = getGridNeibhours(currentNode, getNode, screen);
+        const neibhours = getGridNeibhours(currentNode, screen, getNode, hitBoundary);
 
         for (let nextNode of neibhours) {
 
-            if (nextNode.visited) {
+            if (!nextNode || nextNode.visited) {
                 continue
             }
 
             if (isWall(nextNode)) {
 
-                grid.updateNode(nextNode, { visited: true })
+                grid.visitNode(nextNode)
             } else {
                 const neibhourWeight = getWeight(nextNode) + getHeuristic(nextNode, endNode) + 1
 
-                grid.updateNode(nextNode,
-                    {
-                        visited: true,
-                        prevNode: currentNode,
-                    }
-                );
+                grid.visitNode(nextNode, currentNode)
 
                 q.enqueue({ node: getNode(nextNode), weight: neibhourWeight });
             }

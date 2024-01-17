@@ -1,5 +1,5 @@
-<script>
-	import { player, speedDisplayNames } from '$lib/stores/player';
+<script lang="ts">
+	import { player, speedValues, speedDisplayNames } from '$lib/stores/player';
 	import { pointerOutside } from '../../actions/pointerOutside';
 	import Icon from '../Icon.svelte';
 
@@ -15,11 +15,11 @@
 		<div class="speedValue">{speedDisplayNames[$player.speed]}</div>
 		<Icon name="playSpeed" />
 		{#if isOpen}
-			<ul use:pointerOutside on:pointer_outside={setIsOpen}>
-				{#each Object.keys(speedDisplayNames) as key}
+			<ul use:pointerOutside={{ cb: setIsOpen }}>
+				{#each speedValues as key}
 					<li
 						class="item"
-						class:selected={String($player.speed) === key}
+						class:selected={$player.speed === key}
 						on:pointerdown={() => player.setSpeed(key)}
 					>
 						{speedDisplayNames[key]}

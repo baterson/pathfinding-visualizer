@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
 	import { selectedAlgorithm } from '$lib/stores/algorithm';
-	import { displayNames } from '$lib/algorithms';
+	import { displayNames, type AlgorithmName } from '$lib/algorithms';
 	import { pointerOutside } from '../actions/pointerOutside';
 	import { tool } from '$lib/stores/tool';
 	import { layout } from '$lib/stores/layout';
@@ -14,8 +14,8 @@
 		isOpen = !isOpen;
 	};
 
-	const selectAlgorithm = (name) => {
-		selectedAlgorithm.set(name);
+	const selectAlgorithm = (name: string) => {
+		selectedAlgorithm.set(name as AlgorithmName);
 		player.reset();
 		grid.reset($layout.screen);
 	};
@@ -27,7 +27,7 @@
 	</div>
 
 	{#if isOpen}
-		<ul use:pointerOutside on:pointer_outside={setIsOpen}>
+		<ul use:pointerOutside={{ cb: setIsOpen }}>
 			{#each Object.entries(displayNames) as [key, displayName]}
 				<li class:selected={$selectedAlgorithm === key} on:pointerdown={() => selectAlgorithm(key)}>
 					{displayName}

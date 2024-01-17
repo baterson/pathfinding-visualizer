@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Node from '$lib/Components/Node.svelte';
 	import { gridSnapshot } from '$lib/stores/history';
 	import Player from './Player.svelte';
@@ -21,14 +21,17 @@
 	};
 
 	onMount(() => {
-		const gridNode = document.getElementById('grid');
+		const gridNode = document.getElementById('grid') as HTMLElement;
 
-		const isStartOrEnd = (key) => $startNodeKey === key || $endNodeKey === key;
-		const isWall = (key) => $walls.has(key);
-		const isWeight = (key) => $weight.get(key);
-		const isVisited = (key) => $grid.get(key).visited;
+		const isStartOrEnd = (key: string) => $startNodeKey === key || $endNodeKey === key;
+		const isWall = (key: string) => $walls.has(key);
+		const isWeight = (key: string) => $weight.get(key);
+		const isVisited = (key: string) => {
+			const node = $grid.get(key)!;
+			return node.visited;
+		};
 
-		const addWall = (key) => {
+		const addWall = (key: string) => {
 			if (isStartOrEnd(key) || isWall(key) || isVisited(key) || isWeight(key)) {
 				return;
 			}
@@ -36,7 +39,7 @@
 			walls.addWall(key);
 		};
 
-		const addWeight = (key) => {
+		const addWeight = (key: string) => {
 			if (isStartOrEnd(key) || isWall(key) || isVisited(key)) {
 				return;
 			}
@@ -44,7 +47,7 @@
 			weight.addWeight(key);
 		};
 
-		const animateNode = (node) => {
+		const animateNode = (node: HTMLElement) => {
 			queueAnimationByKey(node.id);
 
 			node.addEventListener('animationend', () => removeFromAnimationQByKey(node.id), {
@@ -56,7 +59,7 @@
 			});
 		};
 
-		const handleTool = (node) => {
+		const handleTool = (node: HTMLElement) => {
 			if ($tool === 'wall') {
 				addWall(node.id);
 			} else if ($tool === 'weight') {
@@ -64,7 +67,7 @@
 			}
 		};
 
-		const handleEraser = (node) => {
+		const handleEraser = (node: HTMLElement) => {
 			if (isWall(node.id)) {
 				walls.removeWall(node.id);
 			} else if (isWeight(node.id)) {
@@ -72,24 +75,24 @@
 			}
 		};
 
-		const handleSelectedNode = (placePosition) => {
-			if (isWall(placePosition) || isWeight(placePosition)) {
+		const handleSelectedNode = (key: string) => {
+			if (isWall(key) || isWeight(key)) {
 				return;
 			}
 
-			if ($selectedNodeKey === $startNodeKey && placePosition !== $endNodeKey) {
-				startNodeKey.set(placePosition);
+			if ($selectedNodeKey === $startNodeKey && key !== $endNodeKey) {
+				startNodeKey.set(key);
 				selectedNodeKey.set(null);
-			} else if ($selectedNodeKey === $endNodeKey && placePosition !== $startNodeKey) {
-				endNodeKey.set(placePosition);
+			} else if ($selectedNodeKey === $endNodeKey && key !== $startNodeKey) {
+				endNodeKey.set(key);
 				selectedNodeKey.set(null);
 			}
 		};
 
-		const handlePointerMove = (e) => {
-			const node = document.elementFromPoint(e.clientX, e.clientY);
+		const handlePointerMove = (e: PointerEvent) => {
+			const node = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement;
 
-			if (!node.dataset.position) {
+			if (!node || node.dataset.type !== 'node') {
 				return;
 			}
 
@@ -114,9 +117,9 @@
 			);
 		};
 
-		const handlePointerDown = (e) => {
-			const node = e.target;
-			const position = node.dataset.position;
+		const handlePointerDown = (e: PointerEvent) => {
+			const node = e.target as HTMLElement;
+			const key = node.id as string;
 
 			// RMB cancels selected Tool
 			if (e.pointerType === 'mouse' && e.button === 2) {
@@ -126,7 +129,7 @@
 			}
 
 			// Not hit a Node
-			if (!position) {
+			if (!node.dataset || node.dataset.type !== 'node') {
 				animateNode(node);
 				setupPointerTracking();
 				return;
@@ -134,14 +137,14 @@
 
 			// Start/End Node already selected
 			if ($selectedNodeKey) {
-				handleSelectedNode(position);
+				handleSelectedNode(key);
 				animateNode(node);
 				return;
 			}
 
 			// Start/End node just selected
-			if (position === $startNodeKey || position === $endNodeKey) {
-				selectedNodeKey.set(position);
+			if (key === $startNodeKey || key === $endNodeKey) {
+				selectedNodeKey.set(key);
 
 				tool.set(null);
 				grid.reset($layout.screen);
@@ -163,16 +166,16 @@
 			setupPointerTracking();
 		};
 
-		const noop = (e) => {
+		const preventDefault = (e: Event) => {
 			e.preventDefault();
 		};
 
 		gridNode.addEventListener('pointerdown', handlePointerDown);
-		window.addEventListener('contextmenu', noop);
+		window.addEventListener('contextmenu', preventDefault);
 
 		return () => {
 			gridNode.removeEventListener('pointerdown', handlePointerDown);
-			window.removeEventListener('contextmenu', noop);
+			window.removeEventListener('contextmenu', preventDefault);
 		};
 	});
 </script>
@@ -183,8 +186,10 @@
 	style="--col:{$layout.screen.col};--row:{$layout.screen
 		.row};--cell-size:{CELL_SIZE}px;--grid-gap:{GRID_GAP}px"
 >
-	<div class="navbar" on:pointerdown|stopPropagation={changeTheme}>
+	<div class="theme" on:pointerdown|stopPropagation={changeTheme}>
 		<div><Icon name="sun" /></div>
+		<div><Icon name="help" /></div>
+		<div><Icon name="git" /></div>
 	</div>
 
 	{#each $gridSnapshot as { key, node } (key)}
@@ -205,15 +210,20 @@
 		grid-template-rows: repeat(var(--row), var(--cell-size));
 	}
 
-	.navbar {
+	.theme {
 		position: absolute;
 		top: 0;
-		left: 0;
-		width: 100%;
-		font-size: 2rem;
+		right: 0;
+		padding: 8px 0;
+		width: 62px;
+		height: 160px;
 		display: flex;
+		flex-direction: column;
 		justify-content: space-between;
-		color: var(--color-nav-icon);
+		align-items: center;
+		background-color: var(--bg-player);
+		/* background-color: hsl(240, 10%, 20%, 1); */
+		color: white;
 	}
 
 	@media (min-width: 1600px) {

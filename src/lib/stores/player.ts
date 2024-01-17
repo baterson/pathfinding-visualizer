@@ -1,24 +1,25 @@
 import { get, writable } from 'svelte/store';
+import type { PlayerState, PlayerSpeed } from '$lib/types'
 import { layout } from './layout';
 import { grid } from './grid';
 
-const speedValues = [1, 10, 30, 50]
+export const speedValues: PlayerSpeed[] = [1, 5, 10, 20]
 
-export const speedDisplayNames = {
+export const speedDisplayNames: Record<PlayerSpeed, string> = {
     1: '2x',
     5: '1x',
     10: '0.5x',
     20: '0.25x'
 }
 
-const INITIAL_STATE = { speed: 1, state: 'notStarted' }
+const INITIAL_STATE: { speed: PlayerSpeed, state: PlayerState } = { speed: 1, state: 'notStarted' }
 
-export const cancelFunction = writable(null)
+export const cancelFunction = writable<null | (() => void)>(null)
 
 export const createPlayerStore = () => {
     const store = writable(INITIAL_STATE);
 
-    const updateState = (state) => store.update(current => {
+    const updateState = (state: PlayerState) => store.update(current => {
         if ((current.state === 'notStarted' || current.state === 'finished') && state !== 'play') {
             return current
         }
@@ -38,7 +39,7 @@ export const createPlayerStore = () => {
         })
     }
 
-    const setSpeed = (speed) => store.update(current => ({ ...current, speed }))
+    const setSpeed = (speed: PlayerSpeed) => store.update(current => ({ ...current, speed }))
 
 
     const incrSpeed = () => {
