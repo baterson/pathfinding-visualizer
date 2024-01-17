@@ -145,7 +145,7 @@
 	>{/if}
 
 <style>
-	/* svg {
+	svg {
 		flex-shrink: 0;
 		font-size: inherit;
 		min-width: 30px;
@@ -157,5 +157,5 @@
 			min-width: 45px;
 			min-height: 45px;
 		}
-	} */
+	}
 </style>
