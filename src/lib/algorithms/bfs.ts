@@ -1,50 +1,50 @@
 import { grid } from '$lib/stores/grid';
 import { getGridNeibhours } from '../utils/grid';
 import { queue } from '../utils/collections';
-import type { AlgorithmOptions } from '$lib/types'
+import type { AlgorithmOptions } from '$lib/types';
 
 export const bfs = async ({
-    startNode,
-    isWall,
-    isEndNode,
-    getNode,
-    screen,
-    intercept,
-    hitBoundary
+	startNode,
+	isWall,
+	isEndNode,
+	getNode,
+	screen,
+	intercept,
+	hitBoundary
 }: AlgorithmOptions) => {
-    const q = queue();
+	const q = queue();
 
-    q.enqueue(startNode);
+	q.enqueue(startNode);
 
-    while (!q.isEmpty()) {
-        const currentNode = q.dequeue();
+	while (!q.isEmpty()) {
+		const currentNode = q.dequeue();
 
-        if (!currentNode) {
-            return;
-        }
+		if (!currentNode) {
+			return;
+		}
 
-        if (isEndNode(currentNode)) {
-            return
-        }
+		if (isEndNode(currentNode)) {
+			return;
+		}
 
-        await intercept();
+		await intercept();
 
-        const neibhours = getGridNeibhours(currentNode, screen, getNode, hitBoundary);
+		const neibhours = getGridNeibhours(currentNode, screen, getNode, hitBoundary);
 
-        for (let nextNode of neibhours) {
-            if (!nextNode || nextNode.visited || hitBoundary(nextNode)) {
-                continue
-            }
+		for (let nextNode of neibhours) {
+			if (!nextNode || nextNode.visited || hitBoundary(nextNode)) {
+				continue;
+			}
 
-            if (isWall(nextNode)) {
-                grid.visitNode(nextNode)
-            } else {
-                grid.visitNode(nextNode, currentNode);
+			if (isWall(nextNode)) {
+				grid.visitNode(nextNode);
+			} else {
+				grid.visitNode(nextNode, currentNode);
 
-                q.enqueue(getNode(nextNode));
-            }
-        }
-    }
+				q.enqueue(getNode(nextNode));
+			}
+		}
+	}
 
-    return;
+	return;
 };
