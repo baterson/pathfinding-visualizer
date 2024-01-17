@@ -11,33 +11,43 @@
 	};
 </script>
 
-<div class="nav left" on:pointerdown|stopPropagation={changeTheme}>
-	{#if $theme === 'light'}
-		<Icon name="moon" />
-	{:else}
-		<Icon name="sun" />
-	{/if}
-</div>
-<div class="nav right">
-	<div><Icon name="help" /></div>
-	<div><Icon name="git" /></div>
+<div class="wrapper">
+	<div class="nav left" on:pointerdown|stopPropagation={changeTheme}>
+		{#if $theme === 'light'}
+			<Icon name="moon" />
+		{:else}
+			<Icon name="sun" />
+		{/if}
+	</div>
+	<div class="nav right">
+		<div><Icon name="help" /></div>
+		<div><Icon name="git" /></div>
+	</div>
 </div>
 
 <style>
+	.wrapper {
+		top: 0;
+		left: 0;
+		height: 63px;
+		background-color: var(--bg-nav);
+		position: absolute;
+		width: 100%;
+	}
 	.nav {
 		position: absolute;
 		display: flex;
 		align-items: center;
 		justify-content: space-evenly;
 		color: var(--color-nav);
-		background-color: var(--bg-nav);
+		/* background-color: var(--bg-nav); */
 	}
 
 	.left {
 		left: 0;
 		top: 0;
 		padding: 8px 0;
-		height: 64px;
+		height: 100%;
 		width: 64px;
 	}
 
@@ -45,7 +55,7 @@
 		right: 0;
 		top: 0;
 		padding: 8px 0;
-		height: 64px;
+		height: 100%;
 		width: 128px;
 	}
 

@@ -16,7 +16,7 @@
 
 <style>
 	.wrapper {
-		flex: 0.6;
+		flex: 0.8;
 		display: flex;
 		justify-content: space-between;
 	}
