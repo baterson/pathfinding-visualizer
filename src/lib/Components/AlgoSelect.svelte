@@ -49,6 +49,7 @@
 		font-size: 24px;
 		color: white;
 		position: relative;
+		border-bottom: 2px solid var(--bg-tool-border);
 		font-weight: bold;
 	}
 
