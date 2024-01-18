@@ -20,6 +20,7 @@
 	import { player, cancelFunction } from '$lib/stores/player';
 	import { history, trackAtTheEnd } from '$lib/stores/history';
 	import { algorithms } from '$lib/algorithms';
+	import AlgoSelect from './AlgoSelect.svelte';
 
 	const playAlgorithm = async () => {
 		const drawShortestPath = async (node: Node | undefined): Promise<void> => {
@@ -241,6 +242,7 @@
 	style="--height:{$layout.player.height}px;--width:{$layout.player.width}px;"
 	id="player"
 >
+	<AlgoSelect />
 	<Tools />
 	<Controls {playAlgorithm} />
 </div>
@@ -248,25 +250,29 @@
 <style>
 	.wrapper {
 		transition: background-color ease-in-out 0.5s;
-
 		position: absolute;
 		left: 0;
 		bottom: 0;
 		height: var(--height);
 		min-height: var(--height);
-		width: var(--width);
+		width: 100%;
 		background-color: var(--bg-player);
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
+
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 1fr 1fr;
+		grid-template-areas: 'select tools' 'controls controls';
 		gap: 10px;
+		padding-bottom: 10px;
 	}
 
-	/* @media (min-width: 1024px) {
+	@media (min-width: 1024px) {
 		.wrapper {
 			left: 0;
-			width: 576px;
+			grid-template-columns: 1fr 1fr 1fr;
+			grid-template-rows: 1fr;
+			grid-template-areas: 'select controls tools';
 			height: var(--height);
 		}
-	} */
+	}
 </style>

@@ -40,7 +40,9 @@
 <style>
 	.wrapper {
 		height: 100%;
-		min-width: 160px;
+		grid-area: select;
+		/* max-width: 160px; */
+		width: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -48,9 +50,6 @@
 		color: white;
 		position: relative;
 		font-weight: bold;
-		border: 2px solid var(--bg-body);
-		border-top: none;
-		border-left: none;
 	}
 
 	ul {

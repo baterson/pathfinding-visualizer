@@ -35,16 +35,26 @@ const createLayoutStore = () => {
     };
 
     const getPlayerLayout = (screenHeight: number, screenCols: number, screenRows: number) => {
-        let playerRows;
+        let playerRows = 4;
         let playerCols;
 
         const emptyVerticalSpace = (screenHeight % 32) - 1;
 
-        if (screenRows <= 22) {
-            playerRows = 4;
-        } else {
-            playerRows = 6;
-        }
+        console.log('screenRows', screenRows);
+
+        // if (screenRows <= 22) {
+        //     playerRows = 4;
+        // } else if (screenRows <= 35) {
+        //     playerRows = 2;
+        // } else {
+        //     playerRows = 4
+        // }
+
+        // if (screenRows <= 22) {
+        //     playerRows = 4;
+        // } else {
+        //     playerRows = 4;
+        // }
 
         if (screenCols <= 30) {
             playerCols = screenCols;

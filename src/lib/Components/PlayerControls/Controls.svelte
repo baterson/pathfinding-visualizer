@@ -57,8 +57,8 @@
 
 <style>
 	.wrapper {
-		flex: 1;
-		width: 100%;
+		/* width: 100%; */
+		grid-area: controls;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -74,7 +74,6 @@
 		align-items: center;
 		border: none;
 		color: inherit;
-		font-size: 32px;
 	}
 
 	button.disabled:hover {
@@ -88,7 +87,7 @@
 
 	.play {
 		color: white;
-		font-size: 68px;
+		font-size: 64px;
 	}
 
 	.play:hover {
