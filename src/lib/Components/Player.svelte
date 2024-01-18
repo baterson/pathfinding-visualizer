@@ -256,7 +256,7 @@
 		height: var(--height);
 		min-height: var(--height);
 		width: 100%;
-		background-color: var(--bg-player);
+		background-color: var(--bg-interface);
 
 		display: grid;
 		grid-template-columns: 1fr 1fr;

@@ -30,7 +30,7 @@
 		top: 0;
 		left: 0;
 		height: 63px;
-		background-color: var(--bg-nav);
+		background-color: var(--bg-interface);
 		position: absolute;
 		width: 100%;
 	}

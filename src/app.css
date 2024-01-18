@@ -136,15 +136,26 @@ input[type='search'] {
 }
 
 body {
-	--bg-start: hsl(21, 94%, 62%);
-	--bg-end: hsl(94, 82%, 60%);
-	--bg-path: hsla(162, 43%, 48%, 0.8);
-	--bg-select: hsl(0, 0%, 3%);
-	--bg-tool-border: hsl(227, 25%, 15%);
-	--bg-weight-tool: hsla(210, 100%, 72%, 0.7);
-	--bg-wall-tool: hsl(0, 5%, 75%);
+    --bg-body: #121210;
+    --bg-interface: #22192B;
+
+	--bg-start: #96E458;
+	--bg-end: #E3A359;
+	--bg-visited: #7EA151;
+
+	--bg-path: #B651BF;
+    --bg-wall: #C2444C;
+
+    --bg-weight-1: #6143B7;
+    --bg-weight-2: #6F4ECF;
+    --bg-weight-3: #8463E3;
+
+    --bg-weight-tool: var(--bg-weight-2);
+	--bg-wall-tool: var(--bg-wall);
+
 
 	--bg-select: hsl(0, 0%, 3%);
+	--bg-tool-border: hsl(227, 25%, 15%);
 	--select-active: hsl(215, 80%, 35%);
 
 	--color-weight: hsl(218, 13%, 88%);
@@ -153,22 +164,9 @@ body {
 }
 
 body.dark {
-	--bg-body: hsl(229, 26%, 8%);
-	--bg-player: hsl(240, 10%, 20%);
-	--bg-not-visited: hsla(220, 9%, 27%, 0.302);
-	--bg-visited: hsla(359, 94%, 55%, 0.3);
-	--bg-wall: hsl(0, 5%, 75%);
-
-    --bg-nav: hsl(240, 10%, 20%, 1);
+    --bg-not-visited: #3B2D52;
 }
 
 body.light {
-    --bg-body: hsl(229, 26%, 8%);
-	--bg-not-visited: hsla(0, 0%, 100%, 1);
-	--bg-visited: hsla(359, 94%, 55%, 0.3);
-	--bg-body: hsl(220, 3%, 21%);
-	--bg-player: hsl(240, 10%, 30%);
-	--bg-wall: hsla(0, 0%, 55%, 1);
-
-    --bg-nav: hsl(240, 10%, 30%, 1);
+	--bg-not-visited: #E0DCE4;
 }

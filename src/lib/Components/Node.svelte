@@ -6,28 +6,26 @@
 	export let key: string;
 	export let node: Node;
 
-	const getWeightOpacity = () => {
-		let opacity;
+	const getCurrentWeight = () => {
 		let currentWeight = $weight.get(key);
+		console.log('currentWeight', currentWeight);
 
 		if (!currentWeight) {
-			return;
+			return '';
 		} else if (currentWeight <= 3) {
-			opacity = 0.4;
+			return 'bg-weight-1';
 		} else if (currentWeight <= 7) {
-			opacity = 0.5;
+			return 'bg-weight-2';
 		} else {
-			opacity = 0.6;
+			return 'bg-weight-3';
 		}
-
-		return opacity;
 	};
 </script>
 
 <div
 	id={key}
 	data-type="node"
-	style="--weight-opacity:{$weight.get(key) ? getWeightOpacity() : 0};"
+	style="--weight-dynamic-bg:{$weight.has(key) ? `var(--${getCurrentWeight()})` : ''}"
 	class="node"
 	class:visited={node.visited}
 	class:startNode={$startNodeKey === key}
@@ -76,6 +74,15 @@
 		min-height: 30px;
 		min-width: 30px;
 		flex-shrink: 0;
+
+		font-size: 0.8rem;
+		font-weight: 700;
+		display: flex;
+		justify-content: flex-end;
+		align-items: flex-end;
+		padding-right: 5px;
+		padding-bottom: 2px;
+
 		color: var(--color-weight);
 		background-color: var(--bg-not-visited);
 	}
@@ -103,16 +110,8 @@
 		background-color: var(--bg-wall);
 	}
 
-	.weight {
-		font-size: 0.8rem;
-		font-weight: 700;
-		display: flex;
-		justify-content: flex-end;
-		align-items: flex-end;
-		padding-right: 5px;
-		padding-bottom: 2px;
-
-		background-color: hsla(210, 100%, 72%, var(--weight-opacity));
+	.weight:not(.visited) {
+		background-color: var(--weight-dynamic-bg);
 	}
 
 	.path {
