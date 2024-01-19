@@ -82,11 +82,11 @@
 	}
 
 	button:hover {
-		color: white;
+		/* color: white; */
 	}
 
 	.play {
-		color: white;
+		/* color: white; */
 		font-size: 64px;
 	}
 

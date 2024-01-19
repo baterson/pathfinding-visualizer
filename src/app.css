@@ -136,6 +136,7 @@ input[type='search'] {
 }
 
 body {
+    --main-white:#F0E8F4;
     --bg-body: #160F1D;
     --bg-interface: #22192B;
 
@@ -165,12 +166,9 @@ body {
 
 
 	--bg-select: var(--bg-body);
-	--bg-tool-border: #F0E8F4;
 	--select-active: var(--bg-path);
 
-	--color-weight: #F0E8F4;
-	--color-player: #F0E8F4;
-	--color-nav: #F0E8F4;
+    color: var(--main-white);
 }
 
 body.dark {
@@ -178,5 +176,5 @@ body.dark {
 }
 
 body.light {
-	--bg-not-visited: #F0E8F4;
+	--bg-not-visited: var(--main-white);
 }

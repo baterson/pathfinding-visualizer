@@ -64,7 +64,7 @@
 	}
 
 	.wrapper:hover {
-		color: white;
+		/* color: white; */
 	}
 
 	@media (min-width: 1600px) {
