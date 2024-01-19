@@ -109,8 +109,8 @@ body {
 }
 
 body {
-	font-family:  monospace;
-	/* font-family: 'JetBrains Mono', monospace; */
+	/* font-family:  monospace; */
+	font-family: 'JetBrains Mono', monospace;
     font-size: 56px;
 	height: 100svh;
 	width: 100vw;

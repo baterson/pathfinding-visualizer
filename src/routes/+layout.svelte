@@ -9,11 +9,3 @@
 </svelte:head>
 
 <slot />
-
-<style global>
-	body {
-		font-family: 'JetBrains Mono', monospace;
-		/* font-family: monospace; */
-		/* font-size: 14px; */
-	}
-</style>
