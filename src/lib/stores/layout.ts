@@ -24,6 +24,8 @@ const createLayoutStore = () => {
 
 
         update((current) => {
+            console.log('Hello?');
+
             current.screen.row = screenRows;
             current.screen.col = screenCols;
             current.isCalculating = false;
@@ -32,6 +34,8 @@ const createLayoutStore = () => {
     };
 
     const setCalculating = () => {
+        console.log('sin set');
+
         return update((current) => {
             current.isCalculating = true
             return current

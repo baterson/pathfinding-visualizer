@@ -7,6 +7,7 @@
 	import { grid } from '$lib/stores/grid';
 	import Nav from '$lib/Components/Nav.svelte';
 	import Player from '$lib/Components/Player.svelte';
+	import HelpModal from '$lib/Components/HelpModal.svelte';
 
 	onMount(() => {
 		const layoutSub = layout.subscribe(({ screen }) => {
@@ -42,8 +43,10 @@
 
 <div class="wrapper">
 	{#if $layout.isCalculating}
-		<div class="preload" out:fade={{ duration: 300, delay: 100 }}></div>
+		<div class="preload" out:fade={{ duration: 200 }}></div>
 	{/if}
+
+	<HelpModal />
 
 	<Nav />
 	<Grid />
@@ -53,13 +56,12 @@
 <style>
 	.preload {
 		z-index: 2;
-		opacity: 0.5;
-		background: var(--bg-body);
+		background: hsla(270, 32%, 9%, 1);
 		position: absolute;
-		height: 100svh;
+		height: 100%;
 		width: 100%;
-		left: 0;
 	}
+
 	.wrapper {
 		background: var(--bg-body);
 		width: 100%;
@@ -68,5 +70,6 @@
 		flex-direction: column;
 		align-items: center;
 		overflow: hidden;
+		position: relative;
 	}
 </style>
