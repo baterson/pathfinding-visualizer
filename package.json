@@ -30,7 +30,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@fontsource/jetbrains-mono": "^5.0.18",
 		"lodash.throttle": "^4.1.1"
 	}
 }
