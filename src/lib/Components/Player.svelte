@@ -62,14 +62,6 @@
 					getWeight: (node) => {
 						return $weight.get(toMapKey(node)) || 0;
 					},
-					hitBoundary: (node) => {
-						if (node.row > $layout.player.row && node.col <= $layout.player.col) {
-							console.log('Hit...', node.row, node.col);
-							// console.log($layout.player);
-							return true;
-						}
-						return false;
-					},
 					intercept: intercept
 				});
 
@@ -237,11 +229,7 @@
 	});
 </script>
 
-<div
-	class="wrapper"
-	style="--height:{$layout.player.height}px;--width:{$layout.player.width}px;"
-	id="player"
->
+<div class="wrapper" id="player">
 	<AlgoSelect />
 	<Tools />
 	<Controls {playAlgorithm} />
@@ -249,12 +237,8 @@
 
 <style>
 	.wrapper {
+		flex-grow: 1;
 		transition: background-color ease-in-out 0.5s;
-		position: absolute;
-		left: 0;
-		bottom: 0;
-		height: var(--height);
-		min-height: var(--height);
 		width: 100%;
 		background-color: var(--bg-interface);
 
@@ -263,16 +247,13 @@
 		grid-template-rows: 1fr 1fr;
 		grid-template-areas: 'select tools' 'controls controls';
 		gap: 10px;
-		padding-bottom: 10px;
 	}
 
 	@media (min-width: 1024px) {
 		.wrapper {
-			left: 0;
 			grid-template-columns: 1fr 1fr 1fr;
 			grid-template-rows: 1fr;
 			grid-template-areas: 'select controls tools';
-			height: var(--height);
 		}
 	}
 </style>

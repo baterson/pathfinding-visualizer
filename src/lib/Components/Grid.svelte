@@ -178,18 +178,14 @@
 	style="--col:{$layout.screen.col};--row:{$layout.screen
 		.row};--cell-size:{CELL_SIZE}px;--grid-gap:{GRID_GAP}px"
 >
-	<Nav />
 	{#each $gridSnapshot as { key, node } (key)}
 		<Node {key} {node} />
 	{/each}
-
-	<Player />
 </div>
 
 <style>
 	.wrapper {
 		position: relative;
-		height: 100%;
 		padding-top: 1px;
 		gap: var(--grid-gap);
 		display: grid;

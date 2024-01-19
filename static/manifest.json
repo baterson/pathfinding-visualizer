@@ -1,8 +1,0 @@
-{
-    "name": "Pathfinding Visualizer",
-    "short_name": "Pathfinding Visualizer",
-    "start_url": ".",
-    "display": "standalone",
-    "background_color": "red",
-    "description": "Pathfinding algorithms visualizer"
-}

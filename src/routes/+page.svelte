@@ -5,6 +5,8 @@
 	import { layout } from '$lib/stores/layout';
 	import { fade } from 'svelte/transition';
 	import { grid } from '$lib/stores/grid';
+	import Nav from '$lib/Components/Nav.svelte';
+	import Player from '$lib/Components/Player.svelte';
 
 	onMount(() => {
 		const uns = layout.subscribe(({ screen }) => {
@@ -40,11 +42,13 @@
 </script>
 
 <div class="wrapper">
-	{#if $layout.isCalculating}
+	<!-- {#if $layout.isCalculating}
 		<div class="preload" out:fade={{ duration: 300, delay: 100 }}></div>
-	{:else}
-		<Grid />
-	{/if}
+	{:else} -->
+	<Nav />
+	<Grid />
+	<Player />
+	<!-- {/if} -->
 </div>
 
 <style>
@@ -60,9 +64,9 @@
 		background: var(--bg-body);
 		width: 100%;
 		height: 100%;
-		position: relative;
 		display: flex;
-		justify-content: center;
+		flex-direction: column;
+		/* justify-content: center; */
 		align-items: center;
 		overflow: hidden;
 	}

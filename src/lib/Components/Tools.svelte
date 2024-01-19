@@ -12,7 +12,6 @@
 
 <style>
 	.wrapper {
-		/* flex: 0.8; */
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -22,7 +21,6 @@
 	.wrapper {
 		grid-area: tools;
 		height: 100%;
-		/* width: 100%; */
 		display: flex;
 		align-items: center;
 		justify-content: space-evenly;
