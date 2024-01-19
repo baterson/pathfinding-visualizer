@@ -141,17 +141,24 @@ body {
 
 	--bg-start: #7084E9;
 
-    --bg-end: #E39B48;
+    /* --bg-end: #E39B48; */
+    --bg-end: #D39246;
 
-	--bg-visited: #4D368F;
+	/* --bg-visited: #4D368F; */
+	--bg-visited: #48368F;
 
-	--bg-path: #5568CD;
+	/* --bg-path: #5568CD; */
+	--bg-path: #5C71DA;
 
-    --bg-wall: #D0424B;
+    /* --bg-wall: #D0424B; */
+    --bg-wall: #8E3C41;
 
-    --bg-weight-1: #2A943B;
+    --bg-weight-1: #3B7945;
+    --bg-weight-2: #449743;
+    --bg-weight-3: #4DAC4B;
+    /* --bg-weight-1: #2A943B;
     --bg-weight-2: #56A73B;
-    --bg-weight-3: #74C358;
+    --bg-weight-3: #74C358; */
 
     --bg-weight-tool: var(--bg-weight-2);
 	--bg-wall-tool: var(--bg-wall);

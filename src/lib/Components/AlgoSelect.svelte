@@ -6,6 +6,7 @@
 	import { layout } from '$lib/stores/layout';
 	import { player } from '$lib/stores/player';
 	import { grid } from '$lib/stores/grid';
+	import Border from './Border.svelte';
 
 	let isOpen = false;
 
@@ -19,23 +20,30 @@
 		player.reset();
 		grid.reset($layout.screen);
 	};
+
+	// <div class="current">
+	// 	{displayNames[$selectedAlgorithm]}
+	// </div>
 </script>
 
-<div class="wrapper" on:pointerdown={setIsOpen}>
-	<div class="current">
+<Border>
+	<div class="wrapper" on:pointerdown={setIsOpen}>
 		{displayNames[$selectedAlgorithm]}
-	</div>
 
-	{#if isOpen}
-		<ul use:pointerOutside={{ cb: setIsOpen }}>
-			{#each Object.entries(displayNames) as [key, displayName]}
-				<li class:selected={$selectedAlgorithm === key} on:pointerdown={() => selectAlgorithm(key)}>
-					{displayName}
-				</li>
-			{/each}
-		</ul>
-	{/if}
-</div>
+		{#if isOpen}
+			<ul use:pointerOutside={{ cb: setIsOpen }}>
+				{#each Object.entries(displayNames) as [key, displayName]}
+					<li
+						class:selected={$selectedAlgorithm === key}
+						on:pointerdown={() => selectAlgorithm(key)}
+					>
+						{displayName}
+					</li>
+				{/each}
+			</ul>
+		{/if}
+	</div>
+</Border>
 
 <style>
 	.wrapper {
@@ -49,8 +57,11 @@
 		font-size: 24px;
 		color: white;
 		position: relative;
-		border-bottom: 2px solid var(--bg-tool-border);
 		font-weight: bold;
+	}
+
+	.current {
+		border-bottom: 2px solid var(--bg-tool-border);
 	}
 
 	ul {
