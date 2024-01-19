@@ -11,6 +11,10 @@
 
 	let isHelpOpen = true;
 
+	const toggleHelpModal = () => {
+		isHelpOpen = !isHelpOpen;
+	};
+
 	onMount(() => {
 		const layoutSub = layout.subscribe(({ screen }) => {
 			grid.reset(screen);
@@ -49,9 +53,9 @@
 	{/if}
 
 	{#if isHelpOpen}
-		<HelpModal handleClose={() => (isHelpOpen = false)} />
+		<HelpModal toggleModal={toggleHelpModal} />
 	{/if}
-	<Nav />
+	<Nav {toggleHelpModal} />
 	<Grid />
 	<Player />
 </div>

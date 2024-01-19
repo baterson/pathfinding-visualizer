@@ -2,6 +2,8 @@
 	import { theme } from '$lib/stores/theme';
 	import Icon from './Icon.svelte';
 
+	export let toggleHelpModal;
+
 	const changeTheme = () => {
 		if ($theme === 'dark') {
 			theme.set('light');
@@ -20,7 +22,7 @@
 		{/if}
 	</div>
 	<div class="nav">
-		<div><Icon name="help" /></div>
+		<div on:pointerdown={toggleHelpModal}><Icon name="help" /></div>
 		<div><Icon name="git" /></div>
 	</div>
 </div>
