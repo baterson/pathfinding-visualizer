@@ -169,6 +169,9 @@ body {
 	--select-active: var(--bg-path);
 
     color: var(--main-white);
+
+    --bg-not-visited: #3B2D52;
+
 }
 
 body.dark {

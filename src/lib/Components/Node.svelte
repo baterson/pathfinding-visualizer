@@ -7,7 +7,7 @@
 	export let key: string;
 	export let node: Node;
 
-	const getLightWeight = (key) => {
+	const getLightWeight = (key: string) => {
 		let currentWeight = $weight.get(key);
 		if (!currentWeight) {
 			return '';
@@ -26,7 +26,7 @@
 		return `var(--bg-weight-${prefix})`;
 	};
 
-	const getDarkWeight = (key) => {
+	const getDarkWeight = (key: string) => {
 		let currentWeight = $weight.get(key);
 		if (!currentWeight) {
 			return '';

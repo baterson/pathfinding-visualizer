@@ -8,6 +8,7 @@
 	import { queueAnimationByKey, removeFromAnimationQByKey } from '$lib/stores/animation';
 	import { selectedNodeKey, startNodeKey, endNodeKey, walls, weight } from '$lib/stores/nodes';
 	import { player } from '$lib/stores/player';
+	import { fade } from 'svelte/transition';
 
 	onMount(() => {
 		const gridNode = document.getElementById('grid') as HTMLElement;
@@ -170,6 +171,7 @@
 </script>
 
 <div
+	transition:fade
 	class="wrapper"
 	id="grid"
 	style="--col:{$layout.screen.col};--row:{$layout.screen

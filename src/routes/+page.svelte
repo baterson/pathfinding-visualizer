@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { browser, building, dev, version } from '$app/environment';
+
 	import Grid from '$lib/Components/Grid.svelte';
 	import { theme } from '$lib/stores/theme';
 	import { onMount } from 'svelte';
@@ -7,6 +9,7 @@
 	import { grid } from '$lib/stores/grid';
 	import Nav from '$lib/Components/Nav.svelte';
 	import Player from '$lib/Components/Player.svelte';
+	import StaticGrid from '$lib/Components/StaticGrid.svelte';
 
 	onMount(() => {
 		const uns = layout.subscribe(({ screen }) => {
@@ -42,18 +45,23 @@
 </script>
 
 <div class="wrapper">
-	<!-- {#if $layout.isCalculating}
+	{#if $layout.isCalculating}
 		<div class="preload" out:fade={{ duration: 300, delay: 100 }}></div>
-	{:else} -->
-	<Nav />
-	<Grid />
-	<Player />
-	<!-- {/if} -->
+	{/if}
+
+	{#if !browser}
+		<StaticGrid />
+	{:else}
+		<Nav />
+		<Grid />
+		<Player />
+	{/if}
 </div>
 
 <style>
 	.preload {
 		z-index: 2;
+		opacity: 0.5;
 		background: var(--bg-body);
 		position: absolute;
 		height: 100svh;

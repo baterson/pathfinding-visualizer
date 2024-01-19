@@ -1,6 +1,5 @@
 import { writable } from 'svelte/store';
 
-// Walls
 const createWallsStore = () => {
     const { subscribe, update, set } = writable(new Set<string>());
     return {

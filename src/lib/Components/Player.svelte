@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { fade } from 'svelte/transition';
 
 	import Controls from '$lib/Components/PlayerControls/Controls.svelte';
 	import Tools from '$lib/Components/Tools.svelte';
@@ -229,7 +230,7 @@
 	});
 </script>
 
-<div class="wrapper" id="player">
+<div class="wrapper" id="player" transition:fade>
 	<AlgoSelect />
 	<Tools />
 	<Controls {playAlgorithm} />

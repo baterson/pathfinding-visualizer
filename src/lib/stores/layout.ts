@@ -6,11 +6,12 @@ const INITIAL_STATE = {
     isCalculating: true
 };
 
+// Screen layout representation to the Grid rows/columns
 const createLayoutStore = () => {
     const { subscribe, update } = writable(INITIAL_STATE);
 
     const setLayout = () => {
-        const NavHeight = 63;
+        const navHeight = 63;
         let playerRows = 5;
         const screenWidth = window.innerWidth;
 
@@ -18,7 +19,7 @@ const createLayoutStore = () => {
             playerRows = 3
         }
 
-        const screenHeight = window.innerHeight - NavHeight - playerRows * 32;
+        const screenHeight = window.innerHeight - navHeight - playerRows * 32;
         const screenCols = Math.round(screenWidth / 32);
         const screenRows = Math.round(screenHeight / 32);
 

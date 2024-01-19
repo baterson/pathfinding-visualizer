@@ -5,7 +5,7 @@ import type { Grid, Node, Position } from '$lib/types';
 export const GRID_GAP = 2;
 export const CELL_SIZE = 30;
 
-export const _createGrid = (rows: number, columns: number): Grid => {
+export const createGridMap = (rows: number, columns: number): Grid => {
     const grid: Grid = new Map();
 
     for (let row = 0; row < rows; row++) {
@@ -29,8 +29,9 @@ export const toMapKey = (position: Position): string => {
     return `${position.row},${position.col}`;
 };
 
+// Grid items, amount of items calculates from the Layout store
 const createGridStore = () => {
-    const { subscribe, update, set } = writable<Grid>(_createGrid(0, 0));
+    const { subscribe, update, set } = writable<Grid>(createGridMap(0, 0));
 
     subscribe((grid) => {
         if (grid) {
@@ -71,7 +72,7 @@ const createGridStore = () => {
 
     const reset = (screen: { row: number; col: number }) => {
         history.reset();
-        set(_createGrid(screen.row, screen.col));
+        set(createGridMap(screen.row, screen.col));
     };
 
     return {
