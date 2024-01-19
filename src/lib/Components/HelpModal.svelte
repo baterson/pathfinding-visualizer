@@ -1,4 +1,8 @@
-<div class="wrapper">
+<script>
+	export let handleClose;
+</script>
+
+<div class="wrapper" on:pointerdown={handleClose}>
 	<div class="content">
 		<h3>Algorithm Visualizer</h3>
 		<p>Use Wall to Place Hello next</p>

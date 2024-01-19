@@ -9,6 +9,8 @@
 	import Player from '$lib/Components/Player.svelte';
 	import HelpModal from '$lib/Components/HelpModal.svelte';
 
+	let isHelpOpen = true;
+
 	onMount(() => {
 		const layoutSub = layout.subscribe(({ screen }) => {
 			grid.reset(screen);
@@ -46,8 +48,9 @@
 		<div class="preload" out:fade={{ duration: 200 }}></div>
 	{/if}
 
-	<HelpModal />
-
+	{#if isHelpOpen}
+		<HelpModal handleClose={() => (isHelpOpen = false)} />
+	{/if}
 	<Nav />
 	<Grid />
 	<Player />
