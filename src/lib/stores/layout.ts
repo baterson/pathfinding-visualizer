@@ -1,5 +1,4 @@
 import { writable } from 'svelte/store';
-import { tick } from 'svelte';
 
 const INITIAL_STATE = {
     screen: { row: 0, col: 0 },
@@ -27,20 +26,21 @@ const createLayoutStore = () => {
         update((current) => {
             current.screen.row = screenRows;
             current.screen.col = screenCols;
-            current.isCalculating = true;
+            current.isCalculating = false;
             return current;
-        });
-
-        tick().then(() => {
-            update((current) => {
-                current.isCalculating = false;
-                return current;
-            });
         });
     };
 
+    const setCalculating = () => {
+        return update((current) => {
+            current.isCalculating = true
+            return current
+        })
+    }
+
     return {
         subscribe,
+        setCalculating,
         setLayout
     };
 };

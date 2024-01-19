@@ -230,11 +230,13 @@
 	});
 </script>
 
-<div class="wrapper" id="player" transition:fade>
-	<AlgoSelect />
-	<Tools />
-	<Controls {playAlgorithm} />
-</div>
+{#if !$layout.isCalculating}
+	<div class="wrapper" id="player" transition:fade>
+		<AlgoSelect />
+		<Tools />
+		<Controls {playAlgorithm} />
+	</div>
+{/if}
 
 <style>
 	.wrapper {

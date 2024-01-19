@@ -21,4 +21,10 @@
 		grid-template-columns: repeat(50, 30px);
 		grid-template-rows: repeat(50, 30px);
 	}
+
+	.node {
+		width: 30px;
+		height: 30px;
+		background-color: var(--bg-not-visited);
+	}
 </style>

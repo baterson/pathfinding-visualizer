@@ -1,26 +1,21 @@
 <script lang="ts">
-	import { browser, building, dev, version } from '$app/environment';
-
 	import Grid from '$lib/Components/Grid.svelte';
 	import { theme } from '$lib/stores/theme';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { layout } from '$lib/stores/layout';
 	import { fade } from 'svelte/transition';
 	import { grid } from '$lib/stores/grid';
 	import Nav from '$lib/Components/Nav.svelte';
 	import Player from '$lib/Components/Player.svelte';
-	import StaticGrid from '$lib/Components/StaticGrid.svelte';
 
 	onMount(() => {
-		const uns = layout.subscribe(({ screen }) => {
+		const layoutSub = layout.subscribe(({ screen }) => {
 			grid.reset(screen);
 		});
 
-		requestAnimationFrame(() => {
-			layout.setLayout();
-		});
+		layout.setLayout();
 
-		const unsub = theme.subscribe((theme) => {
+		const themeSub = theme.subscribe((theme) => {
 			if (theme === 'light') {
 				document.body.classList.remove('dark');
 				document.body.classList.add('light');
@@ -31,14 +26,15 @@
 		});
 
 		const handleResize = () => {
-			layout.setLayout();
+			layout.setCalculating();
+			tick().then(() => layout.setLayout());
 		};
 
 		window.addEventListener('resize', handleResize);
 
 		return () => {
-			unsub();
-			uns();
+			themeSub();
+			layoutSub();
 			window.removeEventListener('resize', handleResize);
 		};
 	});
@@ -49,13 +45,9 @@
 		<div class="preload" out:fade={{ duration: 300, delay: 100 }}></div>
 	{/if}
 
-	{#if !browser}
-		<StaticGrid />
-	{:else}
-		<Nav />
-		<Grid />
-		<Player />
-	{/if}
+	<Nav />
+	<Grid />
+	<Player />
 </div>
 
 <style>
