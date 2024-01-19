@@ -4,17 +4,17 @@
 
 <div class="wrapper" on:pointerdown={toggleModal}>
 	<div class="content">
-		<h3>Pathfinding Visualizer</h3>
+		<h3>PATHFINDING VISUALIZER</h3>
 
-		<p>Pick an Algorithm</p>
+		<p>Pick an algorithm</p>
 		<p>
 			Select <span style="color: var(--bg-start)">Start</span> or
-			<span style="color: var(--bg-end)">End</span> Nodes to change Algorithm direction
+			<span style="color: var(--bg-end)">End</span> nodes to change algorithm direction
 		</p>
 		<p>Use Player to control the execution of the algorithm and travel through a history</p>
 		<p>
 			Select <span style="color: var(--bg-wall)">Walls</span> or
-			<span style="color: var(--bg-weight-2)">Weight</span> from the Menu and draw it on the Grid
+			<span style="color: var(--bg-weight-2)">Weight</span> from the menu and draw it on the grid
 		</p>
 		<section class="description">
 			Only Dijkstra and A-star algorithms works with weighted nodes, other consider it as a regular
@@ -37,8 +37,8 @@
 	}
 
 	h3 {
-		font-size: 28px;
-		margin-bottom: 20px;
+		font-size: 32px;
+		letter-spacing: 3px;
 	}
 
 	.content {
@@ -67,7 +67,7 @@
 		}
 
 		h3 {
-			font-size: 3rem;
+			font-size: 64px;
 		}
 
 		.content {
