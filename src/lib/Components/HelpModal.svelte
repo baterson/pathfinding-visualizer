@@ -79,7 +79,7 @@
 			display: flex;
 			flex-direction: column;
 			gap: 20px;
-			background: hsla(270, 32%, 9%, 1);
+			background: var(--bg-body);
 		}
 
 		.description {

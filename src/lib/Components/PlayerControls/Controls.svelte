@@ -20,6 +20,7 @@
 	<button
 		id="player-backward"
 		tabindex="-1"
+		aria-label="backward"
 		use:longPress={{ onPress: () => player.updateState('backward') }}
 		on:pointerdown={() => player.updateState('backward')}
 		class:disabled={$player.state === 'notStarted' || $player.state === 'finished'}
@@ -30,6 +31,7 @@
 	<button
 		tabindex="-1"
 		class="play"
+		aria-label="play"
 		on:keydown|preventDefault={() => {}}
 		on:pointerdown={playAlgorithm}
 	>
@@ -45,12 +47,13 @@
 		class:disabled={$player.state === 'notStarted' || $player.state === 'finished'}
 		tabindex="-1"
 		id="player-forward"
+		aria-label="forward"
 		use:longPress={{ onPress: () => player.updateState('forward') }}
 		on:keydown|preventDefault={() => {}}
 	>
 		<Icon name="playForward" />
 	</button>
-	<button tabindex="-1" on:pointerdown={player.reset}>
+	<button tabindex="-1" on:pointerdown={player.reset} aria-label="reset">
 		<Icon name="stop" />
 	</button>
 </div>
@@ -80,13 +83,7 @@
 		color: var(--color-player);
 		cursor: not-allowed;
 	}
-
-	button:hover {
-		/* color: white; */
-	}
-
 	.play {
-		/* color: white; */
 		font-size: 64px;
 	}
 
