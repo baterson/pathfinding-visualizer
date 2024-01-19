@@ -20,15 +20,13 @@
 		player.reset();
 		grid.reset($layout.screen);
 	};
-
-	// <div class="current">
-	// 	{displayNames[$selectedAlgorithm]}
-	// </div>
 </script>
 
-<Border>
+<Border selected={isOpen}>
 	<div class="wrapper" on:pointerdown={setIsOpen}>
-		{displayNames[$selectedAlgorithm]}
+		<div class="name">
+			{displayNames[$selectedAlgorithm]}
+		</div>
 
 		{#if isOpen}
 			<ul use:pointerOutside={{ cb: setIsOpen }}>
@@ -60,20 +58,16 @@
 		font-weight: bold;
 	}
 
-	.current {
-		border-bottom: 2px solid var(--bg-tool-border);
-	}
-
 	ul {
 		z-index: 2;
 		position: absolute;
-		bottom: -1px;
-		left: -1px;
-		width: calc(100% + 2px);
+		bottom: 8px;
+		width: 100%;
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		list-style: none;
-		background-color: var(--bg-select);
+		background-color: var(--bg-body);
 	}
 
 	li {
@@ -87,13 +81,16 @@
 	@media (min-width: 600px) {
 		.wrapper {
 			font-size: 28px;
-			min-width: 256px;
 		}
 	}
 
 	@media (min-width: 1024px) {
 		.wrapper {
 			font-size: 36px;
+		}
+
+		ul {
+			bottom: 14px;
 		}
 	}
 
@@ -108,8 +105,13 @@
 			background-color: var(--select-active);
 		}
 
-		.wrapper:hover {
+		.wrapper:hover .name {
 			background-color: var(--select-active);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 70%;
+			width: 60%;
 		}
 	}
 </style>

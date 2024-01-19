@@ -1,15 +1,12 @@
 <script lang="ts">
 	import Node from '$lib/Components/Node.svelte';
 	import { gridSnapshot } from '$lib/stores/history';
-	import Player from './Player.svelte';
-	import Nav from '$lib/Components/Nav.svelte';
 	import { layout } from '$lib/stores/layout';
 	import { CELL_SIZE, GRID_GAP, grid } from '$lib/stores/grid';
 	import { tool } from '$lib/stores/tool';
 	import { onMount } from 'svelte';
 	import { queueAnimationByKey, removeFromAnimationQByKey } from '$lib/stores/animation';
 	import { selectedNodeKey, startNodeKey, endNodeKey, walls, weight } from '$lib/stores/nodes';
-	import Icon from './Icon.svelte';
 	import { player } from '$lib/stores/player';
 
 	onMount(() => {

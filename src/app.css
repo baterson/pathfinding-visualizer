@@ -164,13 +164,13 @@ body {
 	--bg-wall-tool: var(--bg-wall);
 
 
-	--bg-select: hsl(0, 0%, 3%);
+	--bg-select: var(--bg-body);
 	--bg-tool-border: #F0E8F4;
-	--select-active: hsl(215, 80%, 35%);
+	--select-active: var(--bg-path);
 
-	--color-weight: hsl(218, 13%, 88%);
-	--color-player: hsl(210, 19%, 73%);
-	--color-nav: hsl(0, 19%, 95%);
+	--color-weight: #F0E8F4;
+	--color-player: #F0E8F4;
+	--color-nav: #F0E8F4;
 }
 
 body.dark {
