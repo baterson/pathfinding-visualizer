@@ -6,19 +6,24 @@
 	<div class="content">
 		<h3>PATHFINDING VISUALIZER</h3>
 
-		<p>Pick an algorithm</p>
+		<p>Pick an algorithm.</p>
 		<p>
 			Select <span style="color: var(--bg-start)">Start</span> or
-			<span style="color: var(--bg-end)">End</span> nodes to change algorithm direction
+			<span style="color: var(--bg-end)">End</span> to change the direction of the algorithm.
 		</p>
-		<p>Use Player to control the execution of the algorithm and travel through a history</p>
+		<p>
+			Use the Player to control the execution of the algorithm and navigate through the history.
+		</p>
 		<p>
 			Select <span style="color: var(--bg-wall)">Walls</span> or
-			<span style="color: var(--bg-weight-2)">Weight</span> from the menu and draw it on the grid
+			<span style="color: var(--bg-weight-2)">Weights</span> from the menu and draw them on the grid.
 		</p>
 		<section class="description">
-			Only Dijkstra and A-star algorithms works with weighted nodes, other consider it as a regular
-			node.
+			<p>
+				Only the Dijkstra and A-star algorithms work with weighted nodes; other algorithms treat
+				them as regular nodes.
+			</p>
+			<p>Visited nodes can't be modified.</p>
 		</section>
 	</div>
 </div>

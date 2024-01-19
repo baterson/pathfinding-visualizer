@@ -8,6 +8,8 @@
 	import Nav from '$lib/Components/Nav.svelte';
 	import Player from '$lib/Components/Player.svelte';
 	import HelpModal from '$lib/Components/HelpModal.svelte';
+	import { player } from '$lib/stores/player';
+	import { resetNodes } from '$lib/stores/nodes';
 
 	let isHelpOpen = true;
 
@@ -17,6 +19,7 @@
 
 	onMount(() => {
 		const layoutSub = layout.subscribe(({ screen }) => {
+			player.reset();
 			grid.reset(screen);
 		});
 
@@ -34,7 +37,11 @@
 
 		const handleResize = () => {
 			layout.setCalculating();
-			tick().then(() => layout.setLayout());
+			tick().then(() => {
+				layout.setLayout();
+				player.reset();
+				resetNodes();
+			});
 		};
 
 		window.addEventListener('resize', handleResize);

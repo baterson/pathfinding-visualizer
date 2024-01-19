@@ -109,15 +109,10 @@ body {
 }
 
 body {
-	/* font-family:  monospace; */
-	font-family: 'JetBrains Mono', monospace;
+	font-family: monospace;
     font-size: 56px;
 	height: 100svh;
 	width: 100vw;
-	/* font-family: 'PT Serif', serif; */
-	/* overflow: hidden; */
-	/* background: white; */
-	/* background: radial-gradient(circle at center, hsl(215, 18%, 13%), hsl(215, 18%, 20%)); */
 }
 
 button,
