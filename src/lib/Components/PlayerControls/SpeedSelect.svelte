@@ -63,8 +63,10 @@
 		background-color: var(--select-active);
 	}
 
-	.wrapper:hover {
-		/* color: white; */
+	@media (min-width: 1024px) {
+		li:hover {
+			background-color: var(--select-active);
+		}
 	}
 
 	@media (min-width: 1600px) {
@@ -75,13 +77,6 @@
 		.speedValue {
 			right: 48px;
 			bottom: 5px;
-		}
-	}
-
-	/* Disable hover on mobile */
-	@media (hover) {
-		li:hover {
-			background-color: var(--select-active);
 		}
 	}
 </style>

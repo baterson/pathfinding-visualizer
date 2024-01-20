@@ -47,7 +47,6 @@
 	.wrapper {
 		height: 100%;
 		grid-area: select;
-		/* max-width: 160px; */
 		width: 100%;
 		display: flex;
 		justify-content: center;
@@ -91,15 +90,7 @@
 		ul {
 			bottom: 14px;
 		}
-	}
 
-	@media (min-width: 1600px) {
-		.wrapper {
-			font-size: 36px;
-		}
-	}
-
-	@media (hover) {
 		li:hover {
 			background-color: var(--select-active);
 		}
@@ -111,6 +102,12 @@
 			justify-content: center;
 			height: 70%;
 			width: 60%;
+		}
+	}
+
+	@media (min-width: 1600px) {
+		.wrapper {
+			font-size: 36px;
 		}
 	}
 </style>
