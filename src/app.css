@@ -1,5 +1,3 @@
-/* @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;0,800;1,200&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap'); */
-
 * {
 	box-sizing: border-box;
 	-webkit-user-select: none; /* Safari */
@@ -135,25 +133,15 @@ body {
     --bg-interface: #22192B;
 
 	--bg-start: #7084E9;
-
-    /* --bg-end: #E39B48; */
     --bg-end: #D39246;
-
-	/* --bg-visited: #4D368F; */
+    --bg-not-visited: #3B2D52;
 	--bg-visited: #48368F;
-
-	/* --bg-path: #5568CD; */
 	--bg-path: #5C71DA;
-
-    /* --bg-wall: #D0424B; */
     --bg-wall: #8E3C41;
 
-    --bg-weight-1: #3B7945;
+    --bg-weight-3: #3B7945;
     --bg-weight-2: #449743;
-    --bg-weight-3: #4DAC4B;
-    /* --bg-weight-1: #2A943B;
-    --bg-weight-2: #56A73B;
-    --bg-weight-3: #74C358; */
+    --bg-weight-1: #4DAC4B;
 
     --bg-weight-tool: var(--bg-weight-2);
 	--bg-wall-tool: var(--bg-wall);
@@ -163,13 +151,6 @@ body {
 	--select-active: var(--bg-path);
 
     color: var(--main-white);
-
-    --bg-not-visited: #3B2D52;
-
-}
-
-body.dark {
-    --bg-not-visited: #3B2D52;
 }
 
 body.light {

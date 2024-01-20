@@ -178,7 +178,7 @@
 		.row};--cell-size:{CELL_SIZE}px;--grid-gap:{GRID_GAP}px"
 >
 	{#each $gridSnapshot as { key, node } (key)}
-		<Node {key} {node} />
+		<Node {node} />
 	{/each}
 </div>
 

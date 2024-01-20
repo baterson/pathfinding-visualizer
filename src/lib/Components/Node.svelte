@@ -1,14 +1,12 @@
 <script lang="ts">
 	import { animationQ } from '$lib/stores/animation';
-	import { theme } from '$lib/stores/theme';
 	import type { Node } from '$lib/types';
 	import { startNodeKey, endNodeKey, selectedNodeKey, walls, weight } from '../stores/nodes';
 
-	export let key: string;
 	export let node: Node;
 
-	const getLightWeight = (key: string) => {
-		let currentWeight = $weight.get(key);
+	const getWeightBG = () => {
+		let currentWeight = $weight.get(node.key);
 		if (!currentWeight) {
 			return '';
 		}
@@ -21,25 +19,6 @@
 			prefix = 2;
 		} else {
 			prefix = 1;
-		}
-
-		return `var(--bg-weight-${prefix})`;
-	};
-
-	const getDarkWeight = (key: string) => {
-		let currentWeight = $weight.get(key);
-		if (!currentWeight) {
-			return '';
-		}
-
-		let prefix;
-
-		if (currentWeight <= 3) {
-			prefix = 1;
-		} else if (currentWeight <= 7) {
-			prefix = 2;
-		} else {
-			prefix = 3;
 		}
 
 		return `var(--bg-weight-${prefix})`;
@@ -47,25 +26,21 @@
 </script>
 
 <div
-	id={key}
+	id={node.key}
 	data-type="node"
-	style="--weight-dynamic-bg:{$weight.has(key) && $theme === 'light'
-		? getLightWeight(key)
-		: $weight.has(key) && $theme === 'dark'
-			? getDarkWeight(key)
-			: ''}"
+	style="--weight-dynamic-bg:{$weight.has(node.key) && getWeightBG()}"
 	class="node"
 	class:visited={node.visited}
-	class:startNode={$startNodeKey === key}
-	class:endNode={$endNodeKey === key}
-	class:wall={$walls.has(key)}
-	class:weight={$weight.has(key)}
+	class:startNode={$startNodeKey === node.key}
+	class:endNode={$endNodeKey === node.key}
+	class:wall={$walls.has(node.key)}
+	class:weight={$weight.has(node.key)}
 	class:path={node.path}
-	class:inSelect={$selectedNodeKey === key}
-	class:inAnimation={$animationQ.has(key)}
+	class:inSelect={$selectedNodeKey === node.key}
+	class:inAnimation={$animationQ.has(node.key)}
 >
-	{#if $weight.has(key)}
-		{$weight.get(key)}
+	{#if $weight.has(node.key)}
+		{$weight.get(node.key)}
 	{/if}
 </div>
 
