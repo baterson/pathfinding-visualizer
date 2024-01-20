@@ -1,5 +1,5 @@
 import { grid } from '$lib/stores/grid';
-import { getGridNeibhours } from '../utils/grid';
+import { getNodeNeibhours } from '../utils/grid';
 import { queue } from '../utils/collections';
 import type { AlgorithmOptions } from '$lib/types';
 
@@ -13,35 +13,31 @@ export const bfs = async ({
 }: AlgorithmOptions) => {
     const q = queue();
 
-    q.enqueue(startNode);
+    q.enqueue({ node: startNode, prevNodeKey: null });
 
     while (!q.isEmpty()) {
-        const currentNode = q.dequeue();
+        const current = q.dequeue();
 
-        if (!currentNode) {
+        if (!current) {
             return;
         }
 
-        if (isEndNode(currentNode)) {
+
+        if (isEndNode(current.node)) {
+            grid.visitNode(current.node, current.prevNodeKey)
             return;
+        } else if (isWall(current.node) || current.node.visited) {
+            continue
+        } else {
+            grid.visitNode(current.node, current.prevNodeKey)
+            await intercept();
         }
 
-        await intercept();
+        const neibhours = getNodeNeibhours(current.node, screen, getNode);
+        const filteredNeibhours = neibhours.filter(node => !node.visited && !q.has(node.key))
 
-        const neibhours = getGridNeibhours(currentNode, screen, getNode);
-
-        for (let nextNode of neibhours) {
-            if (!nextNode || nextNode.visited) {
-                continue;
-            }
-
-            if (isWall(nextNode)) {
-                grid.visitNode(nextNode);
-            } else {
-                grid.visitNode(nextNode, currentNode);
-
-                q.enqueue(getNode(nextNode));
-            }
+        for (let n of filteredNeibhours) {
+            q.enqueue({ node: n, prevNodeKey: current.node.key });
         }
     }
 

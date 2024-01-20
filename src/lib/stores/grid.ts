@@ -10,7 +10,9 @@ export const createGridMap = (rows: number, columns: number): Grid => {
 
     for (let row = 0; row < rows; row++) {
         for (let col = 0; col < columns; col++) {
-            grid.set(`${row},${col}`, {
+            const key = toMapKey({ row, col })
+            grid.set(key, {
+                key,
                 row,
                 col,
                 visited: false,
@@ -41,7 +43,25 @@ const createGridStore = () => {
         }
     });
 
-    const visitNode = (node: Position, prevNode?: Node) => {
+    const visitNode = (node: Position, prevNodeKey: string | null) => {
+        return update((currentGrid) => {
+            const key = toMapKey(node);
+            const currentNode = currentGrid.get(key);
+            const prevNode = prevNodeKey ? currentGrid.get(prevNodeKey)! : null
+
+            if (currentNode) {
+                currentGrid.set(key, {
+                    ...currentNode,
+                    prevNode,
+                    visited: true,
+                });
+            }
+
+            return currentGrid;
+        });
+    };
+
+    const _visitNode = (node: Position) => {
         return update((currentGrid) => {
             const key = toMapKey(node);
             const currentNode = currentGrid.get(key);
@@ -49,7 +69,6 @@ const createGridStore = () => {
                 currentGrid.set(key, {
                     ...currentNode,
                     visited: true,
-                    prevNode: prevNode ? prevNode : null
                 });
             }
 
@@ -78,6 +97,7 @@ const createGridStore = () => {
     return {
         subscribe,
         visitNode,
+        _visitNode,
         setPath,
         reset
     };

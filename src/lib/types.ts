@@ -4,6 +4,7 @@ export type Node = Position & {
     visited: boolean;
     prevNode: null | Node;
     path: boolean;
+    key: string;
     x: number;
     y: number;
 };

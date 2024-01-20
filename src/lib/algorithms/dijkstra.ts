@@ -1,5 +1,5 @@
 import { grid } from '$lib/stores/grid';
-import { getGridNeibhours } from '../utils/grid';
+import { getNodeNeibhours } from '../utils/grid';
 import { minQueue } from '../utils/collections';
 import type { AlgorithmOptions } from '$lib/types';
 
@@ -14,7 +14,7 @@ export const dijkstra = async ({
 }: AlgorithmOptions) => {
     const q = minQueue();
 
-    q.enqueue({ node: startNode, weight: 0 });
+    q.enqueue({ node: startNode, weight: 0, prevNodeKey: null });
 
     while (!q.isEmpty()) {
         const current = q.dequeue();
@@ -22,30 +22,25 @@ export const dijkstra = async ({
             return;
         }
 
-        const { node: currentNode, weight: currentWeight } = current;
-
-        if (isEndNode(currentNode)) {
+        if (isEndNode(current.node)) {
+            grid.visitNode(current.node, current.prevNodeKey)
             return;
+        } else if (isWall(current.node) || current.node.visited) {
+            continue
+        } else {
+            grid.visitNode(current.node, current.prevNodeKey)
+            await intercept();
         }
 
-        await intercept();
+        const neibhours = getNodeNeibhours(current.node, screen, getNode);
+        const filteredNeibhours = neibhours.filter(node => !node.visited && !q.has(node.key))
 
-        const neibhours = getGridNeibhours(currentNode, screen, getNode);
-
-        for (let nextNode of neibhours) {
-            if (!nextNode || nextNode.visited) {
-                continue;
-            }
-
-            if (isWall(nextNode)) {
-                grid.visitNode(nextNode);
-            } else {
-                const neibhourWeight = getWeight(nextNode) + currentWeight + 1;
-
-                grid.visitNode(nextNode, currentNode);
-
-                q.enqueue({ node: getNode(nextNode), weight: neibhourWeight });
-            }
+        for (let n of filteredNeibhours) {
+            q.enqueue({
+                node: n,
+                weight: getWeight(n),
+                prevNodeKey: current.node.key
+            });
         }
     }
 

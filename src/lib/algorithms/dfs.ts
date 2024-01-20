@@ -1,5 +1,6 @@
 import { grid } from '$lib/stores/grid';
 import type { AlgorithmOptions, Node } from '$lib/types';
+import { getNextNeibhour } from '$lib/utils/grid'
 
 export const startDfs = ({
     startNode,
@@ -8,65 +9,21 @@ export const startDfs = ({
     getNode,
     intercept
 }: AlgorithmOptions) => {
-    const checkNode = (node: Node) => {
-        if (!node || isWall(node) || node.visited) {
-            return null;
-        }
-        return node;
-    };
-
-    const getTopNode = (node: Node) => {
-        const { row, col } = node;
-        const nextNode = getNode({ row: row - 1, col });
-
-        return checkNode(nextNode);
-    };
-
-    const getRightNode = (node: Node) => {
-        const { row, col } = node;
-        const nextNode = getNode({ row: row, col: col + 1 });
-
-        return checkNode(nextNode);
-    };
-
-    const getBottomNode = (node: Node) => {
-        const { row, col } = node;
-        const nextNode = getNode({ row: row + 1, col: col });
-
-        return checkNode(nextNode);
-    };
-
-    const getLeftNode = (node: Node) => {
-        const { row, col } = node;
-        const nextNode = getNode({ row: row, col: col - 1 });
-
-        return checkNode(nextNode);
-    };
-
-    const getNextNode = (node: Node) => {
-        const nextNode =
-            getTopNode(node) || getRightNode(node) || getBottomNode(node) || getLeftNode(node);
-        return nextNode;
-    };
-
     const dfs = async (node: Node | null): Promise<void> => {
         if (!node || isEndNode(node)) {
             return;
         }
 
-        const nextNode = getNextNode(node);
-
-        grid.visitNode(node);
+        const nextNode = getNextNeibhour(node, getNode, isWall);
 
         if (nextNode) {
+            grid.visitNode(nextNode, node.key);
+
             await intercept();
 
-            grid.visitNode(nextNode, node);
-            const nodeUpdated = getNode(nextNode);
-
-            return dfs(nodeUpdated);
+            return dfs(getNode(nextNode))
         } else {
-            return dfs(node.prevNode ? getNode(node.prevNode) : null);
+            return dfs(node.prevNode)
         }
     };
 
