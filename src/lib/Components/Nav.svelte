@@ -2,7 +2,7 @@
 	import { theme } from '$lib/stores/theme';
 	import Icon from './Icon.svelte';
 
-	export let toggleHelpModal;
+	export let toggleHelpModal: () => void;
 
 	const changeTheme = () => {
 		if ($theme === 'dark') {
@@ -23,7 +23,9 @@
 	</div>
 	<div class="nav">
 		<div on:pointerdown={toggleHelpModal}><Icon name="help" /></div>
-		<div><Icon name="git" /></div>
+		<a rel="external" target="_blank" href="https://github.com/baterson/pathfinding-visualizer">
+			<Icon name="git" />
+		</a>
 	</div>
 </div>
 
@@ -44,5 +46,10 @@
 		justify-content: space-evenly;
 		height: 100%;
 		gap: 20px;
+	}
+
+	a {
+		color: var(--main-white);
+		text-decoration: none;
 	}
 </style>
