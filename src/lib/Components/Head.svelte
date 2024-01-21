@@ -33,15 +33,17 @@
 	<meta property="og:locale" content="en_US" />
 	<meta name="theme-color" content="#22192B" />
 
-	<script async src="https://www.googletagmanager.com/gtag/js?id={env.PUBLIC_GTAG_KEY}"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
+	{#if env.PUBLIC_GTAG_KEY}
+		<script async src="https://www.googletagmanager.com/gtag/js?id={env.PUBLIC_GTAG_KEY}"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
 
-		function gtag() {
-			dataLayer.push(arguments);
-		}
+			function gtag() {
+				dataLayer.push(arguments);
+			}
 
-		gtag('js', new Date());
-		gtag('config', env.PUBLIC_GTAG_KEY);
-	</script>
+			gtag('js', new Date());
+			gtag('config', env.PUBLIC_GTAG_KEY);
+		</script>
+	{/if}
 </svelte:head>
