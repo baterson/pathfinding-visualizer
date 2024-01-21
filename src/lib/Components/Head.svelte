@@ -1,5 +1,17 @@
 <script lang="ts">
 	import { env } from '$env/dynamic/public';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		window.dataLayer = window.dataLayer || [];
+
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+
+		gtag('js', new Date());
+		gtag('config', env.PUBLIC_GTAG_KEY);
+	});
 </script>
 
 <svelte:head>
@@ -35,15 +47,5 @@
 
 	{#if env.PUBLIC_GTAG_KEY}
 		<script async src="https://www.googletagmanager.com/gtag/js?id={env.PUBLIC_GTAG_KEY}"></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-
-			function gtag() {
-				dataLayer.push(arguments);
-			}
-
-			gtag('js', new Date());
-			gtag('config', env.PUBLIC_GTAG_KEY);
-		</script>
 	{/if}
 </svelte:head>
