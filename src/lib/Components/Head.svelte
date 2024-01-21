@@ -43,6 +43,39 @@
 		content="Pathfinding Algorithms Visualizer build with Svelte and TypeScript."
 	/>
 	<meta property="og:locale" content="en_US" />
+	<title>Pathfinding Visualizer</title>
+	<meta
+		name="description"
+		content="Pathfinding Algorithms Visualizer build with Svelte and TypeScript."
+	/>
+
+	<!-- Facebook Meta Tags -->
+	<meta property="og:url" content="https://ivan-sem.com/pathfinding_visualizer" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="Pathfinding Visualizer" />
+	<meta
+		property="og:description"
+		content="Pathfinding Algorithms Visualizer build with Svelte and TypeScript."
+	/>
+	<meta
+		property="og:image"
+		content="https://ivan-sem.com/pathfinding_visualizer/static/algo-screen.png"
+	/>
+
+	<!-- Twitter Meta Tags -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta property="twitter:domain" content="ivan-sem.com" />
+	<meta property="twitter:url" content="https://ivan-sem.com/pathfinding_visualizer" />
+	<meta name="twitter:title" content="Pathfinding Visualizer" />
+	<meta
+		name="twitter:description"
+		content="Pathfinding Algorithms Visualizer build with Svelte and TypeScript."
+	/>
+	<meta
+		name="twitter:image"
+		content="https://ivan-sem.com/pathfinding_visualizer/static/algo-screen.png"
+	/>
+
 	<meta name="theme-color" content="#22192B" />
 
 	{#if env.PUBLIC_GTAG_KEY}
