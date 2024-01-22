@@ -37,11 +37,9 @@
 
 		const handleResize = () => {
 			layout.setCalculating();
-			tick().then(() => {
-				layout.setLayout();
-				player.reset();
-				resetNodes();
-			});
+			layout.setLayout();
+			player.reset();
+			resetNodes();
 		};
 
 		window.addEventListener('resize', handleResize);

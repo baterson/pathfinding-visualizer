@@ -32,8 +32,6 @@ const createLayoutStore = () => {
     };
 
     const setCalculating = () => {
-        console.log('sin set');
-
         return update((current) => {
             current.isCalculating = true
             return current

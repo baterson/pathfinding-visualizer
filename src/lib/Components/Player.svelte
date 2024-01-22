@@ -173,6 +173,7 @@
 				selectedNodeKey.set(null);
 			}
 
+			// reset Algorithm
 			if (e.code === 'KeyC') {
 				player.reset();
 				return;
