@@ -1,5 +1,5 @@
-<script>
-	export let toggleModal;
+<script lang="ts">
+	export let toggleModal: () => void;
 </script>
 
 <div class="wrapper" on:pointerdown={toggleModal}>

@@ -8,7 +8,7 @@
 
 <div class="wrapper" transition:fade>
 	{#each grid as { key, node } (key)}
-		<Node {key} {node} />
+		<Node {node} />
 	{/each}
 </div>
 
@@ -20,11 +20,5 @@
 		display: grid;
 		grid-template-columns: repeat(50, 30px);
 		grid-template-rows: repeat(50, 30px);
-	}
-
-	.node {
-		width: 30px;
-		height: 30px;
-		background-color: var(--bg-not-visited);
 	}
 </style>
