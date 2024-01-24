@@ -3,6 +3,8 @@ import { getNodeNeibhours } from '../utils/grid';
 import { minQueue } from '../utils/collections';
 import type { AlgorithmOptions } from '$lib/types';
 
+const EMPTY_NODE_WEIGHT = 1;
+
 export const dijkstra = async ({
 	startNode,
 	isEndNode,
@@ -38,7 +40,7 @@ export const dijkstra = async ({
 		for (let n of filteredNeibhours) {
 			q.enqueue({
 				node: n,
-				weight: getWeight(n),
+				weight: getWeight(n) + current.weight + EMPTY_NODE_WEIGHT,
 				prevNodeKey: current.node.key
 			});
 		}
