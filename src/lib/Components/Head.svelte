@@ -21,13 +21,10 @@
 		content="Pathfinding Algorithms Visualizer build with Svelte and TypeScript"
 	/>
 
-	<meta
-		property="og:image"
-		content="https://ivan-sem.com/pathfinding_visualizer/static/algo-screen.png"
-	/>
+	<meta property="og:image" content="https://ivan-sem.com/pathfinding_visualizer/algo-screen.png" />
 	<meta
 		property="og:image:secure_url"
-		content="https://ivan-sem.com/pathfinding_visualizer/static/algo-screen.png"
+		content="https://ivan-sem.com/pathfinding_visualizer/algo-screen.png"
 	/>
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="600" />
@@ -59,7 +56,7 @@
 	/>
 	<meta
 		name="twitter:image"
-		content="https://ivan-sem.com/pathfinding_visualizer/static/algo-screen.png"
+		content="https://ivan-sem.com/pathfinding_visualizer/algo-screen.png"
 	/>
 
 	<meta name="theme-color" content="#22192B" />
