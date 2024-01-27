@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Build prodject
+    - name: Test build
       run: docker-compose up --build
 
     - name: Shut down
