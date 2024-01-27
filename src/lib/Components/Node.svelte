@@ -45,7 +45,7 @@
 </div>
 
 <style>
-	@keyframes dropIn {
+	@keyframes touch {
 		0% {
 			transform: scale(0.7);
 		}
@@ -129,7 +129,6 @@
 	}
 
 	.inAnimation {
-		animation-name: dropIn;
-		animation: dropIn 0.5s ease-in-out;
+		animation: touch 0.5s ease-in-out;
 	}
 </style>
