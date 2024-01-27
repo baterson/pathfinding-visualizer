@@ -13,10 +13,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Test build
-      run: docker-compose up --build
-      timeout-minutes: 1
-      continue-on-error: true
+    - name: Build
+      run: docker-compose up --build -d
 
     - name: Shut down
       run: docker-compose down
