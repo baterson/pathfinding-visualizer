@@ -1,0 +1,20 @@
+name: Deploy Application
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2x
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Deploy to Server
+      run: |
+        ssh -o "StrictHostKeyChecking=no" ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} 'cd ${{ secrets.PROJECT_PATH }} && git pull && docker-compose up -d'

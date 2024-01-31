@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { env } from '$env/dynamic/public';
+	import { PUBLIC_GTAG_KEY } from '$env/static/public';
 	import { onMount } from 'svelte';
 
 	onMount(() => {
@@ -10,7 +10,7 @@
 		}
 
 		gtag('js', new Date());
-		gtag('config', env.PUBLIC_GTAG_KEY);
+		gtag('config', PUBLIC_GTAG_KEY);
 	});
 </script>
 
@@ -61,7 +61,7 @@
 
 	<meta name="theme-color" content="#22192B" />
 
-	{#if env.PUBLIC_GTAG_KEY}
-		<script async src="https://www.googletagmanager.com/gtag/js?id={env.PUBLIC_GTAG_KEY}"></script>
+	{#if PUBLIC_GTAG_KEY}
+		<script async src="https://www.googletagmanager.com/gtag/js?id={PUBLIC_GTAG_KEY}"></script>
 	{/if}
 </svelte:head>
