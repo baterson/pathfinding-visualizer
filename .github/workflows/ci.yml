@@ -1,12 +1,32 @@
-name: Deploy Application
+name: Build and Test
 
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Environment Variables
+      run: echo "PUBLIC_GTAG_KEY=${{ secrets.PUBLIC_GTAG_KEY }}" >> $GITHUB_ENV
+
+    - name: Build
+      run: docker-compose up --build -d
+
+    - name: Shut down
+      run: docker-compose down
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && success()
+
     steps:
     - uses: actions/checkout@v2
 
