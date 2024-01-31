@@ -8,7 +8,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2x
+    - uses: actions/checkout@v2
 
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.0
