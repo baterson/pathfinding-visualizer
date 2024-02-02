@@ -5,8 +5,8 @@
 	onMount(() => {
 		window.dataLayer = window.dataLayer || [];
 
-		function gtag() {
-			dataLayer.push(arguments);
+		function gtag(...args: any) {
+			window.dataLayer.push(arguments);
 		}
 
 		gtag('js', new Date());
