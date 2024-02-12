@@ -17,10 +17,6 @@ Check out the [Pathfinding Algorithm Visualizer](https://ivan-sem.com/pathfindin
 - `npm install` - install dependencies
 - `npm run dev` - run a dev server
 
-## Run production with Docker
-
-- `docker-compose up --build -d`
-
 ## Contribution
 
 If you have ideas for improvements or want to contribute to the project, please feel free to fork the repository, make your changes, and submit pull requests.
