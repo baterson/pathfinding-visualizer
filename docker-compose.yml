@@ -1,7 +1,13 @@
 version: '3'
 
 services:
-  pathfinding-visualizer:
+  pathfinding_visualizer:
     build: .
     ports:
       - '3000:3000'
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
+    external: true
