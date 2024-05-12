@@ -1,19 +1,3 @@
-<script lang="ts">
-	import { PUBLIC_GTAG_KEY } from '$env/static/public';
-	import { onMount } from 'svelte';
-
-	onMount(() => {
-		window.dataLayer = window.dataLayer || [];
-
-		function gtag(...args: any) {
-			window.dataLayer.push(arguments);
-		}
-
-		gtag('js', new Date());
-		gtag('config', PUBLIC_GTAG_KEY);
-	});
-</script>
-
 <svelte:head>
 	<meta name="author" content="Ivan Semochkin" />
 	<meta
@@ -60,8 +44,4 @@
 	/>
 
 	<meta name="theme-color" content="#22192B" />
-
-	{#if PUBLIC_GTAG_KEY}
-		<script async src="https://www.googletagmanager.com/gtag/js?id={PUBLIC_GTAG_KEY}"></script>
-	{/if}
 </svelte:head>

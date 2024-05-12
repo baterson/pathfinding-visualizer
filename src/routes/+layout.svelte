@@ -1,7 +1,11 @@
 <script lang="ts">
+	import { dev } from '$app/environment';
 	import Head from '$lib/Components/Head.svelte';
 	import '../app.css';
 	import { theme } from '$lib/stores/theme';
+	import { inject } from '@vercel/analytics';
+
+	inject({ mode: dev ? 'development' : 'production' });
 </script>
 
 <Head />
