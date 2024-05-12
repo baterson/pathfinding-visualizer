@@ -99,7 +99,7 @@
 	.wrapper {
 		background: var(--bg-body);
 		width: 100%;
-		height: 100%;
+		height: 100svh;
 		display: flex;
 		flex-direction: column;
 		align-items: center;

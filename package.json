@@ -28,6 +28,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@sveltejs/adapter-vercel": "^5.3.0",
 		"lodash.throttle": "^4.1.1"
 	}
 }
