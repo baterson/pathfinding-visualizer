@@ -2,7 +2,7 @@
 
 Interactive pathfinding algorithm visualizer with player functionality. Allows pause and rewind the algorithm's history for in-depth analysis.
 
-Check out the [Pathfinding Algorithm Visualizer](https://pathfinding_visualizer.ivan-sem.com/) for a live demo.
+Check out the [Pathfinding Algorithm Visualizer](https://pathfinding-visualizer.ivan-sem.com/) for a live demo.
 
 ![chrome-capture-2024-1-23 (1)](https://github.com/baterson/pathfinding-visualizer/assets/13178757/e48db58f-af3c-4770-b8dd-c7a5febb50a3)
 
