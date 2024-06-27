@@ -14,7 +14,7 @@
 </script>
 
 <div class="wrapper">
-	<div class="nav" on:pointerdown|stopPropagation={changeTheme}>
+	<div class="nav" on:pointerdown|stopPropagation={changeTheme} aria-label="Toggle theme">
 		{#if $theme === 'light'}
 			<Icon name="moon" />
 		{:else}
@@ -22,8 +22,13 @@
 		{/if}
 	</div>
 	<div class="nav">
-		<div on:pointerdown={toggleHelpModal}><Icon name="help" /></div>
-		<a rel="external" target="_blank" href="https://github.com/baterson/pathfinding-visualizer">
+		<div on:pointerdown={toggleHelpModal} aria-label="Toggle help modal"><Icon name="help" /></div>
+		<a
+			rel="external"
+			target="_blank"
+			href="https://github.com/baterson/pathfinding-visualizer"
+			aria-label="Visit GitHub repository"
+		>
 			<Icon name="git" />
 		</a>
 	</div>

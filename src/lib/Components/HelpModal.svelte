@@ -3,8 +3,10 @@
 </script>
 
 <div class="wrapper" on:pointerdown={toggleModal}>
-	<div class="content">
-		<h3>PATHFINDING VISUALIZER</h3>
+	<article class="content">
+		<header>
+			<h1>PATHFINDING VISUALIZER</h1>
+		</header>
 
 		<p>Pick an algorithm.</p>
 		<p>
@@ -19,13 +21,14 @@
 			<span style="color: var(--bg-weight-2)">Weights</span> from the menu and draw them on the grid.
 		</p>
 		<section class="description">
+			<h2>Algorithm Details</h2>
 			<p>
 				Only the Dijkstra and A-star algorithms work with weighted nodes; other algorithms treat
 				them as regular nodes.
 			</p>
 			<p>Visited nodes can't be modified.</p>
 		</section>
-	</div>
+	</article>
 </div>
 
 <style>
@@ -41,7 +44,7 @@
 		align-items: start;
 	}
 
-	h3 {
+	h1 {
 		font-size: 32px;
 		letter-spacing: 3px;
 	}
@@ -71,7 +74,7 @@
 			align-items: center;
 		}
 
-		h3 {
+		h1 {
 			font-size: 64px;
 		}
 
