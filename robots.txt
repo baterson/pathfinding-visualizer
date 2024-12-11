@@ -1,2 +1,4 @@
 User-agent: *
 Disallow:
+
+Sitemap: https://pathfinding-visualizer.ivan-sem.com/sitemap.xml

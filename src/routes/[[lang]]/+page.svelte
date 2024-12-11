@@ -11,6 +11,7 @@
 	import HelpModal from '$lib/Components/HelpModal.svelte';
 	import { player } from '$lib/stores/player';
 	import { endNodeKey, resetNodes, startNodeKey, walls } from '$lib/stores/nodes';
+	export let data;
 
 	let isHelpOpen = true;
 
@@ -80,7 +81,7 @@
 	{/if}
 
 	{#if isHelpOpen}
-		<HelpModal toggleModal={toggleHelpModal} />
+		<HelpModal toggleModal={toggleHelpModal} {data} />
 	{/if}
 	<Nav {toggleHelpModal} />
 	<Grid />

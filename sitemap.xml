@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+    <url>
+    
+        <loc>https://pathfinding-visualizer.ivan-sem.com/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://pathfinding-visualizer.ivan-sem.com/" />
+        <xhtml:link rel="alternate" hreflang="ru" href="https://pathfinding-visualizer.ivan-sem.com/ru" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://pathfinding-visualizer.ivan-sem.com/de" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://pathfinding-visualizer.ivan-sem.com/es" />
+        <xhtml:link rel="alternate" hreflang="zh" href="https://pathfinding-visualizer.ivan-sem.com/zh" />
+    </url>
+
+
+    <url>
+        <loc>https://pathfinding-visualizer.ivan-sem.com/ru</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://pathfinding-visualizer.ivan-sem.com/" />
+        <xhtml:link rel="alternate" hreflang="ru" href="https://pathfinding-visualizer.ivan-sem.com/ru" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://pathfinding-visualizer.ivan-sem.com/de" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://pathfinding-visualizer.ivan-sem.com/es" />
+        <xhtml:link rel="alternate" hreflang="zh" href="https://pathfinding-visualizer.ivan-sem.com/zh" />
+    </url>
+
+
+    <url>
+        <loc>https://pathfinding-visualizer.ivan-sem.com/de</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://pathfinding-visualizer.ivan-sem.com/" />
+        <xhtml:link rel="alternate" hreflang="ru" href="https://pathfinding-visualizer.ivan-sem.com/ru" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://pathfinding-visualizer.ivan-sem.com/de" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://pathfinding-visualizer.ivan-sem.com/es" />
+        <xhtml:link rel="alternate" hreflang="zh" href="https://pathfinding-visualizer.ivan-sem.com/zh" />
+    </url>
+
+
+    <url>
+        <loc>https://pathfinding-visualizer.ivan-sem.com/es</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://pathfinding-visualizer.ivan-sem.com/" />
+        <xhtml:link rel="alternate" hreflang="ru" href="https://pathfinding-visualizer.ivan-sem.com/ru" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://pathfinding-visualizer.ivan-sem.com/de" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://pathfinding-visualizer.ivan-sem.com/es" />
+        <xhtml:link rel="alternate" hreflang="zh" href="https://pathfinding-visualizer.ivan-sem.com/zh" />
+    </url>
+
+
+    <url>
+        <loc>https://pathfinding-visualizer.ivan-sem.com/zh</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://pathfinding-visualizer.ivan-sem.com/" />
+        <xhtml:link rel="alternate" hreflang="ru" href="https://pathfinding-visualizer.ivan-sem.com/ru" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://pathfinding-visualizer.ivan-sem.com/de" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://pathfinding-visualizer.ivan-sem.com/es" />
+        <xhtml:link rel="alternate" hreflang="zh" href="https://pathfinding-visualizer.ivan-sem.com/zh" />
+    </url>
+</urlset>

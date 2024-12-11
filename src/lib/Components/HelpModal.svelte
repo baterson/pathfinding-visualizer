@@ -1,37 +1,65 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	export let data;
 	export let toggleModal: () => void;
+
+	const changeLanguage = (lang: string) => {
+		goto(`/${lang}`);
+	};
+	const languages = ['en', 'de', 'ru', 'es', 'zh'];
 </script>
 
 <div class="wrapper" on:pointerdown={toggleModal}>
 	<article class="content">
 		<header>
-			<h1>PATHFINDING VISUALIZER</h1>
+			<h1>{data.title}</h1>
 		</header>
-
-		<p>Pick an algorithm.</p>
+		<div class="buttons-language" on:pointerdown|stopPropagation>
+			{#each languages as lang}
+				<button on:click={() => changeLanguage(lang)}>{lang.toLocaleUpperCase()}</button>
+			{/each}
+		</div>
+		<p>{data.pickAlgorithm}</p>
 		<p>
-			Select <span style="color: var(--bg-start)">Start</span> or
-			<span style="color: var(--bg-end)">End</span> to change the direction of the algorithm.
+			{@html data.selectStartOrEnd
+				.replace('Start', `<span style="color: var(--bg-start)">Start</span>`)
+				.replace('End', `<span style="color: var(--bg-end)">End</span>`)}
 		</p>
 		<p>
-			Use the Player to control the execution of the algorithm and navigate through the history.
+			{data.usePlayer}
 		</p>
 		<p>
-			Select <span style="color: var(--bg-wall)">Walls</span> or
-			<span style="color: var(--bg-weight-2)">Weights</span> from the menu and draw them on the grid.
+			{@html data.selectWallsWeights
+				.replace('Walls', `<span style="color: var(--bg-wall)">Walls</span>`)
+				.replace('Weights', `<span style="color: var(--bg-weight-2)">Weights</span>`)}
 		</p>
 		<section class="description">
-			<h2>Algorithm Details</h2>
+			<h2>{data.detailsTitle}</h2>
 			<p>
-				Only the Dijkstra and A-star algorithms work with weighted nodes; other algorithms treat
-				them as regular nodes.
+				{data.details1}
 			</p>
-			<p>Visited nodes can't be modified.</p>
+			<p>{data.details2}</p>
 		</section>
 	</article>
 </div>
 
 <style>
+	.buttons-language {
+		display: flex;
+		justify-content: end;
+	}
+	button {
+		background-color: var(--bg-body);
+		color: var(--main-white);
+		outline: none;
+		border: none;
+		font-size: 18px;
+		border-right: var(--main-white) 1px solid;
+	}
+	button:hover {
+		background-color: var(--main-white);
+		color: var(--bg-body);
+	}
 	.wrapper {
 		z-index: 3;
 		background: hsla(270, 32%, 9%, 0.8);
@@ -52,9 +80,7 @@
 	.content {
 		font-size: 18px;
 		padding: 32px 4px 26px 12px;
-
 		width: 100%;
-
 		display: flex;
 		flex-direction: column;
 		gap: 18px;
@@ -82,7 +108,7 @@
 			font-size: 1.4rem;
 			padding: 40px;
 
-			width: 70%;
+			width: 78%;
 
 			display: flex;
 			flex-direction: column;
